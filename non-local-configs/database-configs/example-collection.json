@@ -1,0 +1,29 @@
+{
+  "CollectionName":"ExampleCollection",
+  "Fields":[
+    {
+      "Key": "_id",
+      "Type": "String",
+    },
+    {
+      "Key": "_age",
+      "Type": "Number"
+    }
+  ],
+  "Index":[
+    {
+      "Name": "_id_", 
+      "Unique": true,
+      "OnField":[
+        {
+          "Key": "_id",
+          "Order": "ASC" // or DESC
+        },
+        {
+          "Key": "_age",
+          "Order": "DESC" // or DESC
+        }
+      ]
+    }
+  ]
+}

@@ -40,4 +40,11 @@
     </navigator>
   </view>
 
+  <!-- 跳转Weui -->
+  <view class="uploader">
+    <navigator url="../weui/weui" open-type="navigate" class="uploader-text">
+      <text>跳转Weui</text>
+    </navigator>
+  </view>
+
 </view>
