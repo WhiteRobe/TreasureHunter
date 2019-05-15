@@ -1,58 +1,39 @@
 // miniprogram/pages/index/index.js
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-    treasure_box_pic_mode: "aspectFit"
+    treasure_box_pic_mode: "aspectFit",
+    totalSafeHeight:0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let page = this;
+    wx.getSystemInfo({
+      success: function (res) {
+        page.setData({ totalSafeHeight: res.windowHeight}); // 设置为全屏显示
+      }
+    })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // if (true) {
-    //   setTimeout(() => {
-    //     console.log('鉴权通过，跳转到游戏开始页面')
-    //     wx.navigateTo({
-    //       url: '/pages/gamebegin/gamebegin',
-    //     })
-    //   }, 1000);
-    // } else {
-    //   console.error('鉴权不通过，跳转到错误')
-    //   wx.navigateTo({
-    //     url: '/pages/error/error',
-    //   });
-    // }
-
+    let page = this;
     wx.getSetting({
       success(res) {
-        // // 获取用户信息
-        // if (!res.authSetting['scope.userInfo']) {
-        //   wx.authorize({
-        //     scope: 'scope.userInfo',
-        //     success() {
-        //     },
-        //     fail(){
-
-        //     }
-        //   })
-        // }
         // 获取地理位置
         if (!res.authSetting['scope.userLocation']) {
           wx.authorize({
@@ -60,12 +41,13 @@ Page({
             success() {
             },
             fail() {
-              console.error("用户不同意地理位置授权")
-              wx.navigateTo({
-                url: '/pages/error/error',
-              })
+              page.jumpToError("_200");
             }
           })
+        } else if (res.authSetting['scope.userLocation'] === false){
+          page.jumpToError("_200");
+        } else {
+          page.jumpToGameBegin();
         }
       }
     })
@@ -104,5 +86,18 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  jumpToError(msg){
+    console.error("用户不同意地理位置授权")
+    wx.redirectTo({
+      url: '/pages/error/error?errorType=' + msg
+    })
+  },
+
+  jumpToGameBegin(){
+    wx.redirectTo({
+      url: '/pages/gamebegin/gamebegin'
+    })
   }
 })

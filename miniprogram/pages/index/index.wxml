@@ -3,16 +3,13 @@
 <import src="../../mod/templates/app_footer_template.wxml"/>
 
 
-<view class="padding-sm margin-top-xl">
-  <view class="bg-gradual-blue padding radius text-center shadow-blur">
-    <image src="../../resources/images/treasure_box_in_index.png" mode="{{treasure_box_pic_mode}}" class="margin-top-lg"></image>
+<view class="bg-gradual-blue" style="height:{{totalSafeHeight}}px">
+  <view class="padding radius text-center shadow-blur">
+    <image src="../../resources/images/treasure_box_in_index.png" mode="{{treasure_box_pic_mode}}" style="margin-top:175rpx"></image>
     <view class="margin-top-lg text-sl text-shadow">秘密宝藏猎人.io</view>
     <view class="margin-top-sm text-sm text-gray">小程序云开发原型Demo</view>
 
     <view class="margin-top-lg cu-load loading"></view>
   </view>
-</view>
-
-<view class="page">
   <template is="appFooterTemplate"></template>
 </view>

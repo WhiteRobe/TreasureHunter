@@ -2,7 +2,7 @@
 
 /*We use WeUI as stand style*/
 /*examples @see https://github.com/Tencent/weui/tree/master/dist/example*/
-@import 'style/weui.wxss'; 
+/* @import 'style/weui.wxss'; // finally we decide to removed it :( */
 
 /*We use colorUI as extened style*/
 @import "style/colorui/main.wxss";

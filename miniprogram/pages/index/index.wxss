@@ -1,4 +1,4 @@
 /* miniprogram/pages/index/index.wxss */
 page{
-  padding-top: 95rpx;
+  padding-top: 0rpx;
 }

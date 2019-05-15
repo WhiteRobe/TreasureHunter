@@ -1,25 +1,31 @@
 // miniprogram/pages/error/error.js
+const app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    errorType: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    // 获取错误码，若无错误码默认无错
+    if (!options.errorType){
+      this.setData({ errorType: app.globalData.ErrorType["_100"] })
+    } else {
+      this.setData({ errorType: app.globalData.ErrorType[options.errorType] })
+    }
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
   },
 
   /**
@@ -62,5 +68,13 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  openSettingCallback(res){
+    // console.log(res)
+    // 修改给定权限后跳转回index页面
+    wx.redirectTo({
+      url: '/pages/index/index'
+    })
   }
 })

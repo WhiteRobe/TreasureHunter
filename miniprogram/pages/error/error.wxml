@@ -1,7 +1,23 @@
 <!--miniprogram/pages/error/error.wxml-->
-
 <cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
   <view slot="content">游戏未能正常运行</view>
 </cu-custom>
+<view class="text-center">
+  <image src="../../resources/images/oops.png" mode="aspectFit" style="margin-top:20rpx;margin-bottom:20rpx"></image>
+</view>
+<view class="padding text-center">
+  <view class="padding-xl radius shadow-blur bg-red margin-top bg-img" 
+   style="background-image:url(../../resources/images/cardBg.png);">
+    <view>{{errorType.errorMsg}}</view>
+  </view>
+</view>
+<view class="padding-lg" wx:if="errorType.errorCode==='200'">
+  <button class="cu-btn block bg-olive lg" open-type="openSetting" bindopensetting="openSettingCallback">
+      <text class="settingsfill"></text>　重新赋予权限
+  </button>
+</view>
+<!-- <button open-type="openSetting" bindopensetting="openSettingCallback" wx:if="errorType.errorCode==='200'">重新赋予权限</button> -->
+<view wx:elif="errorType.errorCode==='100'">没有问题</view>
 
-<button open-type="openSetting" bindopensetting="callback">打开设置页</button>
+<import src="../../mod/templates/app_footer_template.wxml"/>
+<template is="appFooterTemplate"></template>

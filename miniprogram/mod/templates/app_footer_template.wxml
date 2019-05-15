@@ -1,8 +1,7 @@
 <template name="appFooterTemplate">
-  <view class="weui-footer weui-footer_fixed-bottom">
-      <view class="weui-footer__links">
-          <navigator url="https://gitee.com/shenpibaipao/small_program__treasure_hunter" class="weui-footer__link">项目仓库 @Gitee</navigator>
-      </view>
-      <view class="weui-footer__text">Copyright © 2019 XDU206</view>
+
+  <view style="position:absolute; bottom:30rpx;text-align:center;width:100%;">
+    <view class="text-sub" style="margin:15rpx">Present by @西电TIC</view>
+    <view class="text-grey text-sm">Copyright © 2019 XDU206</view>
   </view>
 </template>
