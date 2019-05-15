@@ -1,4 +1,4 @@
-// miniprogram/pages/weui/weui.js
+// miniprogram/pages/gamebegin/gamebegin.js
 Page({
 
   /**

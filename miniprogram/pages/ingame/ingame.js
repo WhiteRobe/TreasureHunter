@@ -1,4 +1,4 @@
-// pages/deployFunctions/deployFunctions.js
+// miniprogram/pages/ingame/ingame.js
 Page({
 
   /**

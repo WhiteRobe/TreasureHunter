@@ -21,7 +21,7 @@
         },
         {
           "Key": "_age",
-          "Order": "DESC" // or DESC
+          "Order": "DESC"
         }
       ]
     }

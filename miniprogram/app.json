@@ -2,13 +2,9 @@
   "cloud": true,
   "pages": [
     "pages/index/index",
-    "pages/userConsole/userConsole",
-    "pages/storageConsole/storageConsole",
-    "pages/databaseGuide/databaseGuide",
-    "pages/addFunction/addFunction",
-    "pages/deployFunctions/deployFunctions",
-    "pages/chooseLib/chooseLib",
-    "pages/weui/weui"
+    "pages/ingame/ingame",
+    "pages/gamebegin/gamebegin",
+    "pages/creategame/creategame"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
