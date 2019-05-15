@@ -5,14 +5,23 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    openid:'',
+    latitude:0,
+    longitude:0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(options.openid);
+    console.log(options.latitude);
+    console.log(options.longitude);
+    this.setData({
+      openid: options.openid,
+      latitude: options.latitude,
+      longitude: options.longitude
+    })
   },
 
   /**
