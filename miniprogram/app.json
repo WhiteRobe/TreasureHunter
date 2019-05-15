@@ -4,14 +4,27 @@
     "pages/index/index",
     "pages/ingame/ingame",
     "pages/gamebegin/gamebegin",
-    "pages/creategame/creategame"
+    "pages/creategame/creategame",
+    "pages/error/error"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
+    "enablePullDownRefresh": false,
+    "backgroundColor": "#39b54a",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
+
+    "navigationBarBackgroundColor": "#39b54a",
     "navigationBarTitleText": "秘密宝藏猎人",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white",
+
+    "navigationStyle": "custom"
+  },
+  "usingComponents": {
+    "cu-custom": "style/colorui/components/cu-custom"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "我们需要您的地理信息以使您正常进行游戏"
+    }
   },
   "sitemapLocation": "sitemap.json"
 }
