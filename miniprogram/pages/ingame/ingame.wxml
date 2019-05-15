@@ -1,2 +1,7 @@
 <!--miniprogram/pages/ingame/ingame.wxml-->
-<text>miniprogram/pages/ingame/ingame.wxml</text>
+<view>
+<text>您的openid是：{{openid}}\n</text>
+
+<text>您的纬度是：{{latitude}}\n</text>
+<text>您的经度是:{{longitude}}\n</text>
+</view>

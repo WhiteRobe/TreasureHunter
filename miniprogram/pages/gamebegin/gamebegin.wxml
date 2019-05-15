@@ -1,2 +1,8 @@
-<!--miniprogram/pages/gamebegin/gamebegin.wxml-->
-<text>miniprogram/pages/gamebegin/gamebegin.wxml</text>
+<!--pages/start/start.wxml-->
+<view class='container'>
+<image class='background' src="{{imageAddress}}" mode="aspectFill"></image>
+
+<button plain  type="info" style='display:flex;margin-top:375rpx' bindtap="createGame">创建游戏</button>
+
+<button plain  type="primary" style='display:flex;margin-top:50rpx' bindtap='joinGame'>加入游戏</button>
+</view>

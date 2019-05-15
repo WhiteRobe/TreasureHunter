@@ -6,6 +6,11 @@
     "pages/gamebegin/gamebegin",
     "pages/creategame/creategame"
   ],
+  "permission":{
+    "scope.userLocation":{
+      "desc":"您的位置信息将被用于小游戏"
+    }
+  },
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
