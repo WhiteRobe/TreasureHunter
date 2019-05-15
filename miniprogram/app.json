@@ -7,11 +7,6 @@
     "pages/creategame/creategame",
     "pages/error/error"
   ],
-  "permission":{
-    "scope.userLocation":{
-      "desc":"您的位置信息将被用于小游戏"
-    }
-  },
   "window": {
     "enablePullDownRefresh": false,
     "backgroundColor": "#39b54a",

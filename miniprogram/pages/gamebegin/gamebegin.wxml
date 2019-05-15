@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<!--pages/start/start.wxml-->
 <view class='container'>
 <image class='background' src="{{imageAddress}}" mode="aspectFill"></image>
 
@@ -7,8 +5,3 @@
 
 <button plain  type="primary" style='display:flex;margin-top:50rpx' bindtap='joinGame'>加入游戏</button>
 </view>
-=======
-<!--miniprogram/pages/gamebegin/gamebegin.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}"><view slot="backText">返回</view><view slot="content">文本</view></cu-custom>
-<text>miniprogram/pages/gamebegin/gamebegin.wxml</text>
->>>>>>> 124ef165dccf05d0d3a222c42dd578e97235c734

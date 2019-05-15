@@ -89,15 +89,17 @@ Page({
   },
 
   jumpToError(msg){
-    console.error("用户不同意地理位置授权")
+    //console.error("用户不同意地理位置授权")
     wx.redirectTo({
       url: '/pages/error/error?errorType=' + msg
-    })
+    });
   },
 
   jumpToGameBegin(){
-    wx.redirectTo({
-      url: '/pages/gamebegin/gamebegin'
-    })
+    setTimeout(()=>{
+      wx.redirectTo({
+        url: '/pages/gamebegin/gamebegin'
+      });
+    }, 500);
   }
 })
