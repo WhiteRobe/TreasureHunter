@@ -18,7 +18,7 @@ App({
         this.globalData.StatusBar = e.statusBarHeight;
         let custom = wx.getMenuButtonBoundingClientRect();
         this.globalData.Custom = custom;
-        this.globalData.CustomBar = custom.bottom + custom.top ;
+        this.globalData.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
       }
     })
     //this.globalData = {}
@@ -131,6 +131,10 @@ App({
       "_400": {
         errorCode: "400",
         errorMsg: "网络不通畅，请稍后再试"
+      },
+      "_500": {
+        errorCode: "500",
+        errorMsg: "微信版本过低"
       }
     }
   }

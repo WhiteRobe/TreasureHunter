@@ -1,7 +1,57 @@
 <!--miniprogram/pages/ingame/ingame.wxml-->
-<view>
-<text>您的openid是：{{openid}}\n</text>
 
-<text>您的纬度是：{{latitude}}\n</text>
-<text>您的经度是:{{longitude}}\n</text>
+<view class="DrawerPage {{packageName==='package'?'show':''}}">
+  <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">校园探宝·游戏中</view>
+  </cu-custom>
+
+  <!-- 提示框 -->
+  <view class="cu-bar bg-white">
+    <view class="action">
+      <text class="cuIcon-title text-blue"></text> 我的位置
+    </view>
+    <view class="action">
+      <text class="cuIcon-title text-red"></text> 已发现的线索
+    </view>
+  </view>
+
+  <!-- 游戏主地图 -->
+  <map
+    id="ingame_map"
+    longitude="{{game_center.longitude}}"
+    latitude="{{game_center.latitude}}"
+    scale="14"
+    show-location="{{true}}"
+    style="width: 100%; height: {{mapHeight}}px;"
+    bindtap="mapclicked"
+  ><!--放弃cover-view方案-->
+  </map>
+
+  <!-- 可操作按钮组 -->
+  <view class="bg-white" style="position:absolute;bottom:10rpx;text-align:center;width:100%;">
+    <button class="bg-green cu-btn margin-lr-sm shadow lg" disabled="{{buttonDisabled}}" bindtap='tryDig'>
+      <text class="cuIcon-repairfill"></text>　尝试挖掘
+    </button>
+    
+    <button class="bg-blue cu-btn margin-lr-sm shadow lg" disabled="{{buttonDisabled}}" bindtap="showPackage" data-target="package">
+      <text class="cuIcon-list"></text>　我的线索
+    </button>
+  </view>
+
 </view>
+
+<!--背包抽屉-->
+<view class="DrawerClose {{packageName==='package'?'show':''}}" bindtap="hidePackage">
+  <text class="cuIcon-pullright"></text>
+</view>
+<scroll-view scroll-y class="DrawerWindow {{packageName==='package'?'show':''}}">
+  <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
+    <view class="cu-item arrow" wx:for="{{20}}" wx:key="index">
+      <view class="content">
+        <text class="cuIcon-github text-grey"></text>
+        <text class="text-grey">{{index +1}}</text>
+      </view>
+    </view>
+  </view>
+</scroll-view>

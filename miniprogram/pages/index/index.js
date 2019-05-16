@@ -18,7 +18,7 @@ Page({
       success: function (res) {
         page.setData({ totalSafeHeight: res.windowHeight}); // 设置为全屏显示
       }
-    })
+    });
   },
 
   /**
@@ -38,6 +38,7 @@ Page({
           wx.authorize({
             scope: 'scope.userLocation',
             success() {
+              page.jumpToGameBegin();
             },
             fail() {
               page.jumpToError("_200");
