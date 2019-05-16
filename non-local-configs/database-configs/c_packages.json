@@ -1,0 +1,44 @@
+{
+  "CollectionName": "c_packages",
+  "Fields": [
+    {
+      "Key": "_id",
+      "Type": "String",
+    },
+    {
+      "Key": "_openid", // 游戏用户识别码
+      "Type": "String"
+    },
+    {
+      "Key": "_gamecode", // 包裹所属游戏编号
+      "Type": "String"
+    },
+    {
+      "Key": "_package", // 已找到点的包裹
+      "Type": "Array"
+    }
+  ],
+  "Index": [
+    {
+      "Name": "_id_",
+      "Unique": true,
+      "OnField": [
+        {
+          "Key": "_id",
+          "Order": "ASC" // or DESC
+        }
+      ]
+    },
+    {
+      "Name": "_openid_",
+      "Unique": false,
+      "OnField": [
+        {
+          "Key": "_openid",
+          "Order": "ASC"
+        }
+      ]
+    }
+  ],
+  "Auth": "670" 
+}

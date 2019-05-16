@@ -1,7 +1,49 @@
-<view class='container'>
-<image class='background' src="{{imageAddress}}" mode="aspectFill"></image>
+<!--miniprogram/pages/gamebegin/gamebegin.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
+  <view slot="content">校园探宝</view>
+</cu-custom>
 
-<button plain  type="info" style='display:flex;margin-top:375rpx' bindtap="createGame">创建游戏</button>
+<!-- 游戏玩法轮播框 -->
+<view class="cu-bar bg-white">
+  <view class="action">
+    <text class="cuIcon-title text-cyan"></text> 玩法简介
+  </view>
+</view>
+<swiper class="screen-swiper square-dot" indicator-dots="true" circular="true" 
+ autoplay="true" interval="5000" duration="500" indicator-active-color="#0081ff">
+  <swiper-item wx:for="{{swiperList}}" wx:key>
+    <image src="{{item.url}}" mode="aspectFill"></image>
+  </swiper-item>
+</swiper>
 
-<button plain  type="primary" style='display:flex;margin-top:50rpx' bindtap='joinGame'>加入游戏</button>
+<!-- 带上浮特效的lazy按钮组 -->
+<view class="padding-sm margin-top-sm flex flex-direction">
+  <button class="bg-green cu-btn {{toggleDelay?'animation-slide-bottom':''}} margin-top-xs shadow lg" disabled="{{buttonDisabled}}"
+   style="animation-delay: 0.8s;" wx:if="{{toggleDelay}}" bindtap='joinGame'>
+    <text class="cuIcon-search"></text>　加入游戏
+  </button>
+  <button class="bg-blue cu-btn {{toggleDelay?'animation-slide-bottom':''}} margin-tb-lg shadow lg" disabled="{{buttonDisabled}}"
+   style="animation-delay: 1.5s;" wx:if="{{toggleDelay}}" bindtap="createGame">
+    <text class="cuIcon-game"></text>　创建游戏
+  </button>
+</view>
+
+<!-- 游戏版本提示 -->
+<view class="padding-lr bg-white text-center margin-lr-sm">
+    <view class="solid-bottom padding">
+      <text class="text-brown text-bold text-lg">游戏仍处在测试中</text>
+    </view>
+    <view class="solid-bottom padding text-grey text-sm">当前版本 v0.1</view>
+  </view>
+
+<!-- footer -->
+<import src="../../mod/templates/app_footer_template.wxml"/>
+<template is="appFooterTemplate"></template>
+
+<!-- 其它非页面组件 -->
+<!-- 加载框 -->
+<view class='cu-load load-modal' wx:if="{{buttonDisabled}}">
+  <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+  <image src='../../resources/images/loding.gif' class='gif' mode='aspectFit'></image>
+  <view class='gray-mauve'>奋力掘进中...</view>
 </view>

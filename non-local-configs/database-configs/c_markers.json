@@ -1,0 +1,70 @@
+{
+  "CollectionName": "c_markers",
+  "Fields": [
+    {
+      "Key": "_id",
+      "Type": "String",
+    },
+    {
+      "Key": "_openid", // 埋点人识别码
+      "Type": "Number"
+    },
+    {
+      "Key": "_gamecode", // 游戏识别码
+      "Type": "String"
+    },
+    {
+      "Key": "_geo", // 埋点经纬度
+      "Type": "GeoPoint"
+    },
+    {
+      "Key": "_text", // 埋点经纬度 可为特殊值 ''，即空字符串
+      "Type": "String"
+    },
+    {
+      "Key": "_img", // 埋点配图 可为特殊值 'null'，即不附带图片信息
+      "Type": "String"
+    },
+    {
+      "Key": "_front", // 埋点前置条件
+      "Type": "Array"
+    }
+  ],
+  "Index": [
+    {
+      "Name": "_id_",
+      "Unique": true,
+      "OnField": [
+        {
+          "Key": "_id",
+          "Order": "ASC"
+        }
+      ]
+    },
+    {
+      "Name": "_gamecode_",
+      "Unique": false,
+      "OnField": [
+        {
+          "Key": "_gamecode",
+          "Order": "DESC"
+        }
+      ]
+    },
+    {
+      "Name": "_frontpoints_",
+      "Unique": false,
+      "OnField": [
+        {
+          "Key": "_id",
+          "Order": "ASC"
+        },
+        {
+          "Key": "_gamecode",
+          "Order": "DESC"
+        }
+      ]
+    }
+  ],
+  "Auth": "674"
+}

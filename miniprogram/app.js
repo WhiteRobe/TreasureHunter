@@ -114,7 +114,7 @@ App({
     ErrorType: {
       "_100":{
         errorCode: "100",
-        errorMsg: "正确的操作"
+        errorMsg: "操作成功执行..."
       },
       "_200": {
         errorCode: "200",
@@ -127,6 +127,10 @@ App({
       "_300": {
         errorCode: "300",
         errorMsg: "获取OpenId失败"
+      },
+      "_400": {
+        errorCode: "400",
+        errorMsg: "网络不通畅，请稍后再试"
       }
     }
   }

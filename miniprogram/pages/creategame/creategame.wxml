@@ -1,4 +1,9 @@
 <!--miniprogram/pages/creategame/creategame.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">校园探宝·创建游戏</view>
+</cu-custom>
+
 <view>
 <text>您的openid是：{{openid}}\n</text>
 

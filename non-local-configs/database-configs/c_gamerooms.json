@@ -1,0 +1,72 @@
+{
+  "CollectionName": "c_gamerooms",
+  "Fields": [
+    {
+      "Key": "_id",
+      "Type": "Number",
+    },
+    {
+      "Key": "_openid", // 游戏发起人识别码
+      "Type": "String"
+    },
+    {
+      "Key": "_gamecode", // 游戏邀请码(游戏编号)
+      "Type": "String"
+    },
+    {
+      "Key": "_geo", // 游戏发起点
+      "Type": "GeoPoint"
+    },
+    {
+      "Key": "_starttime", // 游戏开始时间
+      "Type": "Date"
+    },
+    {
+      "Key": "_lasttime", // 游戏持续 单位为天
+      "Type": "Number"
+    }
+  ],
+  "Index": [
+    {
+      "Name": "_id_",
+      "Unique": true,
+      "OnField": [
+        {
+          "Key": "_id",
+          "Order": "ASC"
+        }
+      ]
+    },
+    {
+      "Name": "_openid_",
+      "Unique": false,
+      "OnField": [
+        {
+          "Key": "_openid",
+          "Order": "DESC"
+        }
+      ]
+    },
+    {
+      "Name": "_gamecode_",
+      "Unique": true,
+      "OnField": [
+        {
+          "Key": "_gamecode",
+          "Order": "DESC"
+        }
+      ]
+    },
+    {
+      "Name": "_starttime_",
+      "Unique": true,
+      "OnField": [
+        {
+          "Key": "_starttime",
+          "Order": "ASC"
+        }
+      ]
+    },
+  ],
+  "Auth": "674"
+}

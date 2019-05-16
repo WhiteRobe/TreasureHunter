@@ -25,5 +25,6 @@
         }
       ]
     }
-  ]
+  ],
+  "Auth":"670" // x1 w2 r4 - u g o || x: modify collection,w: write record,r: read record || default is "670" || 674 > 670 > 474 > 070
 }
