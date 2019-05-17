@@ -6,24 +6,27 @@ Page({
    */
   data: {
     mapHeight: 0,
-    buttonDisabled: false,
+    buttonDisabled: false, // 按钮禁用，用于异步调用云函数
     game_center:{
       longitude: 108.93984,
       latitude: 34.34127
     },
+    showMap: true, // 显示地图，用于平滑动画效果
     packageName: null // 背包抽屉
   },
 
   showPackage(e){
     this.setData({
-      packageName: e.currentTarget.dataset.target
-    })
+      packageName: e.currentTarget.dataset.target,
+      showMap: false
+    });
   },
 
   hidePackage(e) {
     this.setData({
       packageName: null
-    })
+    });
+    setTimeout(() => { this.setData({ showMap: true });}, 450); // 0.4~0.5秒的抽屉动画之后显示地图
   },
 
   tryDig(){
@@ -50,7 +53,7 @@ Page({
         
         let cubarHeightRPX = 100;
         let buttonHeightRPX = 80; // 按钮lg 80rpx + padding 40rpx
-        let bottomHeightRPX = 10; // 距离底部10rpx
+        let bottomHeightRPX = 5; // 距离底部10rpx
         let rpx2px = res.screenWidth / 750.0;
 
         that.setData({ mapHeight: res.windowHeight - (buttonHeightRPX + bottomHeightRPX + cubarHeightRPX) * rpx2px - statusBarHeight}); 

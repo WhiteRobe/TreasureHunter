@@ -41,7 +41,7 @@
 <template is="appFooterTemplate"></template>
 
 <!-- 其它非页面组件 -->
-<!-- 加载框 -->
+<!-- 加载框，当按钮禁用时会出现 -->
 <view class='cu-load load-modal' wx:if="{{buttonDisabled}}">
   <!-- <view class='cuIcon-emojifill text-orange'></view> -->
   <image src='../../resources/images/loding.gif' class='gif' mode='aspectFit'></image>
@@ -58,6 +58,15 @@
     </view>
     <view class="padding-xl">
       您的微信版本过低，可能无法正常进行游戏。
+    </view>
+  </view>
+</view>
+
+<!-- 底部错误提示框 -->
+<view class="cu-modal bottom-modal {{errorModalShow?'show':''}}" bindtap="hideBottomErrorModel">
+  <view class="cu-dialog" catchtap>
+    <view class="padding-xl">
+      <text class="text-bold text-red">{{errorMsg}}</text>
     </view>
   </view>
 </view>

@@ -21,20 +21,26 @@
     id="ingame_map"
     longitude="{{game_center.longitude}}"
     latitude="{{game_center.latitude}}"
-    scale="14"
+    scale="17"
     show-location="{{true}}"
-    style="width: 100%; height: {{mapHeight}}px;"
+    style="width: 100%; height: {{mapHeight}}px;  display:{{showMap?'block':'none'}}"
     bindtap="mapclicked"
   ><!--放弃cover-view方案-->
   </map>
+  <!-- 由于map组建层级最高会使得动画不连贯，增加一张替代图片用于平滑抽屉动画效果 -->
+  <image 
+    src="../../resources/images/map_gause.jpg" 
+    mode="scaleToFill" 
+    style="width: 100%; height: {{mapHeight}}px; display:{{!showMap?'block':'none'}}"
+  ></image>
 
   <!-- 可操作按钮组 -->
-  <view class="bg-white" style="position:absolute;bottom:10rpx;text-align:center;width:100%;">
-    <button class="bg-green cu-btn margin-lr-sm shadow lg" disabled="{{buttonDisabled}}" bindtap='tryDig'>
+  <view class="bg-white" style="position:absolute;bottom:5rpx;text-align:center;width:100%;">
+    <button class="bg-gradual-green cu-btn margin-lr-sm shadow lg" disabled="{{buttonDisabled}}" bindtap='tryDig'>
       <text class="cuIcon-repairfill"></text>　尝试挖掘
     </button>
     
-    <button class="bg-blue cu-btn margin-lr-sm shadow lg" disabled="{{buttonDisabled}}" bindtap="showPackage" data-target="package">
+    <button class="bg-gradual-blue cu-btn margin-lr-sm shadow lg" disabled="{{buttonDisabled}}" bindtap="showPackage" data-target="package">
       <text class="cuIcon-list"></text>　我的线索
     </button>
   </view>

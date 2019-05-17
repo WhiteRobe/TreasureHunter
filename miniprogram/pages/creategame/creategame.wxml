@@ -4,9 +4,35 @@
   <view slot="content">校园探宝·创建游戏</view>
 </cu-custom>
 
-<view>
-<text>您的openid是：{{openid}}\n</text>
+<view class="cu-bar bg-white">
+    <view class="action">
+      <text class="cuIcon-title text-blue"></text> 我的位置
+    </view>
+    <view class="action">
+      <text class="cuIcon-title text-red"></text> 已发现的线索
+    </view>
+  </view>
 
-<text>您的纬度是：{{latitude}}\n</text>
-<text>您的经度是:{{longitude}}\n</text>
+<!-- 游戏主地图 -->
+<map
+  id="ingame_map"
+  longitude="{{game_center.longitude}}"
+  latitude="{{game_center.latitude}}"
+  scale="17"
+  show-location="{{true}}"
+  style="width: 100%; height: {{mapHeight}}px;"
+  bindtap="mapclicked"
+><!--放弃cover-view方案-->
+</map>
+
+
+<!-- 可操作按钮组 -->
+<view class="bg-white" style="position:absolute;bottom:5rpx;text-align:center;width:100%;">
+  <button class="bg-gradual-green cu-btn margin-lr-sm shadow lg" disabled="{{buttonDisabled}}" bindtap='setPoint'>
+    <text class="cuIcon-down"></text>　设置埋点
+  </button>
+  
+  <button class="bg-gradual-blue cu-btn margin-lr-sm shadow lg" disabled="{{buttonDisabled}}" bindtap="publish" data-target="package">
+    <text class="cuIcon-discoverfill"></text>　发布游戏
+  </button>
 </view>
