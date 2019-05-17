@@ -1,7 +1,8 @@
 # 项目载入相关
 ## 配置概览
-1. 修改 `project.config.json` (参考`/non-local-configs`中的文件) 中的`appid`为测试用的`appid`。
-2. 从 `微信开发者工具` 载入该文件 。
+1. 修改 `project.config.json` (参考`/non-local-configs`中的文件`example_project.config.json`) 中的`appid`为测试用的`appid`。
+2. 将`example_project.config.json`文件改名为`project.config.json`，放到工程目录下。
+2. 从 `微信开发者工具` 载入该工程 。
 
 ## 注意事项
 ### 非本地的配置文件及代码的Git协议：
