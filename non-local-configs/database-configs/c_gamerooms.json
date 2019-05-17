@@ -24,6 +24,10 @@
     {
       "Key": "_lasttime", // 游戏持续 单位为天
       "Type": "Number"
+    },
+    {
+      "Key": "_markers", // 埋点对象，含特殊字段 extend:{text,img}
+      "Type": "Object"
     }
   ],
   "Index": [
@@ -59,7 +63,7 @@
     },
     {
       "Name": "_starttime_",
-      "Unique": true,
+      "Unique": false,
       "OnField": [
         {
           "Key": "_starttime",

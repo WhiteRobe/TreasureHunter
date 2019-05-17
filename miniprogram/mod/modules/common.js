@@ -36,7 +36,14 @@ function getLocation() {
  * 获取4位随机数序列 : [A-Z0-9]
 */
 function getRamdon4Code(){
-  var codeLength = 4;
+  return getRamdonNCode(4);
+}
+
+/** 
+ * 获取N位随机数序列 : [A-Z0-9]
+*/
+function getRamdonNCode(N) {
+  var codeLength = N;
   var code = "";
   var random = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
   for (var i = 0; i < codeLength; i++) {
@@ -67,4 +74,5 @@ module.exports.getOpenid = getOpenid
 exports.getLocation = getLocation;
 
 exports.getRamdon4Code = getRamdon4Code;
+exports.getRamdonNCode = getRamdonNCode;
 exports.getDistanceBetween2Geo = getDistanceBetween2Geo;

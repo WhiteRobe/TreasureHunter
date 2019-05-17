@@ -3,9 +3,9 @@
  */
 // {
 //   iconPath: '../../resources/images/neil.png',
-//   id: 0,
+//   id: $_0,
 //   callout: {
-//     content: "$_geoname",
+//     content: "$_markername",
 //     textAlign: "center",
 //     fontSize: "13",
 //     borderRadius: "12",
@@ -16,18 +16,14 @@
 //     bgColor: "#ffffff" // white
 //   },
 //   // title:"标记点样例title",
-//   latitude: 34.34127,
-//   longitude: 108.93983,
+//   latitude: $_34.34127,
+//   longitude: $_108.93983,
 //   width: 18,
 //   height: 18,
 //   extend: {
-//     _gamecode: "A1B2C3",
-//     text: "样例谜题",
-//     img: "样例图地址",
-//     condition: [{
-//       _gamecode: "A1B2C3",
-//       _geoname: "$_geoname",
-//     }]
+//     text: "$_样例谜题",
+//     img: "$_样例图地址",
+//     condition: ["$_geoname1", "$_geoname2", "$_geoname3"]
 //   }
 // }
 function buildMarker(martker_id, marker_name, geo, ext_info) {
