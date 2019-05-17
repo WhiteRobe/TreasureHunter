@@ -12,7 +12,10 @@ Page({
       latitude: 34.34127
     },
     showMap: true, // 显示地图，用于平滑动画效果
-    packageName: null // 背包抽屉
+    packageName: null, // 背包抽屉
+    buttonDisabled: false, // 按钮禁用方案
+    errorModalShow: null, // 错误模态框显示控制标志
+    errorMsg: "错误提示信息"
   },
 
   showPackage(e){
@@ -30,7 +33,9 @@ Page({
   },
 
   tryDig(){
-    console.log("尝试挖掘");
+    this.setData({
+      buttonDisabled: true
+    });
   },
 
   /**

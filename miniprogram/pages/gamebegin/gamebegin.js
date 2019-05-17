@@ -1,5 +1,5 @@
 // pages/gamebegin/gamebegin
-const common = require('../../mod/modules/common.js')
+const common = require('../../mod/modules/common.js');
 Page({
 
   /**
@@ -20,7 +20,7 @@ Page({
       type: 'image',
       url: '../../resources/images/help3.png'
     }],
-    toggleDelay: false, // 按钮上浮效果
+    toggleDelay: false, // 按钮上浮动画效果的延迟控制标志
     buttonDisabled: false, // 按钮禁用方案
     warnModalShow: null, // 版本过低的警告模态框
     errorModalShow: null, // 错误模态框显示控制标志

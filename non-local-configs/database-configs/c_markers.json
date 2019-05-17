@@ -10,28 +10,16 @@
       "Type": "Number"
     },
     {
-      "Key": "_gamecode", // 游戏识别码
+      "Key": "_gamecode", // 游戏识别码 (与_geoname确认一个点)
       "Type": "String"
     },
     {
-      "Key": "_geoname", // 埋点名字
+      "Key": "_geoname", // 埋点名字 (与_gamecode确认一个点)
       "Type": "GeoPoint"
     },
     {
-      "Key": "_geo", // 埋点经纬度
-      "Type": "GeoPoint"
-    },
-    {
-      "Key": "_text", // 埋点经纬度 可为特殊值 ''，即空字符串
-      "Type": "String"
-    },
-    {
-      "Key": "_img", // 埋点配图 可为特殊值 'null'，即不附带图片信息
-      "Type": "String"
-    },
-    {
-      "Key": "_front", // 埋点前置条件
-      "Type": "Array"
+      "Key": "_geo", // 埋点对象，含特殊字段 extend:{text,img}
+      "Type": "Object"
     }
   ],
   "Index": [
@@ -56,8 +44,8 @@
       ]
     },
     {
-      "Name": "_frontpoints_",
-      "Unique": false,
+      "Name": "_geo_",
+      "Unique": true,
       "OnField": [
         {
           "Key": "_id",

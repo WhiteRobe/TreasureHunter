@@ -61,3 +61,19 @@
     </view>
   </view>
 </scroll-view>
+
+<!-- 其它非页面组件 -->
+<!-- 加载框，当按钮禁用时会出现 -->
+<view class='cu-load load-modal' wx:if="{{buttonDisabled}}">
+  <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+  <image src='../../resources/images/loding.gif' class='gif' mode='aspectFit'></image>
+  <view class='gray-mauve'>奋力掘进中...</view>
+</view>
+<!-- 底部错误提示框 -->
+<view class="cu-modal bottom-modal {{errorModalShow?'show':''}}" bindtap="hideBottomErrorModel">
+  <view class="cu-dialog" catchtap>
+    <view class="padding-xl">
+      <text class="text-bold text-red">{{errorMsg}}</text>
+    </view>
+  </view>
+</view>

@@ -9,7 +9,7 @@
       <text class="cuIcon-title text-blue"></text> 我的位置
     </view>
     <view class="action">
-      <text class="cuIcon-title text-red"></text> 已发现的线索
+      <text class="cuIcon-title text-red"></text> 已设置的点位
     </view>
   </view>
 
@@ -19,11 +19,16 @@
   longitude="{{game_center.longitude}}"
   latitude="{{game_center.latitude}}"
   scale="17"
+  markers="{{markers}}"
   show-location="{{true}}"
-  style="width: 100%; height: {{mapHeight}}px;"
-  bindtap="mapclicked"
+  style="width: 100%; height: {{mapHeight}}px; display:{{showMap?'block':'none'}}"
 ><!--放弃cover-view方案-->
 </map>
+ <image 
+  src="../../resources/images/map_gause.jpg" 
+  mode="scaleToFill" 
+  style="width: 100%; height: {{mapHeight}}px; display:{{!showMap?'block':'none'}}"
+></image>
 
 
 <!-- 可操作按钮组 -->
@@ -35,4 +40,38 @@
   <button class="bg-gradual-blue cu-btn margin-lr-sm shadow lg" disabled="{{buttonDisabled}}" bindtap="publish" data-target="package">
     <text class="cuIcon-discoverfill"></text>　发布游戏
   </button>
+</view>
+
+
+<!-- 其它非页面组件 -->
+<!-- 加载框，当按钮禁用时会出现 -->
+<view class='cu-load load-modal' wx:if="{{buttonDisabled}}">
+  <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+  <image src='../../resources/images/loding.gif' class='gif' mode='aspectFit'></image>
+  <view class='gray-mauve'>奋力掘进中...</view>
+</view>
+<!-- 底部错误提示框 -->
+<view class="cu-modal bottom-modal {{errorModalShow?'show':''}}" bindtap="hideBottomErrorModel">
+  <view class="cu-dialog" catchtap>
+    <view class="padding-xl">
+      <text class="text-bold text-red">{{errorMsg}}</text>
+    </view>
+  </view>
+</view>
+<!-- 帮助内容提示框 -->
+<view class="cu-modal {{helpModalShow&&!showMap?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content"><text class="cuIcon-questionfill"></text>　游戏设计帮助</view>
+      <view class="action" bindtap="hideHelpModalShow">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xs">
+      <view class="margin-tb-xs">1. 您所设置的第一个点默认为【起点】。</view>
+      <view class="margin-tb-xs">2. 您设置的最后一个点默认为【终点】。</view>
+      <view class="margin-tb-xs solids-bottom padding-bottom-xs">3. 请留心周遭交通情况，保证生命财产安全。^_^</view>
+      <view class="text-blue margin-tb-xs">4. 为了保证您所设计的游戏能够被通关，您需要自行移动到每个【藏迷点】处进行埋点，以保证该点位是玩家能够到达的点。</view>
+    </view>
+  </view>
 </view>

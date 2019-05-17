@@ -61,7 +61,6 @@
     </view>
   </view>
 </view>
-
 <!-- 底部错误提示框 -->
 <view class="cu-modal bottom-modal {{errorModalShow?'show':''}}" bindtap="hideBottomErrorModel">
   <view class="cu-dialog" catchtap>
