@@ -15,14 +15,15 @@ Page({
    */
   onLoad: function (options) {
     let page = this;
+    // 适配画面
     wx.getSystemInfo({
-      success: function (res) {
-        page.setData({ totalSafeHeight: res.windowHeight}); // 设置为全屏显示
+      success: res => {
+        page.setData({ totalSafeHeight: res.windowHeight }); // 设置为全屏显示
+      },
+      fail: err => {
+        err => page.jumpToError("_400");
       }
     });
-    common.getOpenid().then(res => {
-      app.globalData.myOpenid = res;
-    }).catch(err => page.jumpToError("_300"));
   },
 
   /**
@@ -35,26 +36,33 @@ Page({
    */
   onShow: function () {
     let page = this;
-    wx.getSetting({
-      success(res) {
-        // 获取地理位置
-        if (!res.authSetting['scope.userLocation']) {
-          wx.authorize({
-            scope: 'scope.userLocation',
-            success() {
-              page.jumpToGameBegin();
-            },
-            fail() {
+    // 先保证能连上服务器
+    common.getOpenid()
+      .then(res => {
+        app.globalData.myOpenid = res;
+        // 然后获得权限
+        wx.getSetting({
+          success(res) {
+            // 获取地理位置
+            if (!res.authSetting['scope.userLocation']) {
+              wx.authorize({
+                scope: 'scope.userLocation',
+                success() {
+                  page.jumpToGameBegin();
+                },
+                fail() {
+                  page.jumpToError("_200");
+                }
+              })
+            } else if (res.authSetting['scope.userLocation'] === false) {
               page.jumpToError("_200");
+            } else {
+              page.jumpToGameBegin(); // 已满足所有权限
             }
-          })
-        } else if (res.authSetting['scope.userLocation'] === false){
-          page.jumpToError("_200");
-        } else {
-          page.jumpToGameBegin();
-        }
-      }
-    })
+          }
+        });
+      })
+      .catch(err => page.jumpToError("_300"));
   },
 
   /**

@@ -17,7 +17,7 @@ Page({
     markers: [], // 已标记的点 @see ../mod/module/factory.js
     showMap: false, // 显示地图，用于平滑动画效果
     helpModalShow: true, // 帮助内容模态框显示控制标志，同时需要showMap以切换到map
-    errorModalShow: null, // 错误模态框显示控制标志
+    errorModalShow: false, // 错误模态框显示控制标志
     errorMsg: "错误提示信息",
 
     markerForInputModal: {
@@ -29,7 +29,7 @@ Page({
       img: "",
       condition: []
     }, // 进行操作的埋点之输入数据 @see cleanMarkerForInputModalValue()
-    markerInputModalShow: null, // 进行操作的埋点模态框显示控制标志
+    markerInputModalShow: false, // 进行操作的埋点模态框显示控制标志
     markerInputModalShowWithType: 'new', // 进行操作的模态框类型 ： new | edit
     selectedMarkerInputModalTabId: 0, // 0 for text; 1 for pictur
     calloutConditionModalShow: false, // 前置头像多选模态框显示控制标志
@@ -314,7 +314,7 @@ Page({
   },
 
   /**
-   * 导航标签栏切换
+   * 文字/图片 导航标签栏切换
    */
   markerInputModalTabSelect(e) {
     this.setData({
@@ -569,7 +569,7 @@ Page({
    */
   hideHelpModalShow() {
     this.setData({
-      helpModalShow: null,
+      helpModalShow: false,
       showMap: true
     });
   },
@@ -579,7 +579,7 @@ Page({
    */
   hideBottomErrorModal() {
     this.setData({
-      errorModalShow: null
+      errorModalShow: false
     });
   },
 
@@ -617,7 +617,7 @@ Page({
     // $errorDismissDelay 毫秒后自动关闭
     setTimeout(() => {
       this.setData({
-        errorModalShow: null
+        errorModalShow: false
       })
     }, errorDismissDelay);
   }

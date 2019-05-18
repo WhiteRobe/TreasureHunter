@@ -26,5 +26,12 @@
   </button>
 </view>
 
+<!--400 或 300 状态码 : 网络不通或未获得openid-->
+<view class="padding-lg" wx:elif="{{errorType.errorCode==='300' || errorType.errorCode==='400'}}">
+  <button class="cu-btn block bg-olive lg" bingtap="reLogin">
+      <text class="cuIcon-back"></text>　重新登录
+  </button>
+</view>
+
 <import src="../../mod/templates/app_footer_template.wxml"/>
 <template is="appFooterTemplate"></template>

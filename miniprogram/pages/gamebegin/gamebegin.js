@@ -48,7 +48,7 @@ Page({
           .then(res => {
             let latitude = res.latitude;
             let longitude = res.longitude;
-            console.log('纬度', latitude, '经度', longitude);
+            console.log('创建游戏时的纬度', latitude, '创建游戏时的经度', longitude);
             wx.navigateTo({
               url: '/pages/creategame/creategame?openid=' + openid + '&latitude=' + latitude + '&longitude=' + longitude
             });
@@ -73,7 +73,7 @@ Page({
   /**
    * 通过邀请码搜寻一场游戏
    */
-  serachGameByCode(){
+  searchGameByCode(){
     let that = this;
     let gamecode = this.data.gamecode.join().replace(/,/g, ''); // 获得邀请码
     this.setData({
@@ -88,7 +88,7 @@ Page({
     collection.where({
       _gamecode: gamecode
     }).get()
-    .then(res =>{
+    .then(res => {
       let gameinfos = res.data;
       if (gameinfos.length == 0){ // 没有找到游戏
         that.handleError({ errMsg:"no game founded"});
@@ -103,14 +103,17 @@ Page({
         wx.navigateTo({
           url: '/pages/ingame/ingame?gamecode=' + gamecode
         });
-      }
+      } 
+      this.setData({
+        buttonDisabled: false
+      });
     })
     .catch(err =>{
       console.error(err);
       that.handleError(err);
-    });
-    this.setData({
-      buttonDisabled: false
+      this.setData({
+        buttonDisabled: false
+      });
     });
   },
 
@@ -132,7 +135,7 @@ Page({
     });
     // 输入完6位后自动触发
     if (this.data.alradyInputLength == 6){
-      setTimeout(() => { that.serachGameByCode();}, 200); // 延迟0.2秒以获得较好的体验
+      setTimeout(() => { that.searchGameByCode();}, 200); // 延迟0.2秒以获得较好的体验
     }
   },
 

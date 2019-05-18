@@ -86,7 +86,7 @@ function getDistanceBetween2Geo(g1, g2) {
   var LoDelta = g1.longitude * Math.PI / 180.0 - g2.longitude * Math.PI / 180.0;
   var dis = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(LaDelta / 2), 2) + Math.cos(La1) * Math.cos(La2) * Math.pow(Math.sin(LoDelta / 2), 2)));
   dis = dis * earthRadius;
-  dis = Math.round(s * 10000) / 10000 * 1000; 
+  dis = Math.round(dis * 10000) / 10000 * 1000; 
   // dis = dis.toFixed(2);
   return dis; // 单位为米
 }

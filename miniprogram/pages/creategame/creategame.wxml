@@ -141,7 +141,7 @@
           <!--预览效果-->
           <view class="bg-img" bindtap="ViewImage" data-url="{{markerForInputModal.img}}" 
            wx:if="{{markerForInputModal.img!=='' && markerInputModalShow}}">
-            <image class="sqare-3" src='{{markerForInputModal.img}}' mode='aspectFill'></image>
+            <image src='{{markerForInputModal.img}}' mode='aspectFill'></image>
             <view class="cu-tag bg-red" catchtap="DelImg">
               <text class="cuIcon-close"></text>
             </view>

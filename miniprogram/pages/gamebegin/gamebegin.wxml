@@ -73,7 +73,7 @@
 <view class="cu-modal {{gamecodeInputModalShow?'show':''}}">
   <view class="cu-dialog">
     <view class="cu-bar bg-white justify-end">
-      <view class="content"><text class="cuIcon-circlefill"></text>　请输入游戏邀请码</view>
+      <view class="content text-blue"><text class="cuIcon-circlefill"></text>　请输入游戏邀请码</view>
       <view class="action" bindtap="hideGamecodeInputModal">
         <text class="cuIcon-close text-red"></text>
       </view>

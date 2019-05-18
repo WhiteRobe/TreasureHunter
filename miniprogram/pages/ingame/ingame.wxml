@@ -1,6 +1,6 @@
 <!--miniprogram/pages/ingame/ingame.wxml-->
 
-<view class="DrawerPage {{packageName==='package'?'show':''}}">
+<view class="DrawerPage {{packageShow?'show':''}}">
   <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
     <view slot="backText">返回</view>
     <view slot="content">校园探宝·游戏中</view>
@@ -26,6 +26,8 @@
     show-location="{{true}}"
     style="width: 100%; height: {{mapHeight}}px;  display:{{showMap?'block':'none'}}"
     bindtap="mapclicked"
+    bindmarkertap="markerClicked"
+    bindcallouttap="markerClicked"
   ><!--放弃cover-view方案-->
   </map>
   <!-- 由于map组建层级最高会使得动画不连贯，增加一张替代图片用于平滑抽屉动画效果 -->
@@ -49,15 +51,15 @@
 </view>
 
 <!--背包抽屉-->
-<view class="DrawerClose {{packageName==='package'?'show':''}}" bindtap="hidePackage">
+<view class="DrawerClose {{packageShow?'show':''}}" bindtap="hidePackage">
   <text class="cuIcon-pullright"></text>
 </view>
-<scroll-view scroll-y class="DrawerWindow {{packageName==='package'?'show':''}}">
+<scroll-view scroll-y class="DrawerWindow {{packageShow?'show':''}}">
   <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
-    <view class="cu-item arrow" wx:for="{{20}}" wx:key="index">
-      <view class="content">
-        <text class="cuIcon-github text-grey"></text>
-        <text class="text-grey">{{index +1}}</text>
+    <view class="cu-item arrow" wx:for="{{mymarkers}}" wx:key="index">
+      <view class="content" bindtap='markerItemClicked' data-id='{{item.id}}'>
+        <text class="cuIcon-send text-grey"></text>
+        <text class="text-grey">{{item.callout.content}}</text>
       </view>
     </view>
   </view>
@@ -75,6 +77,66 @@
   <view class="cu-dialog" catchtap>
     <view class="padding-xl">
       <text class="text-bold text-red">{{errorMsg}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 展示线索 -->
+<view class="cu-modal {{markerShowModalShow?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">线索信息</view>
+      <view class="action" bindtap="onMarkerShowModalClose">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-sm">
+      <form>
+        <view class="cu-form-group">
+          <view class="title">埋点名字</view>
+          <input placeholder="这里是埋点的名字" value="{{markerForShowModal.name}}" disabled='{{true}}'></input>
+        </view>
+        <view class="cu-form-group">
+          <view class="title">前置条件</view>
+          <input placeholder="解锁该点的前置点" disabled="{{true}}" value="{{markerForShowModal.condition}}"></input>
+        </view>
+        <view class="cu-form-group">
+          <view class="title">经纬度</view>
+          <input placeholder="经纬度" disabled="{{true}}"
+           value="{{markerForShowModal.longitude}}°E,　{{markerForShowModal.latitude}}°N">
+          </input>
+        </view>
+      </form>
+      <scroll-view scroll-x class="bg-white nav text-center margin-top-xs">
+        <view class="cu-item bg-gradual-green {{0==selectedMarkerShowModalTabId?'text-white cur':''}}" 
+         bindtap="markerShowModalTabSelect" data-id="0">
+          <text class="cuIcon-text"></text>　文字信息
+        </view>
+        <view class="cu-item bg-gradual-blue {{1==selectedMarkerShowModalTabId?'text-white cur':''}}" 
+         bindtap="markerShowModalTabSelect" data-id="1">
+          <text class="cuIcon-picfill"></text>　图片信息
+        </view>
+      </scroll-view>
+
+      <!-- 谜题的文字部分，&&markerInputModalShow是为了解决微信的CSS问题 -->
+      <view wx:if="{{selectedMarkerShowModalTabId==0 && markerShowModalShow}}"> 
+        <view class="text-bold text-blue align-center margin-top-sm padding">{{markerForShowModal.text}}</view>
+      </view>
+      <view class="bg-white" wx:elif="selectedMarkerShowModalTabId==1 && markerShowModalShow">
+        <!-- 图片谜题 -->
+        <view class="grid col-3 grid-square padding-sm">
+          <view class="bg-img">　<!--占位--></view>
+
+          <!--预览效果-->
+          <view class="bg-img" bindtap="ViewImage" data-url="{{markerForShowModal.img}}" 
+           wx:if="{{markerForShowModal.img!=='' && markerShowModalShow}}">
+            <!-- <image class="sqare-3" src='{{markerForShowModal.img}}' mode='aspectFill'></image> -->
+            <image src='../../resources/images/oops.png' mode='aspectFill'></image>
+          </view>
+
+          <view>　<!--占位--></view>
+        </view>
+      </view>
     </view>
   </view>
 </view>

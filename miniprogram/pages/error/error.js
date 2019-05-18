@@ -13,6 +13,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.warn(options);
     // 获取错误码，若无错误码默认无错
     if (!options.errorType){
       this.setData({ errorType: app.globalData.ErrorType["_100"] });
@@ -68,6 +69,15 @@ Page({
     // console.log(res)
     // 修改给定权限后跳转回index页面
     this.setData({ errorType: app.globalData.ErrorType["_100"] });
-    console.log(1, this.data.errorType.errorCode);
+    // console.log(1, this.data.errorType.errorCode);
+  },
+
+  /**
+   * 重新登陆
+   */
+  reLogin(){
+    wx.redirectTo({
+      url: '/pages/index/index'
+    });
   }
 })
