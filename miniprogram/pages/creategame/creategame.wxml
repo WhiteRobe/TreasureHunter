@@ -89,17 +89,23 @@
     </view>
     <view class="padding-sm">
       <form>
-        <view class="cu-form-group margin-top-xs">
+        <view class="cu-form-group margin-top-sm">
           <view class="title">埋点名字</view>
           <input placeholder="请输入埋点的名字" value="{{markerForInputModal.name}}" maxlength="10" 
            focus="{{true&&markerInputModalShow}}" bindinput="markerNameInputCallback"></input>
         </view>
         <view class="cu-form-group">
-          <view class="title">经纬度</view>
-          <input placeholder="经纬度" 
-            value="{{markerForInputModal.longitude}}°E,　{{markerForInputModal.latitude}}°N" disabled="{{true}}">
-          </input>
+          <view class="title">前置条件</view>
+          <input placeholder="解锁该点的前置点" disabled="{{true}}" value="{{markerForInputModal.condition}}"></input>
+          <button class="cu-btn bg-green shadow" bindtap='calloutConditionSelectModal'>选择</button>
         </view>
+
+        <!-- <view class="cu-form-group">
+          <view class="title">经纬度</view>
+          <input placeholder="经纬度" disabled="{{true}}"
+           value="{{markerForInputModal.longitude}}°E,　{{markerForInputModal.latitude}}°N">
+          </input>
+        </view> -->
       </form>
       <!-- 谜题信息 -->
       <!-- <view class="cu-bar bg-white margin-top-xs solid-bottom">
@@ -121,13 +127,13 @@
       <!-- 谜题的文字部分，&&markerInputModalShow是为了解决微信的CSS问题 -->
       <view wx:if="{{selectedMarkerInputModalTabId==0 && markerInputModalShow}}">
         <from> 
-          <view class="cu-form-group margin-top">
+          <view class="cu-form-group">
             <textarea maxlength="-1" value="{{markerForInputModal.text}}" placeholder="请输入谜题描述"
              bindinput="markerTextInputCallback"></textarea>
           </view>
         </from>
       </view>
-      <view class="margin-top-xs bg-white" wx:elif="selectedMarkerInputModalTabId==1 && markerInputModalShow">
+      <view class="bg-white" wx:elif="selectedMarkerInputModalTabId==1 && markerInputModalShow">
         <!-- 图片谜题 -->
         <view class="grid col-3 grid-square padding-sm">
           <view class="bg-img">　<!--占位--></view>
@@ -161,6 +167,26 @@
          wx:if="{{markerInputModalShowWithType==='new'}}">取消</button>
         <button class="cu-btn bg-green margin-left" bindtap="onMarkerInputModalConfirm"
          wx:if="{{markerInputModalShowWithType==='new'}}">确认</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 前置条件多选 -->
+<view class="cu-modal bottom-modal {{calloutConditionModalShow?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white">
+      <view class="action text-blue" bindtap="cancelCalloutConditionModal">取消</view>
+      <view class="action text-green" bindtap="comfirmCalloutConditionModal">确定</view>
+    </view>
+    <!-- 选择列表 -->
+    <view class="grid col-3 padding-sm">
+      <view wx:for="{{conditionsCanbeSelect}}" class="padding-xs" wx:key="{{item.name}}">
+
+        <button class="cu-btn orange lg block {{item.checked?'bg-orange':'line-orange'}}" 
+         bindtap="chooseCondition" data-value="{{index}}"> {{item.name}}
+        </button>
+        
       </view>
     </view>
   </view>

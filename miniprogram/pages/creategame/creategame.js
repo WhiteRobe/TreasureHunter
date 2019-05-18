@@ -31,7 +31,9 @@ Page({
     }, // 进行操作的埋点之输入数据 @see cleanMarkerForInputModalValue()
     markerInputModalShow: null, // 进行操作的埋点模态框显示控制标志
     markerInputModalShowWithType: 'new', // 进行操作的模态框类型 ： new | edit
-    selectedMarkerInputModalTabId: 0 // 0 for text; 1 for pictur
+    selectedMarkerInputModalTabId: 0, // 0 for text; 1 for pictur
+    calloutConditionModalShow: false, // 前置头像多选模态框显示控制标志
+    conditionsCanbeSelect: []
   },
 
   /**
@@ -227,7 +229,8 @@ Page({
     // that.addOneMarker(geo);
     let that = this;
     // console.log(this.data.markerForInputModal);
-    // 这里缺个正则检验
+    // 正则检验
+    if (!this.checkMarkerInputModalInput()) return;
     this.setData({
       markerForInputModal: that.data.markerForInputModal,
       markerInputModalShow: false,
@@ -238,7 +241,7 @@ Page({
     let extInfo = {
       text: that.data.markerForInputModal.text,
       img: that.data.markerForInputModal.img,
-      condition: [] // 尚待完善
+      condition: that.data.markerForInputModal.condition
     }
     let marker = factory.buildMarker(this.data.markers.length, this.data.markerForInputModal.name, {
       latitude: that.data.markerForInputModal.latitude,
@@ -273,7 +276,7 @@ Page({
     marker.callout.content = that.data.markerForInputModal.name;
     marker.extend.text = that.data.markerForInputModal.text;
     marker.extend.img = that.data.markerForInputModal.img;
-    marker.extend.condition = [] // 尚待完善;
+    marker.extend.condition = that.data.markerForInputModal.condition;
 
     this.data.markers[markerId] = marker;
 
@@ -319,6 +322,138 @@ Page({
     })
   },
 
+  /**
+   * 呼出前置条件多选框
+   * 包含过滤出可选的点
+   */
+  calloutConditionSelectModal(){
+    var that = this;
+    // 延迟呼出，以给筛选提供时间
+    wx.showToast({
+      title: '载入中',
+      icon: 'loading',
+      mask: true, // 遮罩防止点击穿透
+      duration: 1000
+    });
+    // 过滤出可选选项
+    this.data.conditionsCanbeSelect = [];
+    for(var i=0; i<this.data.markers.length; i++){
+      let marker = this.data.markers[i];
+      // console.log(marker)
+      // console.log(marker.callout.content, this.data.markerForInputModal.name)
+      // console.log(marker.extend.condition, marker.extend.condition.indexOf(marker.callout.content) > -1)
+      // 自身跳过
+      if (marker.callout.content === this.data.markerForInputModal.name ){
+        continue;
+      }
+      // 互锁引用跳过
+      if (marker.extend.condition.indexOf(marker.callout.content)>-1) {
+        continue;
+      }
+      // 避免图循环，简单处理，只可选中在这个点之前设置的点
+      if (i >= this.data.markerForInputModal.id && this.data.markerForInputModal.id!=-1) {
+        break;
+      }
+
+      // 检查是否已被选中
+      let beChecked = this.data.markerForInputModal.condition.indexOf(marker.callout.content)>-1;
+
+      this.data.conditionsCanbeSelect.push({
+        name: marker.callout.content ,
+        checked: beChecked
+      });
+      
+      this.setData({ conditionsCanbeSelect: that.data.conditionsCanbeSelect});
+    }
+    if (this.data.conditionsCanbeSelect.length==0){
+      wx.showToast({
+        title: '无可选前置条件',
+        icon: 'none',
+        duration: 1000
+      });
+    } else {
+      this.setData({ calloutConditionModalShow: true });
+    }
+  },
+
+  cancelCalloutConditionModal(){
+    this.setData({ calloutConditionModalShow: false});
+  },
+
+  comfirmCalloutConditionModal(){
+    this.data.markerForInputModal.condition = [];
+    for (var i = 0; i < this.data.conditionsCanbeSelect.length; i++){
+      let c = this.data.conditionsCanbeSelect[i];
+      if (c.checked){
+        this.data.markerForInputModal.condition.push(c.name);
+      }
+    }
+    let that = this;
+    this.setData({ 
+      calloutConditionModalShow: false ,
+      markerForInputModal: that.data.markerForInputModal
+    });
+  },
+
+  /**
+   * 多选按钮触发
+   */
+  chooseCondition(e){
+    let index = e.currentTarget.dataset.value;
+    let condition = this.data.conditionsCanbeSelect[parseInt(index)];
+    condition.checked = !condition.checked;
+    this.data.conditionsCanbeSelect[parseInt(index)] = condition;
+    let that = this;
+    this.setData({ conditionsCanbeSelect: that.data.conditionsCanbeSelect });
+  },
+
+  /**
+   * 检查MarkerInputModal输入的合法性
+   */
+  checkMarkerInputModalInput(){
+    let errorImg = "../../resources/images/error.png";
+    // 埋点名为空
+    if (this.data.markerForInputModal.name===""){
+      wx.showToast({
+        title: '埋点名不能为空',
+        icon: 'none',
+        image: errorImg,
+        mask: true,
+        duration: 1500
+      });
+      return false;
+    }
+
+    // 谜面与图片至少一个不能为空
+    if (this.data.markerForInputModal.text === "" && this.data.markerForInputModal.img==="") {
+      wx.showToast({
+        title: '请补充谜题或图片',
+        icon: 'none',
+        image: errorImg,
+        mask: true,
+        duration: 1500
+      });
+      return false;
+    }
+
+    // 检查重名性质
+    for(var i=0;i<this.data.markers.length;i++){
+      let marker = this.data.markers[i];
+      if(this.data.markerForInputModal.name === marker.callout.content){
+        // 重名
+        wx.showToast({
+          title: '埋点的名字重复',
+          icon: 'none',
+          image: errorImg,
+          mask: true,
+          duration: 1500
+        });
+        return false;
+      }
+    }
+    return true;
+  },
+
   ChooseImage() {
     let that = this;
     wx.chooseImage({
@@ -355,6 +490,17 @@ Page({
    * 发布游戏 
    */
   publish() {
+    // 一场游戏至少需要两个点
+    if(this.data.markers.length<=1){
+      wx.showToast({
+        title: '发布失败：一场游戏中至少需要两个埋点',
+        icon:'none',
+        duration: 2000,
+        mask: true
+      });
+      return;
+    }
+
     let that = this;
     this.setData({
       buttonDisabled: true,
@@ -400,13 +546,16 @@ Page({
           wx.redirectTo({
             url: '/pages/index/index'
           })
-        }, 10000);
+        }, 5000);
+
+        that.setData({
+          buttonDisabled: true,
+          showMap: true
+        });
       },
       fail(err){
         //console.error(err);
         that.handleError(err);
-      },
-      complete(res){
         that.setData({
           buttonDisabled: false,
           showMap: true
@@ -443,6 +592,12 @@ Page({
       this.setData({
         errorModalShow: true,
         errorMsg: "启动游戏失败：获取地理位置信息超时 QAQ"
+      });
+    }
+    else if (err.errMsg === "timeout") {
+      this.setData({
+        errorModalShow: true,
+        errorMsg: "网络不通畅：请求超时 QAQ"
       });
     }
     else if (err.errMsg.indexOf("FailedOperation.Insert" !== -1) ){
