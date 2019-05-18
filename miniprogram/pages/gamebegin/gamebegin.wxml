@@ -69,3 +69,30 @@
     </view>
   </view>
 </view>
+<!-- N=6位邀请码输入框 -->
+<view class="cu-modal {{gamecodeInputModalShow?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content"><text class="cuIcon-circlefill"></text>　请输入游戏邀请码</view>
+      <view class="action" bindtap="hideGamecodeInputModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+      <view class='code-content'>
+        <!-- 输入框（表格）最多为N位  -->
+        <view class="number-interval {{hiddenInputOnFocus?'get-focus':''}}" catchtap="setHiddenInputOnFocus" style='width:100%;height:90rpx;'>
+          <view class='{{hiddenInputOnFocus?"get-focus-dot-interval":"not-focus-dot-interval"}} {{index==0?"no-border":""}}' wx:for="{{6}}" wx:key="*this">
+            <view wx:if="{{alradyInputLength==index}}" class="{{hiddenInputOnFocus?'cursor':''}}"></view>
+            <view wx:else>{{gamecode[index]}}</view>
+          </view>
+        </view>
+        <!-- 输入框（隐藏）.input-container{height:0} -->
+        <input value="{{tempInputString}}" focus="{{hiddenInputOnFocus}}" maxlength="6"
+         type="number" class='input-container' placeholder=""
+         bindinput="inputGamecodeCallback" bindblur="setHiddenInputNotOnFocus">
+        </input>
+      </view>
+    </view>
+  </view>
+</view>

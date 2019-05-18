@@ -54,6 +54,8 @@ App({
 
 
   globalData: {
+    currentGameroom:null, // 当前游戏的数据
+    myOpenid:"", // 当前玩家的openid
     ColorList: [{
         title: '嫣红',
         name: 'red',
@@ -145,7 +147,7 @@ App({
       },
       "_300": {
         errorCode: "300",
-        errorMsg: "获取OpenId失败"
+        errorMsg: "获取OpenId失败，请退出后重试"
       },
       "_400": {
         errorCode: "400",

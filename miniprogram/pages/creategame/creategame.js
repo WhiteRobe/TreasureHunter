@@ -512,7 +512,7 @@ Page({
       env: 'xdu-treasure-hunter'
     });
     const c_gamerooms = db.collection('c_gamerooms');
-    let gamecode = common.getRamdon4Code(); // 游戏序列码
+    let gamecode = common.getRamdon6NumberCode(); // 游戏序列码
     let starttime = db.serverDate();
     let lasttime = 7; // 目前默认一周
     c_gamerooms.add({

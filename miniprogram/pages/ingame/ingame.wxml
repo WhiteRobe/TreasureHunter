@@ -22,6 +22,7 @@
     longitude="{{game_center.longitude}}"
     latitude="{{game_center.latitude}}"
     scale="17"
+    markers="{{mymarkers}}"
     show-location="{{true}}"
     style="width: 100%; height: {{mapHeight}}px;  display:{{showMap?'block':'none'}}"
     bindtap="mapclicked"

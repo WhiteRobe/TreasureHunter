@@ -1,10 +1,17 @@
 // miniprogram/pages/ingame/ingame.js
+const common = require('../../mod/modules/common.js');
+const app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    createrOpenid:"",
+    myOpenid:"",
+    gamecode:"null",
+    gamemarkers:null,
+    mymarkers:[],
     mapHeight: 0,
     buttonDisabled: false, // 按钮禁用，用于异步调用云函数
     game_center:{
@@ -18,6 +25,9 @@ Page({
     errorMsg: "错误提示信息"
   },
 
+  /**
+   * 玩家背包的展开与收起
+   */
   showPackage(e){
     this.setData({
       packageName: e.currentTarget.dataset.target,
@@ -32,6 +42,9 @@ Page({
     setTimeout(() => { this.setData({ showMap: true });}, 450); // 0.4~0.5秒的抽屉动画之后显示地图
   },
 
+  /**
+   * 尝试挖掘
+   */
   tryDig(){
     this.setData({
       buttonDisabled: true
@@ -64,6 +77,26 @@ Page({
         that.setData({ mapHeight: res.windowHeight - (buttonHeightRPX + bottomHeightRPX + cubarHeightRPX) * rpx2px - statusBarHeight}); 
       }
     });
+
+    // console.log(app.globalData.currentGameroom)
+    // 载入游戏数据
+    this.setData({
+      gamecode: options.gamecode,
+      game_center: {
+        latitude: app.globalData.currentGameroom._geo.latitude,
+        longitude: app.globalData.currentGameroom._geo.longitude
+      },
+      gamemarkers: app.globalData.currentGameroom._markers,
+      createrOpenid: app.globalData.currentGameroom._openid,
+      myOpenid: app.globalData.myOpenid,
+    });
+
+    // 如果是自己创建的房间，直接认为已通关
+    if (this.data.createrOpenid===this.data.myOpenid){
+      this.setData({
+        mymarkers: app.globalData.currentGameroom._markers,
+      });
+    }
   },
 
   /**

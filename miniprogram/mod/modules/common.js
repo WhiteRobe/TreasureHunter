@@ -54,6 +54,27 @@ function getRamdonNCode(N) {
 }
 
 /** 
+ * 获取6位随机数字序列 : [A-Z0-9]
+*/
+function getRamdon6NumberCode(){
+  return getRamdonNNumberCode(6);
+}
+
+/** 
+ * 获取N位随机数字序列 : [A-Z0-9]
+*/
+function getRamdonNNumberCode(N){
+  var codeLength = N;
+  var code = "";
+  var random = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+  for (var i = 0; i < codeLength; i++) {
+    var index = Math.floor(Math.random() * random.length);
+    code += random[index];
+  }
+  return code;
+}
+
+/** 
  * 获取两点间的距离
 */
 function getDistanceBetween2Geo(g1, g2) {
@@ -76,3 +97,5 @@ exports.getLocation = getLocation;
 exports.getRamdon4Code = getRamdon4Code;
 exports.getRamdonNCode = getRamdonNCode;
 exports.getDistanceBetween2Geo = getDistanceBetween2Geo;
+exports.getRamdon6NumberCode = getRamdon6NumberCode;
+exports.getRamdonNNumberCode = getRamdonNNumberCode;

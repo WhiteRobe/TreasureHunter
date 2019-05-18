@@ -1,5 +1,6 @@
 // miniprogram/pages/index/index.js
-
+const common = require('../../mod/modules/common.js');
+const app = getApp();
 Page({
   /**
    * 页面的初始数据
@@ -19,6 +20,9 @@ Page({
         page.setData({ totalSafeHeight: res.windowHeight}); // 设置为全屏显示
       }
     });
+    common.getOpenid().then(res => {
+      app.globalData.myOpenid = res;
+    }).catch(err => page.jumpToError("_300"));
   },
 
   /**

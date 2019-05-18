@@ -1,3 +1,68 @@
 /* pages/start/start.wxss */
 
 
+.number-interval {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  border-left: 1px solid #cfd4d3;
+  /* border:none; */
+}
+
+/* 第一个格子输入框 */
+.code-content .no-border{
+   border-left:none; 
+}
+
+
+/* 支付密码框聚焦的时候 */
+.get-focus {
+  border-color: orange;
+}
+
+.get-focus-dot-interval {
+  flex: 1;
+  border: 1px solid orange;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-focus-dot-interval {
+  flex: 1;
+  border: 1px solid #cfd4d3;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cursor {
+  width: 1px;
+  height: 15px;
+  background-color: orange;
+  animation: focus 0.7s infinite;
+}
+
+/* 光标动画 */
+
+@keyframes focus {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+/* 输入框 */
+.input-container {
+  
+  width: 0;
+  min-height: 0;
+  position: relative;
+  text-indent: -999em;
+  left: -100%;
+}

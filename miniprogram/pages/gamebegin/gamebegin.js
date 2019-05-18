@@ -1,5 +1,6 @@
 // pages/gamebegin/gamebegin
 const common = require('../../mod/modules/common.js');
+const app = getApp();
 Page({
 
   /**
@@ -24,7 +25,11 @@ Page({
     buttonDisabled: false, // 按钮禁用方案
     warnModalShow: null, // 版本过低的警告模态框
     errorModalShow: null, // 错误模态框显示控制标志
-    errorMsg: "错误提示信息"
+    errorMsg: "错误提示信息",
+    gamecodeInputModalShow: null, // 游戏邀请码输入框
+    gamecode:[], // 游戏邀请码
+    alradyInputLength: 0, // 已输入的邀请码长度
+    tempInputString:""
   },
 
   /**
@@ -66,35 +71,101 @@ Page({
   },
 
   /**
+   * 通过邀请码搜寻一场游戏
+   */
+  serachGameByCode(){
+    let that = this;
+    let gamecode = this.data.gamecode.join().replace(/,/g, ''); // 获得邀请码
+    this.setData({
+      gamecodeInputModalShow: null,
+      hiddenInputOnFocus: false,
+      buttonDisabled:true
+    });
+    const db = wx.cloud.database({
+      env: 'xdu-treasure-hunter'
+    });
+    const collection = db.collection('c_gamerooms');
+    collection.where({
+      _gamecode: gamecode
+    }).get()
+    .then(res =>{
+      let gameinfos = res.data;
+      if (gameinfos.length == 0){ // 没有找到游戏
+        that.handleError({ errMsg:"no game founded"});
+      } else {
+        app.globalData.currentGameroom = gameinfos[0]; // 为了避免多次查询，把游戏数据存到本地全局变量中
+        wx.showToast({
+          title: '正在加入游戏',
+          icon: 'loading',
+          mask: true,
+          duration: 500
+        })
+        wx.navigateTo({
+          url: '/pages/ingame/ingame?gamecode=' + gamecode
+        });
+      }
+    })
+    .catch(err =>{
+      console.error(err);
+      that.handleError(err);
+    });
+    this.setData({
+      buttonDisabled: false
+    });
+  },
+
+
+  /**
+   * 绑定游戏邀请码输入框
+   */
+  inputGamecodeCallback(e){
+    let that = this;
+    this.data.gamecode = [];
+    let values = e.detail.value.split('');
+    for (var i = 0; i < values.length; i++) {
+      this.data.gamecode.push(values[i].toUpperCase()); // 自动转为全大写
+    }
+    this.data.alradyInputLength = this.data.gamecode.length;
+    this.setData({
+      gamecode: that.data.gamecode,
+      alradyInputLength: that.data.alradyInputLength
+    });
+    // 输入完6位后自动触发
+    if (this.data.alradyInputLength == 6){
+      setTimeout(() => { that.serachGameByCode();}, 200); // 延迟0.2秒以获得较好的体验
+    }
+  },
+
+  /**
+   * 隐藏的输入框获取焦点
+   */
+  setHiddenInputOnFocus(){
+    this.setData({
+      hiddenInputOnFocus: true
+    });
+  },
+
+  /**
+   * 隐藏的输入框隐藏焦点
+   */
+  setHiddenInputNotOnFocus(){
+    this.setData({
+      hiddenInputOnFocus: false
+    });
+  },
+
+  /**
    * 加入一局游戏
    */
   joinGame: function() {
     this.setData({
-      buttonDisabled: true
+      //buttonDisabled: true,
+      gamecode:[],
+      alradyInputLength:0,
+      gamecodeInputModalShow: true,
+      tempInputString:"",
+      hiddenInputOnFocus: true
     });
-    //获取用户ID
-    // common.getOpenid()
-    //   .then(res => {
-    //     let openid = res;
-    //     console.log(openid);
-    //     common.getLocation()
-    //       .then(res => {
-    //         console.log('纬度', res.latitude, '经度', res.longitude)
-    //         let latitude = res.latitude;
-    //         let longitude = res.longitude;
-    //         console.log('纬度', latitude, '经度', longitude);
-    //         wx.navigateTo({
-    //           url: '/pages/ingame/ingame?openid=' + openid + '&latitude=' + latitude + '&longitude=' + longitude
-    //         })
-    //       })
-    //   })
-    //   .catch(err => {
-    //     this.setData({ buttonDisabled: false });
-    //     console.log(err)
-    //   })
-    wx.navigateTo({
-      url: '/pages/ingame/ingame'
-    })
   },
 
   /**
@@ -103,6 +174,16 @@ Page({
   hideWarnModal() {
     this.setData({
       warnModalShow: null
+    });
+  },
+
+  /**
+   * 隐藏游戏邀请码输入框
+   */
+  hideGamecodeInputModal(){
+    this.setData({
+      gamecodeInputModalShow: null,
+      hiddenInputOnFocus:false
     });
   },
 
@@ -225,6 +306,18 @@ Page({
       this.setData({
         errorModalShow: true,
         errorMsg: "启动游戏失败：获取地理位置信息超时 QAQ"
+      });
+    }
+    else if (err.errMsg.indexOf("connect ETIMEDOUT")>-1) {
+      this.setData({
+        errorModalShow: true,
+        errorMsg: "网络不通畅：获取游戏信息超时，请稍后重试 QAQ"
+      });
+    }
+    else if (err.errMsg === "no game founded"){
+      this.setData({
+        errorModalShow: true,
+        errorMsg: "没有找到相应的游戏 QAQ"
       });
     }
     else {
