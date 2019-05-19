@@ -6,13 +6,20 @@
     <view slot="content">校园探宝·游戏中</view>
   </cu-custom>
 
+  
+  <!-- 游戏创建者的提示框 -->
+  <view class="cu-bar bg-gradual-purple" wx:if="{{createrOpenid===myOpenid}}">
+    <view class="action" bindtap='shareThisGame'>
+      <text class="cuIcon-title text-blue"></text> 您的游戏　[{{gamecode}}]　正在进行中...
+    </view>
+  </view>
   <!-- 提示框 -->
-  <view class="cu-bar bg-white" wx:if="{{!gameWinned}}">
+  <view class="cu-bar" wx:elif="{{!gameWinned}}" style="background-color:#282e39">
     <view class="action">
-      <text class="cuIcon-title text-blue"></text> 我的位置
+      <text class="cuIcon-title text-blue"></text> <text class="text-white">我的位置</text>
     </view>
     <view class="action">
-      <text class="cuIcon-title text-red"></text> 已发现的线索
+      <text class="cuIcon-title text-red"></text> <text class="text-white">已发现的线索</text>
     </view>
   </view>
   <!-- 赢得胜利的提示框 -->
@@ -34,19 +41,21 @@
     bindtap="mapclicked"
     bindmarkertap="markerClicked"
     bindcallouttap="markerClicked"
+    subkey="TQKBZ-NVXWX-PKB4A-TJREZ-UWVO3-7KFM5"
+    layer-style="1"
   ><!--放弃cover-view方案-->
   </map>
   <!-- 由于map组建层级最高会使得动画不连贯，增加一张替代图片用于平滑抽屉动画效果 -->
   <image 
-    src="../../resources/images/map_gause.jpg" 
+    src="../../resources/images/map_gause_darker.jpg" 
     mode="scaleToFill" 
     style="width: 100%; height: {{mapHeight}}px; display:{{!showMap?'block':'none'}}"
   ></image>
 
   <!-- 可操作按钮组 -->
-  <view class="bg-white cu-bar btn-group" style="position:absolute;bottom:5rpx;text-align:center;width:100%;">
-    <button class="bg-gradual-green cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='showGameInfo'
-     wx:if="{{createrOpenid!==myOpenid || gameWinned}}">
+  <view class="cu-bar btn-group" style="position:absolute;bottom:0rpx;text-align:center;width:100%;background-color:#282e39">
+    <button class="bg-green cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='showGameInfo'
+     wx:if="{{createrOpenid===myOpenid || gameWinned}}">
       <text class="cuIcon-infofill"></text>　游戏信息
     </button>
 
@@ -69,8 +78,8 @@
   <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
     <view class="cu-item arrow" wx:for="{{mymarkers}}" wx:key="index">
       <view class="content" bindtap='markerItemClicked' data-id='{{item.id}}'>
-        <text class="cuIcon-send text-grey"></text>
-        <text class="text-grey">{{item.callout.content}}</text>
+        <text class="cuIcon-send text-blue"></text>
+        <text class="text-black text-bold">{{item.callout.content}}</text>
       </view>
     </view>
   </view>
@@ -95,13 +104,13 @@
 <!-- 展示线索 -->
 <view class="cu-modal {{markerShowModalShow?'show':''}}">
   <view class="cu-dialog">
-    <view class="cu-bar bg-white justify-end">
-      <view class="content">线索信息</view>
+    <view class="cu-bar justify-end" style="background-color:#282e39">
+      <view class="content text-white text-bold">线索信息</view>
       <view class="action" bindtap="onMarkerShowModalClose">
         <text class="cuIcon-close text-red"></text>
       </view>
     </view>
-    <view class="padding-sm">
+    <view class="padding-xs">
       <form>
         <view class="cu-form-group">
           <view class="title">埋点名字</view>
@@ -109,7 +118,7 @@
         </view>
         <view class="cu-form-group">
           <view class="title">前置条件</view>
-          <input placeholder="解锁该点的前置点" disabled="{{true}}" value="{{markerForShowModal.condition}}"></input>
+          <input placeholder="无" disabled="{{true}}" value="{{markerForShowModal.condition}}"></input>
         </view>
         <view class="cu-form-group">
           <view class="title">经纬度</view>
@@ -118,12 +127,14 @@
           </input>
         </view>
       </form>
-      <scroll-view scroll-x class="bg-white nav text-center margin-top-xs">
-        <view class="cu-item bg-gradual-green {{0==selectedMarkerShowModalTabId?'text-white cur':''}}" 
+
+      <!-- 导航 -->
+      <scroll-view scroll-x class="nav text-center margin-top-xs" style="background-color:#282e39">
+        <view class="cu-item text-bold text-white {{0==selectedMarkerShowModalTabId?'cur':''}}" 
          bindtap="markerShowModalTabSelect" data-id="0">
           <text class="cuIcon-text"></text>　文字信息
         </view>
-        <view class="cu-item bg-gradual-blue {{1==selectedMarkerShowModalTabId?'text-white cur':''}}" 
+        <view class="cu-item text-bold text-white {{1==selectedMarkerShowModalTabId?'cur':''}}" 
          bindtap="markerShowModalTabSelect" data-id="1">
           <text class="cuIcon-picfill"></text>　图片信息
         </view>
@@ -131,8 +142,11 @@
 
       <!-- 谜题的文字部分，&&markerInputModalShow是为了解决微信的CSS问题 -->
       <view wx:if="{{selectedMarkerShowModalTabId==0 && markerShowModalShow}}"> 
-        <view class="text-bold text-blue align-center margin-top-sm padding">{{markerForShowModal.text}}</view>
+        <view class="text-bold text-black align-center margin-top-sm padding" 
+         wx:if="{{markerForShowModal.text!==''}}">{{markerForShowModal.text}}</view>
+        <view class="text-bold text-orange align-center margin-top-sm padding" wx:else>没有文字谜题</view>
       </view>
+      
 
       <!-- 图片谜题 -->
       <view class="bg-white" wx:elif="selectedMarkerShowModalTabId==1 && markerShowModalShow">
@@ -146,7 +160,7 @@
           <!-- <view class="cu-avatar xl radius padding-top-lg" bindtap="ViewImage"
           style="background-image:url({{markerForShowModal.img}});height:500rpx;width:500rpx;">
           </view> -->
-          <image src="{{markerForShowModal.img}}" bindtap="ViewImage" style="height:500rpx;width:500rpx;" lazy-load="{{true}}"></image>
+          <image src="{{markerForShowModal.img}}" bindtap="ViewImage" style="height:500rpx;width:500rpx;" mode="aspectFill" lazy-load="{{true}}"></image>
         </view>
       </view>
     </view>

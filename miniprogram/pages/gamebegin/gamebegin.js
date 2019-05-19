@@ -28,7 +28,8 @@ Page({
     gamecodeInputModalShow: null, // 游戏邀请码输入框
     gamecode:[], // 游戏邀请码
     alradyInputLength: 0, // 已输入的邀请码长度
-    tempInputString:""
+    tempInputString:"",
+    currentVersion: "v1.0.0" // 当前游戏版本 @See app.js-globalData.currentVersion
   },
 
   /**
@@ -213,6 +214,7 @@ Page({
    */
   onLoad: function(options) {
     let that = this;
+    this.setData({ currentVersion: app.globalData.currentVersion});
     wx.getSystemInfo({
       success: function(res) {
         //console.log('sdk', res.SDKVersion); console.log('version', res.version);

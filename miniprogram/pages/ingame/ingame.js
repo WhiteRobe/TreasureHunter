@@ -10,12 +10,12 @@ Page({
   data: {
     gameWinned: false, // 是否已经赢得胜利
     minLimitDis: 50, // 有效挖掘距离(米)
-    createrOpenid: "",
-    myOpenid: "",
+    createrOpenid: "", // 该场游戏创建者的openid
+    myOpenid: "", // 我的openid
     packageId: "", // 数据库上的索引ID[_id], 用于doc
-     gamecode: "null",
-    gamemarkers: null,
-    mymarkers: [],
+    gamecode: "null", // 本场游戏的邀请码
+    gamemarkers: null, // 本场游戏的埋点本地缓存
+    mymarkers: [], // 已找到的埋点的本地缓存
     mapHeight: 0,
     buttonDisabled: false, // 按钮禁用，用于异步调用云函数
     game_center:{
@@ -311,7 +311,7 @@ Page({
         
         let cubarHeightRPX = 100;
         let buttonHeightRPX = 80 + 20; // 按钮lg 80rpx + .btn-group padding 20rpx
-        let bottomHeightRPX = 5; // 距离底部10rpx
+        let bottomHeightRPX = 0; // 距离底部10rpx
         let rpx2px = res.screenWidth / 750.0;
 
         that.setData({ mapHeight: res.windowHeight - (buttonHeightRPX + bottomHeightRPX + cubarHeightRPX) * rpx2px - statusBarHeight});
@@ -331,14 +331,15 @@ Page({
       myOpenid: app.globalData.myOpenid,
     });
 
-    wx.showLoading({ title: '获取数据中', mask: true }); // 载入数据前的遮罩框
     // 初始化地图上可标注的点(已拥有的线索)
-    //if (this.data.createrOpenid===this.data.myOpenid){ // 暂时注释
-    if (false) {// 如果是自己创建的房间，直接认为已通关
+    if (this.data.createrOpenid===this.data.myOpenid){
+    // if (false) {
+      // 如果是自己创建的房间，直接认为已通关
       this.setData({
         mymarkers: app.globalData.currentGameroom._markers,
       });
     } else { // 否则初始化背包项目
+      wx.showLoading({ title: '获取数据中', mask: true }); // 载入数据前的遮罩框
       const db = wx.cloud.database({
         env: app.globalData.database_env
       });
@@ -453,10 +454,20 @@ Page({
       success: res => {
         if (res.confirm) { // 点击确认将复制邀请码
           wx.setClipboardData({
-            data: factory.buildShareText(that.data.gamecode)
-          })
+            data: factory.buildShareGameText(that.data.gamecode)
+          });
         }
       }
+    });
+  },
+
+  /**
+   * 分享本场游戏(非房主)
+   */
+  shareThisGame(){
+    let that = this;
+    wx.setClipboardData({
+      data: factory.buildShareText(that.data.gamecode)
     });
   },
 

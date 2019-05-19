@@ -4,18 +4,18 @@
   <view slot="content">校园探宝·创建游戏</view>
 </cu-custom>
 
-<view class="cu-bar bg-white">
+<view class="cu-bar" style="background-color:#282e39">
     <view class="action">
-      <text class="cuIcon-title text-blue"></text> 我的位置
+      <text class="cuIcon-title text-blue"></text> <text class="text-white">我的位置</text>
     </view>
     <view class="action">
-      <text class="cuIcon-title text-red"></text> 已设置的点位
+      <text class="cuIcon-title text-red"></text> <text class="text-white">已设置的点位</text>
     </view>
   </view>
 
 <!-- 游戏主地图 -->
 <map
-  id="ingame_map"
+  id="creategame_map"
   longitude="{{game_center.longitude}}"
   latitude="{{game_center.latitude}}"
   scale="17"
@@ -24,17 +24,19 @@
   style="width: 100%; height: {{mapHeight}}px; display:{{showMap?'block':'none'}}"
   bindmarkertap="markerClicked"
   bindcallouttap="markerClicked"
+  subkey="TQKBZ-NVXWX-PKB4A-TJREZ-UWVO3-7KFM5"
+  layer-style="1"
 ><!--放弃cover-view方案-->
 </map>
  <image 
-  src="../../resources/images/map_gause.jpg" 
+  src="../../resources/images/map_gause_darker.jpg" 
   mode="scaleToFill" 
   style="width: 100%; height: {{mapHeight}}px; display:{{!showMap?'block':'none'}}"
 ></image>
 
 
 <!-- 可操作按钮组 -->
-<view class="bg-white cu-bar btn-group" style="position:absolute;bottom:5rpx;text-align:center;width:100%;">
+<view class="cu-bar btn-group" style="position:absolute;bottom:0rpx;text-align:center;width:100%;background-color:#282e39">
   <button class="bg-gradual-green cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='setPoint'>
     <text class="cuIcon-down"></text>　设置埋点
   </button>
@@ -73,7 +75,7 @@
       <view class="margin-tb-xs">1. 您所设置的第一个点默认为【起点】。</view>
       <view class="margin-tb-xs">2. 您设置的最后一个点默认为【终点】。</view>
       <view class="margin-tb-xs solids-bottom padding-bottom-xs">3. 设置游戏时请留心周遭交通情况，保证自己的生命财产安全。^_^</view>
-      <view class="text-blue solids-bottom padding-bottom-xs margin-tb-xs">4. 为了保证您所设计的游戏能够被通关，您需要自行移动到每个【藏谜点】处进行埋点，以保证该点位是玩家能够到达的点。</view>
+      <view class="solids-bottom padding-bottom-xs margin-tb-xs">4. 为了保证您所设计的游戏能够被通关，您需要自行移动到每个【藏谜点】处进行埋点，以保证该点位是玩家能够到达的点。</view>
       <view class="text-red text-bold margin-tb-xs">*5. 请在游戏发布前不要退出小程序以避免丢失数据，同时请在信号良好的情况下进行游戏。</view>
     </view>
   </view>
@@ -82,15 +84,15 @@
 <!-- Marker Input Modal -->
 <view class="cu-modal {{markerInputModalShow?'show':''}}">
   <view class="cu-dialog">
-    <view class="cu-bar bg-white justify-end">
-      <view class="content">埋点信息</view>
+    <view class="cu-bar justify-end" style="background-color:#282e39">
+      <view class="content text-white text-bold">埋点信息</view>
       <view class="action" bindtap="onMarkerInputModalCancel">
         <text class="cuIcon-close text-red"></text>
       </view>
     </view>
-    <view class="padding-sm">
+    <view class="padding-xs">
       <form>
-        <view class="cu-form-group margin-top-sm">
+        <view class="cu-form-group">
           <view class="title">埋点名字</view>
           <input placeholder="请输入埋点的名字" value="{{markerForInputModal.name}}" maxlength="10" 
            focus="{{true&&markerInputModalShow}}" bindinput="markerNameInputCallback"></input>
@@ -98,7 +100,7 @@
         <view class="cu-form-group">
           <view class="title">前置条件</view>
           <input placeholder="解锁该点的前置点" disabled="{{true}}" value="{{markerForInputModal.condition}}"></input>
-          <button class="cu-btn bg-green shadow" bindtap='calloutConditionSelectModal'>选择</button>
+          <button class="cu-btn bg-orange shadow" bindtap='calloutConditionSelectModal'>选择</button>
         </view>
 
         <!-- <view class="cu-form-group">
@@ -114,12 +116,12 @@
           <text class="cuIcon-title text-orange"></text> 谜题信息
         </view>
       </view> -->
-      <scroll-view scroll-x class="bg-white nav text-center margin-top-xs">
-        <view class="cu-item bg-gradual-green {{0==selectedMarkerInputModalTabId?'text-white cur':''}}" 
+      <scroll-view scroll-x class="nav text-center margin-top-xs" style="background-color:#282e39">
+        <view class="cu-item text-bold text-white {{0==selectedMarkerInputModalTabId?'cur':''}}" 
          bindtap="markerInputModalTabSelect" data-id="0">
           <text class="cuIcon-text"></text>　文字信息
         </view>
-        <view class="cu-item bg-gradual-blue {{1==selectedMarkerInputModalTabId?'text-white cur':''}}" 
+        <view class="cu-item text-bold text-white {{1==selectedMarkerInputModalTabId?'cur':''}}" 
          bindtap="markerInputModalTabSelect" data-id="1">
           <text class="cuIcon-picfill"></text>　图片信息
         </view>
@@ -189,7 +191,7 @@
   <view class="cu-dialog">
     <view class="cu-bar bg-white">
       <view class="action text-blue" bindtap="cancelCalloutConditionModal">取消</view>
-      <view class="action text-green" bindtap="comfirmCalloutConditionModal">确定</view>
+      <view class="action text-green " bindtap="comfirmCalloutConditionModal">确定</view>
     </view>
     <!-- 选择列表 -->
     <view class="grid col-3 padding-sm">

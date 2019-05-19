@@ -54,6 +54,7 @@ App({
 
 
   globalData: {
+    currentVersion: "1.0.0", // 当前游戏版本
     currentGameroom:null, // 当前游戏的数据
     myOpenid:"", // 当前玩家的openid
     database_env:'xdu-treasure-hunter', // 生产环境的数据库环境

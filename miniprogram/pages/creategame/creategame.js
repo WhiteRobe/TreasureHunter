@@ -71,7 +71,7 @@ Page({
         let statusBarHeight = custom.bottom + custom.top - res.statusBarHeight;
         let cubarHeightRPX = 100;
         let buttonHeightRPX = 80 + 20; // 按钮lg 80rpx + .btn-group padding 20rpx
-        let bottomHeightRPX = 5; // 距离底部10rpx
+        let bottomHeightRPX = 0; // 距离底部10rpx
         let rpx2px = res.screenWidth / 750.0;
         that.setData({
           mapHeight: res.windowHeight - (buttonHeightRPX + bottomHeightRPX + cubarHeightRPX) * rpx2px - statusBarHeight
@@ -239,42 +239,57 @@ Page({
       showMap: true,
       selectedMarkerInputModalTabId: 0
     });
+    if(this.data.markerForInputModal.img !== ''){
+      // 上传文件
+      wx.showLoading({ title: '上传图片中', mask: true });
+      let localFilePath = that.data.markerForInputModal.img;
+      const cloudPath = new Date().format("yyyy_MM_dd-") + md5.hexMD5(localFilePath) + localFilePath.match(/\.[^.]+?$/)[0];
+      wx.cloud.uploadFile({
+        cloudPath: cloudPath,
+        filePath: localFilePath,
+        config: { env: app.globalData.database_env },
+        success: res => {
+          // console.log("添加新点", res);
 
-    // 上传文件
-    wx.showLoading({ title: '上传图片中', mask:true});
-    let localFilePath = that.data.markerForInputModal.img;
-    const cloudPath = new Date().format("yyyy_MM_dd-") + md5.hexMD5(localFilePath) + localFilePath.match(/\.[^.]+?$/)[0];
-    wx.cloud.uploadFile({
-      cloudPath: cloudPath,
-      filePath: localFilePath,
-      config:{ env: app.globalData.database_env },
-      success: res => {
-        // console.log("添加新点", res);
-
-        // 向数据中添加新点
-        let extInfo = {
-          text: that.data.markerForInputModal.text,
-          img: that.data.markerForInputModal.img,
-          imgId: res.fileID, // 更新为云文件ID
-          condition: that.data.markerForInputModal.condition
+          // 向数据中添加新点
+          let extInfo = {
+            text: that.data.markerForInputModal.text,
+            img: that.data.markerForInputModal.img,
+            imgId: res.fileID, // 更新为云文件ID
+            condition: that.data.markerForInputModal.condition
+          }
+          let marker = factory.buildMarker(this.data.markers.length, this.data.markerForInputModal.name, {
+            latitude: that.data.markerForInputModal.latitude,
+            longitude: that.data.markerForInputModal.longitude
+          }, extInfo);
+          // console.log("添加新点", marker);
+          that.addOneMarker(marker);
+          that.cleanMarkerForInputModalValue();
+        },
+        fail: err => {
+          console.error(err);
+          that.handleError(err);
+        },
+        complete: res => {
+          wx.hideLoading();
         }
-        let marker = factory.buildMarker(this.data.markers.length, this.data.markerForInputModal.name, {
-          latitude: that.data.markerForInputModal.latitude,
-          longitude: that.data.markerForInputModal.longitude
-        }, extInfo);
-        // console.log("添加新点", marker);
-        that.addOneMarker(marker);
-        that.cleanMarkerForInputModalValue();
-      },
-      fail: err => {
-        console.error(err);
-        that.handleError(err);
-      },
-      complete: res => {
-        wx.hideLoading();
+      });
+    } else {
+      // 向数据中添加新点
+      let extInfo = {
+        text: that.data.markerForInputModal.text,
+        img: that.data.markerForInputModal.img,
+        imgId: '', // 无图片时为空
+        condition: that.data.markerForInputModal.condition
       }
-    });
-
+      let marker = factory.buildMarker(this.data.markers.length, this.data.markerForInputModal.name, {
+        latitude: that.data.markerForInputModal.latitude,
+        longitude: that.data.markerForInputModal.longitude
+      }, extInfo);
+      // console.log("添加新点", marker);
+      that.addOneMarker(marker);
+      that.cleanMarkerForInputModalValue();
+    }
   },
 
   onMarkerInputModalDelete() {
@@ -303,49 +318,73 @@ Page({
     let that = this;
     let markerId = this.data.markerForInputModal.id;
     let marker = this.data.markers[markerId]; // 当前修改的点
-    wx.showLoading({ title: '上传文件中', masek: true }); 
-    let localFilePath = this.data.markerForInputModal.img;
-    const cloudPath = new Date().format("yyyy_MM_dd-") + md5.hexMD5(localFilePath) + localFilePath.match(/\.[^.]+?$/)[0];
-    wx.cloud.uploadFile({
-      cloudPath: cloudPath,
-      filePath: localFilePath,
-      config: { env: app.globalData.database_env },
-      success: res => {
-        let newId = res.fileID;
-        // 删除原本的文件
-        // console.log("修改后的", res);
-        wx.cloud.deleteFile({ 
-          fileList: [marker.extend.imgId],
-          config: { env: app.globalData.database_env },
-          complete: res => {
-            // 能够进行修改的项
-            marker.callout.content = that.data.markerForInputModal.name;
-            marker.extend.text = that.data.markerForInputModal.text;
-            marker.extend.img = that.data.markerForInputModal.img;
-            marker.extend.imgId = newId;
-            marker.extend.condition = that.data.markerForInputModal.condition;
 
-            that.data.markers[markerId] = marker;
-            // console.log("修改后的", marker);
-            // 修改数据
-            that.setData({
-              markers: that.data.markers,
-              markerForInputModal: that.data.markerForInputModal,
-              markerInputModalShow: false,
-              showMap: true,
-              selectedMarkerInputModalTabId: 0
-            });
-            
-            that.cleanMarkerForInputModalValue();
-          }
-        });
-      },
-      fail: err => {
-        console.error("修改埋点:上传文件错误", err);
-        thar.handleError(err);
-      },
-      complete: res => wx.hideLoading()
-    });
+    if (this.data.markerForInputModal.img!==''){
+      wx.showLoading({ title: '上传文件中', masek: true });
+      let localFilePath = this.data.markerForInputModal.img;
+      const cloudPath = new Date().format("yyyy_MM_dd-") + md5.hexMD5(localFilePath) + localFilePath.match(/\.[^.]+?$/)[0];
+      wx.cloud.uploadFile({
+        cloudPath: cloudPath,
+        filePath: localFilePath,
+        config: { env: app.globalData.database_env },
+        success: res => {
+          let newId = res.fileID;
+          // 删除原本的文件
+          // console.log("修改后的", res);
+          wx.cloud.deleteFile({
+            fileList: [marker.extend.imgId],
+            config: { env: app.globalData.database_env },
+            complete: res => {
+              // 能够进行修改的项
+              marker.callout.content = that.data.markerForInputModal.name;
+              marker.extend.text = that.data.markerForInputModal.text;
+              marker.extend.img = that.data.markerForInputModal.img;
+              marker.extend.imgId = newId;
+              marker.extend.condition = that.data.markerForInputModal.condition;
+
+              that.data.markers[markerId] = marker;
+              // console.log("修改后的", marker);
+              // 修改数据
+              that.setData({
+                markers: that.data.markers,
+                markerForInputModal: that.data.markerForInputModal,
+                markerInputModalShow: false,
+                showMap: true,
+                selectedMarkerInputModalTabId: 0
+              });
+
+              that.cleanMarkerForInputModalValue();
+            }
+          });
+        },
+        fail: err => {
+          console.error("修改埋点:上传文件错误", err);
+          thar.handleError(err);
+        },
+        complete: res => wx.hideLoading()
+      });
+    } else {
+      // 能够进行修改的项
+      marker.callout.content = that.data.markerForInputModal.name;
+      marker.extend.text = that.data.markerForInputModal.text;
+      marker.extend.img = that.data.markerForInputModal.img;
+      marker.extend.imgId = ''; // 无图时改为无图
+      marker.extend.condition = that.data.markerForInputModal.condition;
+
+      that.data.markers[markerId] = marker;
+      // console.log("修改后的", marker);
+      // 修改数据
+      that.setData({
+        markers: that.data.markers,
+        markerForInputModal: that.data.markerForInputModal,
+        markerInputModalShow: false,
+        showMap: true,
+        selectedMarkerInputModalTabId: 0
+      });
+
+      that.cleanMarkerForInputModalValue();
+    }
+    
   },
 
   /**
