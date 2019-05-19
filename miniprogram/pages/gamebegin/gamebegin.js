@@ -10,15 +10,11 @@ Page({
     swiperList: [{
       id: 0,
       type: 'image',
-      url: '../../resources/images/help1.png'
+      url: '../../resources/images/help1.jpg'
     }, {
       id: 1,
       type: 'image',
-      url: '../../resources/images/help2.png'
-    }, {
-      id: 2,
-      type: 'image',
-      url: '../../resources/images/help3.png'
+      url: '../../resources/images/help2.jpg'
     }],
     toggleDelay: false, // 按钮上浮动画效果的延迟控制标志
     buttonDisabled: false, // 按钮禁用方案

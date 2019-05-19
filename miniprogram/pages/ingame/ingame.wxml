@@ -144,7 +144,7 @@
       <view wx:if="{{selectedMarkerShowModalTabId==0 && markerShowModalShow}}"> 
         <view class="text-bold text-black align-center margin-top-sm padding" 
          wx:if="{{markerForShowModal.text!==''}}">{{markerForShowModal.text}}</view>
-        <view class="text-bold text-orange align-center margin-top-sm padding" wx:else>没有文字谜题</view>
+        <view class="text-bold text-grey align-center margin-top-sm padding" wx:else>没有文字谜题</view>
       </view>
       
 
@@ -152,7 +152,7 @@
       <view class="bg-white" wx:elif="selectedMarkerShowModalTabId==1 && markerShowModalShow">
         <!-- 没有图片谜题时的内容 -->
         <view class="padding" wx:if="{{markerForShowModal.img==='' && markerShowModalShow}}">
-          <view class="text-bold text-orange align-center margin-top-sm padding">没有图片谜题</view>
+          <view class="text-bold text-grey align-center margin-top-sm padding">没有图片谜题</view>
         </view>
 
         <!--预览效果-->

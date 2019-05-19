@@ -2003,7 +2003,7 @@ button.icon.lg {
 }
 
 .nav .cu-item.cur {
-	border-bottom: 4rpx solid;
+	border-bottom: 8rpx solid;
 }
 
 /* ==================
