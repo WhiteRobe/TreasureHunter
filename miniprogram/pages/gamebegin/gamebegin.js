@@ -308,6 +308,12 @@ Page({
         errorMsg: "启动游戏失败：获取地理位置信息超时 QAQ"
       });
     }
+    else if (err.errMsg.indexOf("getLocation:fail")>-1) {
+      this.setData({
+        errorModalShow: true,
+        errorMsg: "启动游戏失败：请保证您的地理信息能够被获取"
+      });
+    }
     else if (err.errMsg.indexOf("connect ETIMEDOUT")>-1) {
       this.setData({
         errorModalShow: true,

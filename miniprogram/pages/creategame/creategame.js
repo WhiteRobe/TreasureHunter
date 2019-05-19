@@ -296,7 +296,17 @@ Page({
     // 移除一个点
     let markerId = this.data.markerForInputModal.id; // 移除点的索引
     let imgIdToRemove = this.data.markers[markerId].extend.imgId;
+    let nameToRemove = this.data.markers[markerId].callout.content;
     this.removeOneMarker(markerId);
+
+    // 移除所有约束(前置)条件 // 此时已将自身移除
+    for(var i=0; i<this.data.markers.length; i++){
+      let m = this.data.markers[i];
+      let foundIndex = m.extend.condition.indexOf(nameToRemove);
+      if (foundIndex>-1){
+        m.extend.condition.splice(foundIndex,1);
+      }
+    }
 
     this.cleanMarkerForInputModalValue();
     let that = this;

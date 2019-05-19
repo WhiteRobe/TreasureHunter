@@ -25,7 +25,7 @@
   <!-- 赢得胜利的提示框 -->
   <view class="cu-bar bg-gradual-orange" wx:else>
     <view class="action" bindtap='copyTongGuanMa'>
-      <text class="cuIcon-title text-blue"></text> 你已经获得了所有线索！证明码：[{{myOpenid}}]
+      <text class="cuIcon-title text-yellow"></text> 你已经获得了所有线索！证明码：[{{myOpenid}}]
     </view>
   </view>
 
@@ -54,16 +54,16 @@
 
   <!-- 可操作按钮组 -->
   <view class="cu-bar btn-group" style="position:absolute;bottom:0rpx;text-align:center;width:100%;background-color:#282e39">
-    <button class="bg-green cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='showGameInfo'
+    <button class="bg-cyan cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='showGameInfo'
      wx:if="{{createrOpenid===myOpenid || gameWinned}}">
       <text class="cuIcon-infofill"></text>　游戏信息
     </button>
 
-    <button class="bg-gradual-green cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='tryDig' wx:else>
+    <button class="bg-cyan cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='tryDig' wx:else>
       <text class="cuIcon-repairfill"></text>　尝试挖掘
     </button>
     
-    <button class="bg-gradual-blue cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap="showPackage" data-target="package">
+    <button class="bg-blue cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap="showPackage" data-target="package">
       <text class="cuIcon-list"></text>　我的线索
     </button>
   </view>
@@ -123,7 +123,7 @@
         <view class="cu-form-group">
           <view class="title">经纬度</view>
           <input placeholder="经纬度" disabled="{{true}}"
-           value="{{markerForShowModal.longitude}}°E,　{{markerForShowModal.latitude}}°N">
+           value="{{markerForShowModal.longitude_cut}}°E,　{{markerForShowModal.latitude_cut}}°N">
           </input>
         </view>
       </form>

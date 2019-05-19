@@ -6,7 +6,7 @@
 <!-- 游戏玩法轮播框 -->
 <view class="cu-bar bg-white">
   <view class="action">
-    <text class="cuIcon-title text-cyan"></text> 玩法简介
+    <text class="cuIcon-title text-blue"></text> 玩法简介
   </view>
 </view>
 <swiper class="screen-swiper square-dot" indicator-dots="true" circular="true" 
@@ -18,7 +18,7 @@
 
 <!-- 带上浮特效的lazy按钮组 -->
 <view class="padding-sm margin-top-sm flex flex-direction">
-  <button class="bg-green cu-btn {{toggleDelay?'animation-slide-bottom':''}} margin-top-xs shadow lg" disabled="{{buttonDisabled}}"
+  <button class="bg-cyan cu-btn {{toggleDelay?'animation-slide-bottom':''}} margin-top-xs shadow lg" disabled="{{buttonDisabled}}"
    style="animation-delay: 0.8s;" wx:if="{{toggleDelay}}" bindtap='joinGame'>
     <text class="cuIcon-search"></text>　加入游戏
   </button>

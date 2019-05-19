@@ -33,6 +33,8 @@ Page({
       name: "",
       longitude: "",
       latitude: "",
+      longitude_cut: "",
+      latitude_cut: "",
       text: "",
       img: "",
       condition: []
@@ -103,7 +105,7 @@ Page({
           console.log("找到一个可供挖掘的点", markerToDig);
           // 更新 我的线索
           that.data.mymarkers.push(markerToDig);
-          wx.showLoading({title: '服务器同步中', mask:true});
+          //wx.showLoading({title: '服务器同步中', mask:true});
           // 更新数据库
           const db = wx.cloud.database({
             env: app.globalData.database_env
@@ -136,7 +138,7 @@ Page({
             },
             complete: res => {
               console.log(res);
-              wx.hideLoading();
+              //wx.hideLoading();
               that.setData({ // 确认本地的背包状态
                 mymarkers: that.data.mymarkers
               });
@@ -250,6 +252,8 @@ Page({
     this.data.markerForShowModal.name = marker.callout.content;
     this.data.markerForShowModal.longitude = marker.longitude;
     this.data.markerForShowModal.latitude = marker.latitude;
+    this.data.markerForShowModal.longitude_cut = marker.longitude.toFixed(4);
+    this.data.markerForShowModal.latitude_cut = marker.latitude.toFixed(4);
     this.data.markerForShowModal.text = marker.extend.text;
     this.data.markerForShowModal.img = marker.extend.imgId;
     this.data.markerForShowModal.condition = marker.extend.condition;
