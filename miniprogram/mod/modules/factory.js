@@ -50,4 +50,14 @@ function buildMarker(martker_id, marker_name, geo, ext_info) {
   };
 }
 
+function buildShareText(gamecode){
+  return "我在微信小程序【校园探宝】，创建了一场户外解谜游戏，游戏邀请码【" + gamecode + "】，快来加入吧！"
+}
+
+function buildTongGuanMa(code, gamecode) {
+  return "我在微信小程序【校园探宝】，户外解谜游戏【"+gamecode+"】中获胜，通关证明码[" + code + "]！"
+}
+
 module.exports.buildMarker = buildMarker;
+module.exports.buildShareText = buildShareText;
+module.exports.buildTongGuanMa = buildTongGuanMa;

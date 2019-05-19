@@ -38,6 +38,20 @@
           "Order": "ASC"
         }
       ]
+    },
+    {
+      "Name": "_gamecode_openid_",
+      "Unique": true,
+      "OnField": [
+        {
+          "Key": "_openid",
+          "Order": "ASC"
+        },
+        {
+          "Key": "_gamecode",
+          "Order": "ASC"
+        }
+      ]
     }
   ],
   "Auth": "670" 

@@ -1,6 +1,7 @@
 // miniprogram/pages/creategame/creategame.js
 const common = require('../../mod/modules/common.js');
 const factory = require('../../mod/modules/factory.js');
+const app = getApp();
 Page({
 
   /**
@@ -68,7 +69,7 @@ Page({
         let custom = wx.getMenuButtonBoundingClientRect();
         let statusBarHeight = custom.bottom + custom.top - res.statusBarHeight;
         let cubarHeightRPX = 100;
-        let buttonHeightRPX = 80; // 按钮lg 80rpx + padding 40rpx
+        let buttonHeightRPX = 80 + 20; // 按钮lg 80rpx + .btn-group padding 20rpx
         let bottomHeightRPX = 5; // 距离底部10rpx
         let rpx2px = res.screenWidth / 750.0;
         that.setData({
@@ -509,7 +510,7 @@ Page({
 
     // 从小程序端直接插入数据库
     const db = wx.cloud.database({
-      env: 'xdu-treasure-hunter'
+      env: app.globalData.database_env
     });
     const c_gamerooms = db.collection('c_gamerooms');
     let gamecode = common.getRamdon6NumberCode(); // 游戏序列码
@@ -536,7 +537,7 @@ Page({
           complete:()=>{
             // 设置剪贴板消息
             wx.setClipboardData({
-              data: "我在微信小程序【校园探宝】，创建了一场户外解谜游戏，游戏邀请码【" + gamecode + "】，快来加入吧！"
+              data: factory.buildShareText(gamecode)
             });
           }
         });
@@ -545,13 +546,12 @@ Page({
         setTimeout(() => {
           wx.redirectTo({
             url: '/pages/index/index'
-          })
+          });
+          that.setData({
+            buttonDisabled: true,
+            showMap: true
+          });
         }, 5000);
-
-        that.setData({
-          buttonDisabled: true,
-          showMap: true
-        });
       },
       fail(err){
         //console.error(err);

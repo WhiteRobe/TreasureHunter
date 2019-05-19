@@ -7,7 +7,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imageAddress: '../../resources/images/bg.jpg',
     swiperList: [{
       id: 0,
       type: 'image',
@@ -82,7 +81,7 @@ Page({
       buttonDisabled:true
     });
     const db = wx.cloud.database({
-      env: 'xdu-treasure-hunter'
+      env: app.globalData.database_env
     });
     const collection = db.collection('c_gamerooms');
     collection.where({

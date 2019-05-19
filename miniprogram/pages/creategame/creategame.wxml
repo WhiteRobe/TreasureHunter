@@ -34,12 +34,12 @@
 
 
 <!-- 可操作按钮组 -->
-<view class="bg-white" style="position:absolute;bottom:5rpx;text-align:center;width:100%;">
-  <button class="bg-gradual-green cu-btn margin-lr-sm shadow lg" disabled="{{buttonDisabled}}" bindtap='setPoint'>
+<view class="bg-white cu-bar btn-group" style="position:absolute;bottom:5rpx;text-align:center;width:100%;">
+  <button class="bg-gradual-green cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='setPoint'>
     <text class="cuIcon-down"></text>　设置埋点
   </button>
   
-  <button class="bg-gradual-blue cu-btn margin-lr-sm shadow lg" disabled="{{buttonDisabled}}" bindtap="publish" data-target="package">
+  <button class="bg-gradual-blue cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap="publish" data-target="package">
     <text class="cuIcon-discoverfill"></text>　发布游戏
   </button>
 </view>
@@ -72,8 +72,9 @@
     <view class="padding-xs">
       <view class="margin-tb-xs">1. 您所设置的第一个点默认为【起点】。</view>
       <view class="margin-tb-xs">2. 您设置的最后一个点默认为【终点】。</view>
-      <view class="margin-tb-xs solids-bottom padding-bottom-xs">3. 请留心周遭交通情况，保证生命财产安全。^_^</view>
+      <view class="margin-tb-xs solids-bottom padding-bottom-xs">3. 请留心周遭交通情况，保证自己的生命财产安全。^_^</view>
       <view class="text-blue margin-tb-xs">4. 为了保证您所设计的游戏能够被通关，您需要自行移动到每个【藏迷点】处进行埋点，以保证该点位是玩家能够到达的点。</view>
+      <view class="text-red text-bold margin-tb-xs">*5. 请在游戏发布前不要退出小程序以避免丢失数据。</view>
     </view>
   </view>
 </view>

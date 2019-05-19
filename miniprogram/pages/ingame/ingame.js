@@ -1,5 +1,6 @@
 // miniprogram/pages/ingame/ingame.js
 const common = require('../../mod/modules/common.js');
+const factory = require('../../mod/modules/factory.js');
 const app = getApp();
 Page({
 
@@ -7,12 +8,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    minLimitDis: 25, // 有效挖掘距离(米)
-    createrOpenid:"",
-    myOpenid:"",
-    gamecode:"null",
-    gamemarkers:null,
-    mymarkers:[],
+    gameWinned: false, // 是否已经赢得胜利
+    minLimitDis: 50, // 有效挖掘距离(米)
+    createrOpenid: "",
+    myOpenid: "",
+    packageId: "", // 数据库上的索引ID[_id], 用于doc
+     gamecode: "null",
+    gamemarkers: null,
+    mymarkers: [],
     mapHeight: 0,
     buttonDisabled: false, // 按钮禁用，用于异步调用云函数
     game_center:{
@@ -68,6 +71,14 @@ Page({
     setTimeout(() => { this.setData({ showMap: true });}, 450); // 0.4~0.5秒的抽屉动画之后显示地图
   },
 
+  // 拷贝通关证明码
+  copyTongGuanMa(){
+    let that = this;
+    wx.setClipboardData({
+      data: factory.buildTongGuanMa(that.data.myOpenid, that.data.gamecode)
+    });
+  },
+
   /**
    * 尝试挖掘
    */
@@ -92,15 +103,44 @@ Page({
           console.log("找到一个可供挖掘的点", markerToDig);
           // 更新 我的线索
           that.data.mymarkers.push(markerToDig);
-          that.setData({
-            mymarkers: that.data.mymarkers
+          wx.showLoading({title: '服务器同步中'});
+          // 更新数据库
+          const db = wx.cloud.database({
+            env: app.globalData.database_env
           });
-          wx.showToast({
-            title: '获得新的线索',
-            icon: 'none',
-            image: "../../resources/images/find_treasure.png",
-            mask: true,
-            duration: 2500 // 2.5秒冷却以限制挖掘频率
+          const collection = db.collection('c_packages');
+          collection.doc(that.data.packageId).set({
+            data:{
+              _gamecode: that.data.gamecode,
+              _package: that.data.mymarkers
+            },
+            success: res => {
+              console.log("发送背包信息到数据库", res);
+              let isAddNewData = res.stats.created > 0;
+              wx.showToast({
+                title: '获得新的线索',
+                icon: 'none',
+                image: "../../resources/images/find_treasure.png",
+                mask: true,
+                duration: 2500 // 2.5秒冷却以限制挖掘频率
+              });
+              // 判断是否赢得胜利
+              if (that.judgeIsWin()) { // 如果挖到了最后一个点
+                that.setData({ gameWinned: true });
+              }
+            },
+            fail: err => {
+              console.error(err)
+              that.data.mymarkers.pop(); // 数据库写入失败 本地移除该点
+              that.handleError(err);
+            },
+            complete: res => {
+              console.log(res);
+              wx.hideLoading();
+              that.setData({ // 确认本地的背包状态
+                mymarkers: that.data.mymarkers
+              });
+            }
           });
         } else {
           // 没有发现任何可用线索
@@ -125,6 +165,20 @@ Page({
     });
   },
 
+
+  /**
+   * 判断是否取得胜利
+   */
+  judgeIsWin(){
+    let lastOneMarker = this.data.gamemarkers[this.data.gamemarkers.length - 1];
+    for (var i = 0; i < this.data.mymarkers.length; i++){
+      if (this.data.mymarkers[i].callout.content === lastOneMarker.callout.content){
+        return true;
+      }
+    }
+    return false;
+  },
+
   /**
    * 找到最近的可挖掘点，返回一个marker
    */
@@ -133,15 +187,22 @@ Page({
       let marker = this.data.gamemarkers[i]; // 当前尝试挖掘的点
       let conditions = marker.extend.condition; // 挖掘这个点的前置条件
 
-      if(this.data.mymarkers.indexOf(marker)>-1){ // 这个线索已经拥有
-        // console.log("线索已拥有", marker);
+      let alreadyHave = false; // 排查已拥有的线索
+      for (var p = 0; p < this.data.mymarkers.length; p++){
+        if (marker.callout.content === this.data.mymarkers[p].callout.content){
+          alreadyHave = true;
+          break;
+        }
+      }
+      if (alreadyHave){ // 这个线索已经拥有
+        console.log("线索已拥有", marker);
         continue;
       }
 
       let fitCount = 0; // 满足所有挖掘条件的标志
       for (var j = 0; j < conditions.length; j++){
-        for(var k = 0; k < this.data.mymarkers; k++){
-          let name = this.data.mymarkers[k].callout.centent; // 拥有线索(埋点)的名字
+        for (var k = 0; k < this.data.mymarkers.length; k++){
+          let name = this.data.mymarkers[k].callout.content; // 拥有线索(埋点)的名字
           if(conditions[j] === name){ // 匹配了一个前置条件
             fitCount++;
             break;
@@ -149,6 +210,7 @@ Page({
         }
       }
       if(fitCount != conditions.length){
+        console.log("前置条件不满足", conditions);
         continue;  // 这个点不满足挖掘条件就跳过
       }
 
@@ -213,7 +275,7 @@ Page({
     this.setData({
       markerForShowModal: that.data.markerForShowModal,
       markerShowModalShow: false,
-      showMap: true,
+      showMap: that.data.packageShow? false: true,
       selectedMarkerShowModalTabId: 0
     });
   },
@@ -248,11 +310,11 @@ Page({
         //console.log(res.windowHeight - statusBarHeight);
         
         let cubarHeightRPX = 100;
-        let buttonHeightRPX = 80; // 按钮lg 80rpx + padding 40rpx
+        let buttonHeightRPX = 80 + 20; // 按钮lg 80rpx + .btn-group padding 20rpx
         let bottomHeightRPX = 5; // 距离底部10rpx
         let rpx2px = res.screenWidth / 750.0;
 
-        that.setData({ mapHeight: res.windowHeight - (buttonHeightRPX + bottomHeightRPX + cubarHeightRPX) * rpx2px - statusBarHeight}); 
+        that.setData({ mapHeight: res.windowHeight - (buttonHeightRPX + bottomHeightRPX + cubarHeightRPX) * rpx2px - statusBarHeight});
       }
     });
 
@@ -269,17 +331,66 @@ Page({
       myOpenid: app.globalData.myOpenid,
     });
 
+    wx.showLoading({ title: '获取数据中', mask: true }); // 载入数据前的遮罩框
     // 初始化地图上可标注的点(已拥有的线索)
     //if (this.data.createrOpenid===this.data.myOpenid){ // 暂时注释
     if (false) {// 如果是自己创建的房间，直接认为已通关
       this.setData({
         mymarkers: app.globalData.currentGameroom._markers,
       });
-    } else{
-      // 把第一个点放入背包
-      this.data.mymarkers.push(this.data.gamemarkers[0]);
-      this.setData({
-        mymarkers: that.data.mymarkers
+    } else { // 否则初始化背包项目
+      const db = wx.cloud.database({
+        env: app.globalData.database_env
+      });
+      const collection = db.collection('c_packages');
+      collection.where({
+        _openid: app.globalData.myOpenid,
+        _gamecode: that.data.gamecode
+      }).get().then( res => {
+        let hasMemory = res.data.length > 0;
+        console.log("从数据库请求背包数据", res);
+        if (hasMemory){
+          // 找到记录则读取记录
+          that.setData({
+            mymarkers: res.data[0]._package,
+            packageId: res.data[0]._id
+          });
+          if (that.judgeIsWin()) { // 如果已经挖到了最后一个点
+            that.setData({ gameWinned: true });
+          }
+          wx.hideLoading();
+        } else {
+          // 没有找到记录则创建记录
+          // 把第一个点放入背包
+          that.data.mymarkers = [];
+          that.data.mymarkers.push(that.data.gamemarkers[0]);
+          that.setData({
+            mymarkers: that.data.mymarkers
+          });
+          // 尝试从服务器创建一个背包
+          collection.add({
+            data:{
+              _gamecode: that.data.gamecode,
+              _package: that.data.mymarkers
+            },
+            success: res => { 
+              wx.hideLoading();
+              that.setData({ // 绑定服务器上的数据
+                packageId: res._id
+              });
+            },
+            fail: err => {
+              wx.hideLoading();
+              console.error("初始化背包写入数据库失败", err);
+              that.jumpToError("_400");
+            }
+          });
+        }
+      }).catch( err =>{
+        // that.handleError(err);
+        wx.hideLoading();
+        console.error("从c_packages查询数据失败", err);
+        that.jumpToError("_400");
       });
     }
   },
@@ -327,6 +438,28 @@ Page({
     });
   },
 
+
+  /**
+   * 显示游戏信息
+   */
+  showGameInfo(){
+    let that = this;
+    wx.showModal({
+      title: '游戏信息',
+      content: '游戏邀请码:【' + that.data.gamecode +"】",
+      confirmText: "点击复制",
+      confirmColor:	"#0081ff",
+      cancelColor:	"#aaaaaa",
+      success: res => {
+        if (res.confirm) { // 点击确认将复制邀请码
+          wx.setClipboardData({
+            data: factory.buildShareText(that.data.gamecode)
+          })
+        }
+      }
+    });
+  },
+
   /**
    * 处理异步异常
    */
@@ -364,5 +497,12 @@ Page({
         errorModalShow: null
       })
     }, errorDismissDelay);
+  },
+
+  jumpToError(msg) {
+    //console.error("用户不同意地理位置授权")
+    wx.redirectTo({
+      url: '/pages/error/error?errorType=' + msg
+    });
   }
 })
