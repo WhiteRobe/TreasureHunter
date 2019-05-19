@@ -143,9 +143,10 @@
 
         <!--预览效果-->
         <view class="padding-top-lg" wx:elif="{{markerForShowModal.img!=='' && markerShowModalShow}}">
-          <view class="cu-avatar xl radius padding-top-lg" bindtap="ViewImage"
+          <!-- <view class="cu-avatar xl radius padding-top-lg" bindtap="ViewImage"
           style="background-image:url({{markerForShowModal.img}});height:500rpx;width:500rpx;">
-          </view>
+          </view> -->
+          <image src="{{markerForShowModal.img}}" bindtap="ViewImage" style="height:500rpx;width:500rpx;" lazy-load="{{true}}"></image>
         </view>
       </view>
     </view>

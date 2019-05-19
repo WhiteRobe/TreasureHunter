@@ -103,7 +103,7 @@ Page({
           console.log("找到一个可供挖掘的点", markerToDig);
           // 更新 我的线索
           that.data.mymarkers.push(markerToDig);
-          wx.showLoading({title: '服务器同步中'});
+          wx.showLoading({title: '服务器同步中', mask:true});
           // 更新数据库
           const db = wx.cloud.database({
             env: app.globalData.database_env
@@ -251,7 +251,7 @@ Page({
     this.data.markerForShowModal.longitude = marker.longitude;
     this.data.markerForShowModal.latitude = marker.latitude;
     this.data.markerForShowModal.text = marker.extend.text;
-    this.data.markerForShowModal.img = marker.extend.img;
+    this.data.markerForShowModal.img = marker.extend.imgId;
     this.data.markerForShowModal.condition = marker.extend.condition;
 
     this.onMarkerShowModalShow();

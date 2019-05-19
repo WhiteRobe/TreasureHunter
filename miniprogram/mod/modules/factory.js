@@ -22,7 +22,8 @@
 //   height: 18,
 //   extend: {
 //     text: "$_样例谜题",
-//     img: "$_样例图地址",
+//     img: "$_样例图地址", // 本地缓存地址 以减少服务器流量开销
+//     imgId: "$464566", // 文件云地址
 //     condition: ["$_geoname1", "$_geoname2", "$_geoname3"]
 //   }
 // }
