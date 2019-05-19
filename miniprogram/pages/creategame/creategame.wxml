@@ -133,27 +133,38 @@
           </view>
         </from>
       </view>
+      <!-- 图片谜题 -->
       <view class="bg-white" wx:elif="selectedMarkerInputModalTabId==1 && markerInputModalShow">
-        <!-- 图片谜题 -->
-        <view class="grid col-3 grid-square padding-sm">
+        <!-- 图片的添加功能 -->
+        <view class="grid col-3 grid-square padding-top-lg" wx:if="{{markerInputModalShow && markerForInputModal.img===''}}">
           <view class="bg-img">　<!--占位--></view>
 
-          <!--预览效果-->
-          <view class="bg-img" bindtap="ViewImage" data-url="{{markerForInputModal.img}}" 
+          <!--预览效果 已废弃，图片错位-->
+          <!-- <view class="bg-img" bindtap="ViewImage" data-url="{{markerForInputModal.img}}" 
            wx:if="{{markerForInputModal.img!=='' && markerInputModalShow}}">
             <image src='{{markerForInputModal.img}}' mode='aspectFill'></image>
             <view class="cu-tag bg-red" catchtap="DelImg">
               <text class="cuIcon-close"></text>
             </view>
-          </view>
+          </view> -->
           <!--添加图标-->
-          <view class="solids" bindtap="ChooseImage" wx:elif="{{markerForInputModal.img==='' && markerInputModalShow}}">
+          <view class="solids" bindtap="ChooseImage">
             <text class="cuIcon-cameraadd"></text>
           </view>
 
           <view>　<!--占位--></view>
         </view>
+
+        <!--预览效果-->
+        <view class="padding-top-lg" wx:elif="{{markerForInputModal.img!=='' && markerInputModalShow}}">
+          <view class="cu-avatar xl radius padding-top-lg" bindtap="ViewImage"
+          style="background-image:url({{markerForInputModal.img}});height:500rpx;width:500rpx;">
+            <view class="cu-tag badge" catchtap="DelImg"><text class="cuIcon-close"></text></view>
+          </view>
+        </view>
+
       </view>
+      
     </view>
     
     <!--按钮组-->

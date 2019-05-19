@@ -122,19 +122,19 @@
       <view wx:if="{{selectedMarkerShowModalTabId==0 && markerShowModalShow}}"> 
         <view class="text-bold text-blue align-center margin-top-sm padding">{{markerForShowModal.text}}</view>
       </view>
+
+      <!-- 图片谜题 -->
       <view class="bg-white" wx:elif="selectedMarkerShowModalTabId==1 && markerShowModalShow">
-        <!-- 图片谜题 -->
-        <view class="grid col-3 grid-square padding-sm">
-          <view class="bg-img">　<!--占位--></view>
+        <!-- 没有图片谜题时的内容 -->
+        <view class="padding" wx:if="{{markerForShowModal.img==='' && markerShowModalShow}}">
+          <view class="text-bold text-orange align-center margin-top-sm padding">没有图片谜题</view>
+        </view>
 
-          <!--预览效果-->
-          <view class="bg-img" bindtap="ViewImage" data-url="{{markerForShowModal.img}}" 
-           wx:if="{{markerForShowModal.img!=='' && markerShowModalShow}}">
-            <!-- <image class="sqare-3" src='{{markerForShowModal.img}}' mode='aspectFill'></image> -->
-            <image src='../../resources/images/oops.png' mode='aspectFill'></image>
+        <!--预览效果-->
+        <view class="padding-top-lg" wx:elif="{{markerForShowModal.img!=='' && markerShowModalShow}}">
+          <view class="cu-avatar xl radius padding-top-lg" bindtap="ViewImage"
+          style="background-image:url({{markerForShowModal.img}});height:500rpx;width:500rpx;">
           </view>
-
-          <view>　<!--占位--></view>
         </view>
       </view>
     </view>
