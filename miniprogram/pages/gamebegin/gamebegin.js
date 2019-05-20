@@ -37,7 +37,7 @@ Page({
     });
     let that = this;
     //获取用户ID
-    common.getOpenid()
+    common.getOpenid(app.globalData.cloudfunction_env)
       .then(res => {
         let openid = res;
         common.getLocation()

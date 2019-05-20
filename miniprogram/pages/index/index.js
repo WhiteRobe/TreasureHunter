@@ -37,7 +37,7 @@ Page({
   onShow: function () {
     let page = this;
     // 先保证能连上服务器
-    common.getOpenid()
+    common.getOpenid(app.globalData.cloudfunction_env)
       .then(res => {
         app.globalData.myOpenid = res;
         // 然后获得权限

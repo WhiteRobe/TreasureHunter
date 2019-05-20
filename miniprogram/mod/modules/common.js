@@ -1,7 +1,8 @@
-function getOpenid() {
+function getOpenid( cloudenv) {
   return new Promise((resolve, reject) => {
     wx.cloud.callFunction({
       name: 'login',
+      config: { env: cloudenv },
       success: res => {
         resolve(res.result.openid)
       },

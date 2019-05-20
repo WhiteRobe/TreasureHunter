@@ -8,9 +8,9 @@
 
   
   <!-- 游戏创建者的提示框 -->
-  <view class="cu-bar bg-gradual-purple" wx:if="{{createrOpenid===myOpenid}}">
+  <view class="cu-bar bg-cyan" wx:if="{{createrOpenid===myOpenid}}">
     <view class="action" bindtap='shareThisGame'>
-      <text class="cuIcon-title text-blue"></text> 您的游戏　[{{gamecode}}]　正在进行中...
+      <text class="cuIcon-title text-white"></text> 您的游戏　[{{gamecode}}]　正在进行中...
     </view>
   </view>
   <!-- 提示框 -->
@@ -23,9 +23,9 @@
     </view>
   </view>
   <!-- 赢得胜利的提示框 -->
-  <view class="cu-bar bg-gradual-orange" wx:else>
+  <view class="cu-bar bg-gray" wx:else> <!--  style="background-color:#3f95f8" -->
     <view class="action" bindtap='copyTongGuanMa'>
-      <text class="cuIcon-title text-yellow"></text> 你已经获得了所有线索！证明码：[{{myOpenid}}]
+      <text class="cuIcon-title text-orange"></text> 你已经获得了所有线索！点击复制通关证明码：[{{myOpenid}}]
     </view>
   </view>
 

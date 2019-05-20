@@ -624,7 +624,8 @@ Page({
         _geo: db.Geo.Point(parseFloat(that.data.game_center.longitude), parseFloat(that.data.game_center.latitude)),
         _starttime: starttime,
         _lasttime: lasttime,
-        _markers: that.data.markers
+        _markers: that.data.markers, 
+        _active: true // 游戏激活状态
       },
       success(res) {
         //console.log(res);

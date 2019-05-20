@@ -58,6 +58,7 @@ App({
     currentGameroom:null, // 当前游戏的数据
     myOpenid:"", // 当前玩家的openid
     database_env:'xdu-treasure-hunter', // 生产环境的数据库环境
+    cloudfunction_env: 'xdu-treasure-hunter', // 生产环境的云函数环境
     ColorList: [{
         title: '嫣红',
         name: 'red',

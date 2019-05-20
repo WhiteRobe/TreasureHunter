@@ -28,12 +28,16 @@
     {
       "Key": "_markers", // 埋点对象，含特殊字段 extend:{text,img}
       "Type": "Object"
+    },
+    {
+      "Key": "_active", // 游戏激活状态
+      "Type": "Bool"
     }
   ],
   "Index": [
     {
       "Name": "_id_",
-      "Unique": true,
+      "Unique": "/",
       "OnField": [
         {
           "Key": "_id",
@@ -69,6 +73,30 @@
           "Key": "_starttime",
           "Order": "ASC"
         }
+      ]
+    },
+    {
+      "Name": "_lasttime_",
+      "Unique": false,
+      "OnField": [
+        {
+          "Key": "_lasttime",
+          "Order": "ASC"
+        }
+      ]
+    },
+    {
+      "Name": "_gametofinish_",
+      "Unique": false,
+      "OnField": [
+        {
+          "Key": "_lasttime",
+          "Order": "ASC"
+        },
+        {
+          "Key": "_active",
+          "Order": "ASC"
+        },
       ]
     },
   ],

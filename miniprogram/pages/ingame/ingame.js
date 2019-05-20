@@ -85,6 +85,15 @@ Page({
    * 尝试挖掘
    */
   tryDig(){
+    if (!app.globalData.currentGameroom._active){
+      wx.showToast({
+        title: '本场游戏已结束',
+        icon: 'none',
+        mask: true,
+        duration: 2000
+      })
+      return;
+    }
     let that = this;
     this.setData({
       buttonDisabled: true,
