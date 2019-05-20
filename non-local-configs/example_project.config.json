@@ -6,38 +6,15 @@
 		"es6": true,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"uglifyFileName": true
 	},
-	"appid": "你的APPID",
-	"projectname": "你的项目名",
+	"appid": "wx3912a0660dbb157b",
+	"projectname": "TreasureHunter",
+	"compileType": "miniprogram",
 	"libVersion": "2.7.0",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"list": []
-		},
-		"miniprogram": {
-			"current": 0,
-			"list": [
-				{
-					"id": -1,
-					"name": "db guide",
-					"pathName": "pages/databaseGuide/databaseGuide"
-				}
-			]
-		}
-	}
+	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+	"condition": {}
 }
