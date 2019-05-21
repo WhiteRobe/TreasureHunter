@@ -6,32 +6,41 @@
 <view wx:if="{{errorType.errorCode!='100'}}">
   <view class="text-center">
     <image src="../../resources/images/oops.png" mode="aspectFit" 
-    style="margin-top:20rpx;margin-bottom:20rpx" lazy-load="{{true}}"></image>
+    style="margin-top:10rpx;margin-bottom:10rpx" lazy-load="{{true}}"></image>
   </view>
   <view class="padding text-center">
-    <view class="padding-xl radius shadow-blur bg-red margin-top bg-img" 
+    <view class="padding-lg radius shadow-blur bg-red margin-top bg-img" 
     style="background-image:url(../../resources/images/cardBg.png);">
       <view>{{errorType.errorMsg}}</view>
     </view>
   </view>
 </view>
 
+<!-- 本页面该部分最多同时显示两个padding-sm的按钮 BEGIN-->
 <!--100 状态码-->
-<view class="margin-top-lg cu-load bg-blue text-white loading" wx:if="{{errorType.errorCode==='100'}}"></view>
+<view class="margin-top-sm cu-load bg-blue text-white loading" wx:if="{{errorType.errorCode==='100'}}"></view>
 
 <!--200 状态码 : 未获得所需权限-->
-<view class="padding-lg" wx:elif="{{errorType.errorCode==='200'}}">
+<view class="padding-sm" wx:elif="{{errorType.errorCode==='200'}}">
   <button class="cu-btn block bg-olive lg" open-type="openSetting" bindopensetting="openSettingCallback">
       <text class="cuIcon-settingsfill"></text>　重新赋予权限
   </button>
 </view>
 
 <!--400 或 300 状态码 : 网络不通或未获得openid-->
-<view class="padding-lg" wx:elif="{{errorType.errorCode==='300' || errorType.errorCode==='400'}}">
+<view class="padding-sm" wx:elif="{{errorType.errorCode==='300' || errorType.errorCode==='400'}}">
   <button class="cu-btn block bg-olive lg" bindtap="reLogin">
       <text class="cuIcon-back"></text>　重新登录
   </button>
 </view>
 
+<!-- 上报错误日志按钮，非100码时显示在最底部 -->
+<view class="padding-sm" wx:if="{{errorType.errorCode!=='100'}}">
+  <button class="cu-btn block bg-blue lg" open-type="feedback">
+      <text class="cuIcon-service"></text>　联系客服
+  </button>
+</view>
+<!-- 本页面该部分最多同时显示两个padding-sm的按钮 END-->
+
 <import src="../../mod/templates/app_footer_template.wxml"/>
-<template is="appFooterTemplate"></template>
+<template is="appFooterTemplate" data="{{...footerTopLine}}"></template>

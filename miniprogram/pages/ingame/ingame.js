@@ -10,6 +10,8 @@ Page({
   data: {
     gameWinned: false, // 是否已经赢得胜利
     minLimitDis: 50, // 有效挖掘距离(米)
+    maxJoinDistance: 45*100 + 55, // 玩家加入游戏时 距离报警提示框的最大范围
+    distanceToGameCenter: "0", // 玩家加入游戏时距离游戏中心的距离(米)
     createrOpenid: "", // 该场游戏创建者的openid
     myOpenid: "", // 我的openid
     packageId: "", // 数据库上的索引ID[_id], 用于doc
@@ -18,13 +20,14 @@ Page({
     mymarkers: [], // 已找到的埋点的本地缓存
     mapHeight: 0,
     buttonDisabled: false, // 按钮禁用，用于异步调用云函数
-    game_center:{
+    gameCenter:{
       longitude: 108.93984,
       latitude: 34.34127
     },
     showMap: true, // 显示地图，用于平滑动画效果
     packageShow: false, // 背包抽屉
     buttonDisabled: false, // 按钮禁用方案
+    tooFarawayModalShow: false, // 距离太远提示框
     errorModalShow: null, // 错误模态框显示控制标志
     errorMsg: "错误提示信息",
 
@@ -335,7 +338,7 @@ Page({
     // 载入游戏数据
     this.setData({
       gamecode: options.gamecode,
-      game_center: {
+      gameCenter: {
         latitude: app.globalData.currentGameroom._geo.latitude,
         longitude: app.globalData.currentGameroom._geo.longitude
       },
@@ -346,7 +349,6 @@ Page({
 
     // 初始化地图上可标注的点(已拥有的线索)
     if (this.data.createrOpenid===this.data.myOpenid){
-    // if (false) {
       // 如果是自己创建的房间，直接认为已通关
       this.setData({
         mymarkers: app.globalData.currentGameroom._markers,
@@ -407,6 +409,15 @@ Page({
         that.jumpToError("_400");
       });
     }
+
+    // 如果与当前游戏场景距离过远则弹出提示框 (如果距离游戏场地过远 且 没有获胜 且 不是自己的赛局)
+    if (this.checkDistanceBeforeGameBegin(app.globalData.myGeo, this.data.gameCenter) 
+      && !this.data.gameWinned && this.data.createrOpenid !== this.data.myOpenid) { // 如果距离游戏场地过远 且 没有获胜 且 不是自己的赛局
+      this.setData({
+        tooFarawayModalShow: true,
+        showMap: false
+      });
+    }
   },
 
   /**
@@ -452,6 +463,26 @@ Page({
     });
   },
 
+  /**
+   * 检查玩家与游戏实际发生地点间是否距离过远，返回true表示距离过远
+   */
+  checkDistanceBeforeGameBegin(myGeo, gameGeo){
+    let dis = common.getDistanceBetween2Geo(myGeo, gameGeo); // 计算距离(米)
+    console.log("当前玩家距离比赛场地距离", dis + "(米)", "| from", myGeo, "to", gameGeo);
+    this.setData({ distanceToGameCenter: dis.toFixed(1)});
+    return dis >= this.data.maxJoinDistance;
+  },
+
+  /**
+   * 隐藏距离太远提示框
+   */
+  hideTooFarawayModalShow(){
+    this.setData({
+      tooFarawayModalShow: false,
+      showMap: true
+    });
+  },
+
 
   /**
    * 显示游戏信息
@@ -465,7 +496,7 @@ Page({
       confirmColor:	"#0081ff",
       cancelColor:	"#aaaaaa",
       success: res => {
-        if (res.confirm) { // 点击确认将复制邀请码
+        if (res.confirm) { // 点击确认将复制邀请码(非房主分享)
           wx.setClipboardData({
             data: factory.buildShareGameText(that.data.gamecode)
           });
@@ -488,11 +519,17 @@ Page({
    * 处理异步异常
    */
   handleError(err) {
-    let errorDismissDelay = 3500; // 错误提示框自动关闭的计时事件
+    let errorDismissDelay = 5000; // 错误提示框自动关闭的计时事件
     if (err.errMsg === "getLocation:fail:timeout") {
       this.setData({
         errorModalShow: true,
         errorMsg: "启动游戏失败：获取地理位置信息超时 QAQ"
+      });
+    }
+    else if (err.errMsg.indexOf("collection") > -1) {
+      this.setData({
+        errorModalShow: true,
+        errorMsg: "网络不通畅：获取游戏信息超时，请稍后重试 QAQ" // 数据库问题
       });
     }
     else if (err.errMsg === "timeout") {
@@ -509,9 +546,11 @@ Page({
       });
     } else {
       // 未知启动错误
+      const logger = wx.getLogManager({ level: 1 });
+      logger.debug('【debug log】', 'ingame.js', "" + new Date(), err);
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：" + err.errMsg
+        errorMsg: "启动游戏失败：*请确保网络连接通畅" // + err.errMsg
       });
     }
 
@@ -523,8 +562,11 @@ Page({
     }, errorDismissDelay);
   },
 
+  /**
+   * 跳转到错误页面
+   * msg: 错误码 @see app.js.globalData.ErrorType
+   */
   jumpToError(msg) {
-    //console.error("用户不同意地理位置授权")
     wx.redirectTo({
       url: '/pages/error/error?errorType=' + msg
     });

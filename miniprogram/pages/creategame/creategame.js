@@ -57,10 +57,10 @@ Page({
   onLoad: function(options) {
     // 读取初始化数据
     this.setData({
-      openid: options.openid,
+      openid: options.openid, // or app.globalData.myOpenid
       game_center: {
-        latitude: options.latitude,
-        longitude: options.longitude
+        latitude: options.latitude, // or app.globalData.myGeo.latitude
+        longitude: options.longitude // or app.globalData.myGeo.longitude
       }
     });
     // 确认地图高度
@@ -690,11 +690,17 @@ Page({
    * 处理异步异常
    */
   handleError(err) {
-    let errorDismissDelay = 3500; // 错误提示框自动关闭的计时事件
+    let errorDismissDelay = 5000; // 错误提示框自动关闭的计时事件
     if (err.errMsg === "getLocation:fail:timeout") {
       this.setData({
         errorModalShow: true,
         errorMsg: "启动游戏失败：获取地理位置信息超时 QAQ"
+      });
+    }
+    else if (err.errMsg.indexOf("collection") > -1) {
+      this.setData({
+        errorModalShow: true,
+        errorMsg: "网络不通畅：获取游戏信息超时，请稍后重试 QAQ" // 数据库问题
       });
     }
     else if (err.errMsg === "timeout") {
@@ -711,9 +717,11 @@ Page({
       });
     } else {
       // 未知启动错误
+      const logger = wx.getLogManager({ level: 1 });
+      logger.debug('【debug log】', 'creategame.js', "" + new Date(), err);
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：" + err.errMsg
+        errorMsg: "启动游戏失败：*请确保网络连接通畅" // + err.errMsg
       });
     }
 

@@ -6,7 +6,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    errorType: null
+    errorType: null,
+    footerTopLine: {
+      topLine: true // appFooterTemplate 模板的顶部边线显示控制标志
+    }
   },
 
   /**

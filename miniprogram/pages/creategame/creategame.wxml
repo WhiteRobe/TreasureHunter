@@ -6,7 +6,7 @@
 
 <view class="cu-bar" style="background-color:#282e39">
     <view class="action">
-      <text class="cuIcon-title text-blue"></text> <text class="text-white">我的位置</text>
+      <text class="cuIcon-title text-green"></text> <text class="text-white">我的位置</text>
     </view>
     <view class="action">
       <text class="cuIcon-title text-red"></text> <text class="text-white">已设置的点位</text>

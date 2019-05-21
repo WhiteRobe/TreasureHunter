@@ -57,6 +57,7 @@ App({
     currentVersion: "1.0.0", // 当前游戏版本
     currentGameroom:null, // 当前游戏的数据
     myOpenid:"", // 当前玩家的openid
+    myGeo: { latitude: 34.34127, longitude: 108.93984 }, // 当前玩家的地理位置
     database_env:'xdu-treasure-hunter', // 生产环境的数据库环境
     cloudfunction_env: 'xdu-treasure-hunter', // 生产环境的云函数环境
     ColorList: [{
@@ -136,6 +137,10 @@ App({
       },
     ],
     ErrorType: {
+      "_000": {
+        errorCode: "000",
+        errorMsg: "彩蛋！小恐龙吃掉了你的页面！"
+      },
       "_100":{
         errorCode: "100",
         errorMsg: "操作成功执行..."

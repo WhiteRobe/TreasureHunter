@@ -16,7 +16,7 @@
   <!-- 提示框 -->
   <view class="cu-bar" wx:elif="{{!gameWinned}}" style="background-color:#282e39">
     <view class="action">
-      <text class="cuIcon-title text-blue"></text> <text class="text-white">我的位置</text>
+      <text class="cuIcon-title text-green"></text> <text class="text-white">我的位置</text>
     </view>
     <view class="action">
       <text class="cuIcon-title text-red"></text> <text class="text-white">已发现的线索</text>
@@ -32,9 +32,9 @@
   <!-- 游戏主地图 -->
   <map
     id="ingame_map"
-    longitude="{{game_center.longitude}}"
-    latitude="{{game_center.latitude}}"
-    scale="17"
+    longitude="{{gameCenter.longitude}}"
+    latitude="{{gameCenter.latitude}}"
+    scale="14"
     markers="{{mymarkers}}"
     show-location="{{true}}"
     style="width: 100%; height: {{mapHeight}}px;  display:{{showMap?'block':'none'}}"
@@ -163,6 +163,27 @@
           <image src="{{markerForShowModal.img}}" bindtap="ViewImage" style="height:500rpx;width:500rpx;" mode="aspectFill" lazy-load="{{true}}"></image>
         </view>
       </view>
+    </view>
+  </view>
+</view>
+
+<!-- 距离太远提示框 -->
+<view class="cu-modal {{tooFarawayModalShow&&!showMap?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">
+        <text class="cuIcon-locationfill"></text>
+        <text class="text-black">　远离游戏场地</text>
+      </view>
+      <view class="action" bindtap="hideTooFarawayModalShow">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xs">
+      <view class="margin-tb-sm">您与游戏发布位置距离过远，可能无法参与游戏！</view>
+      <view class="margin-tb-sm solids-bottom padding-bottom-xs">请确认您的定位数据和相关权限的设置正确的。</view>
+      <view class="margin-top-sm text-grey">您距离本场游戏的起始中心{{distanceToGameCenter}}米</view>
+      <view class="margin-tb-sm text-grey text-sm">(缩小地图以查看、检查您当前的定位结果)</view>
     </view>
   </view>
 </view>

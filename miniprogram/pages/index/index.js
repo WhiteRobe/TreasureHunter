@@ -7,7 +7,10 @@ Page({
    */
   data: {
     treasure_box_pic_mode: "aspectFit",
-    totalSafeHeight:0
+    totalSafeHeight:0,
+    footerTopLine: {
+      topLine: false // appFooterTemplate 模板的顶部边线显示控制标志
+    }
   },
 
   /**
@@ -39,11 +42,11 @@ Page({
     // 先保证能连上服务器
     common.getOpenid(app.globalData.cloudfunction_env)
       .then(res => {
-        app.globalData.myOpenid = res;
+        // app.globalData.myOpenid = res; // 转交到 gamebegin.js onLoad() 处理
         // 然后获得权限
         wx.getSetting({
           success(res) {
-            // 获取地理位置
+            // 获取地理位置的权限
             if (!res.authSetting['scope.userLocation']) {
               wx.authorize({
                 scope: 'scope.userLocation',
@@ -58,9 +61,11 @@ Page({
               page.jumpToError("_200");
             } else {
               page.jumpToGameBegin(); // 已满足所有权限
+              // page.jumpToError("_400");  // 测试时直接跳转到error页面
             }
           }
         });
+        
       })
       .catch(err => page.jumpToError("_300"));
   },
@@ -90,8 +95,12 @@ Page({
    */
   onShareAppMessage: function () {},
 
+  /**
+   * 跳转到错误页面
+   * msg: 错误码 @see app.js.globalData.ErrorType
+   */
   jumpToError(msg){
-    //console.error("用户不同意地理位置授权")
+    //console.error(msg)
     wx.redirectTo({
       url: '/pages/error/error?errorType=' + msg
     });

@@ -11,5 +11,5 @@
 
     <view class="margin-top-lg cu-load loading"></view>
   </view>
-  <template is="appFooterTemplate"></template>
+  <template is="appFooterTemplate" data="{{...footerTopLine}}"></template>
 </view>

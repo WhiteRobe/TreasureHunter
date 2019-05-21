@@ -17,7 +17,7 @@ Page({
       url: '../../resources/images/help2.jpg'
     }],
     toggleDelay: false, // 按钮上浮动画效果的延迟控制标志
-    buttonDisabled: false, // 按钮禁用方案
+    buttonDisabled: true, // 按钮禁用方案(含载入框)
     warnModalShow: null, // 版本过低的警告模态框
     errorModalShow: null, // 错误模态框显示控制标志
     errorMsg: "错误提示信息",
@@ -25,7 +25,11 @@ Page({
     gamecode:[], // 游戏邀请码
     alradyInputLength: 0, // 已输入的邀请码长度
     tempInputString:"",
-    currentVersion: "v1.0.0" // 当前游戏版本 @See app.js-globalData.currentVersion
+    currentVersion: "v1.0.0", // 当前游戏版本 @See app.js-globalData.currentVersion
+    easterEggClickCounter: 0, // 彩蛋点击计数条 @See versionBarClicked(当前版本)
+    footerTopLine: {
+      topLine: true  // appFooterTemplate 模板的顶部边线显示控制标志
+    }
   },
 
   /**
@@ -35,35 +39,14 @@ Page({
     this.setData({
       buttonDisabled: true
     });
-    let that = this;
-    //获取用户ID
-    common.getOpenid(app.globalData.cloudfunction_env)
-      .then(res => {
-        let openid = res;
-        common.getLocation()
-          .then(res => {
-            let latitude = res.latitude;
-            let longitude = res.longitude;
-            console.log('创建游戏时的纬度', latitude, '创建游戏时的经度', longitude);
-            wx.navigateTo({
-              url: '/pages/creategame/creategame?openid=' + openid + '&latitude=' + latitude + '&longitude=' + longitude
-            });
-          })
-          .catch(err => {
-            console.error(err);
-            that.setData({
-              buttonDisabled: false
-            });
-            that.handleError(err);
-          });
-      })
-      .catch(err => {
-        console.error(err);
-        that.setData({
-          buttonDisabled: false
-        });
-        that.handleError(err);
-      });
+    wx.navigateTo({
+      url: '/pages/creategame/creategame?openid=' + app.globalData.myOpenid + 
+        '&latitude=' + app.globalData.myGeo.latitude + 
+        '&longitude=' + app.globalData.myGeo.longitude
+    });
+    this.setData({
+      buttonDisabled: false
+    });
   },
 
   /**
@@ -230,6 +213,36 @@ Page({
         }
       }
     });
+
+    //获取用户ID和位置
+    common.getOpenid(app.globalData.cloudfunction_env)
+      .then(res => {
+        let openid = res;
+        common.getLocation()
+          .then( res => {
+            app.globalData.myOpenid = openid;
+            app.globalData.myGeo.latitude = res.latitude;
+            app.globalData.myGeo.longitude = res.longitude;
+            console.log('游戏参与者的openid', openid, '游戏参与者的纬度', res.latitude, '游戏参与者的经度', res.longitude);
+            that.setData({
+              buttonDisabled: false
+            });
+          })
+          .catch(err => {
+            console.error(err);
+            that.setData({
+              buttonDisabled: false
+            });
+            that.handleError(err);
+          });
+      })
+      .catch(err => {
+        console.error(err);
+        that.setData({
+          buttonDisabled: false
+        });
+        that.handleError(err);
+      });
   },
 
   /**
@@ -273,6 +286,19 @@ Page({
   onShareAppMessage: function() {},
 
   /**
+   * 点击版本条之后的操作
+   */
+  versionBarClicked(){
+    // 点击五次之后跳转到error页面
+    if (this.data.easterEggClickCounter>=4){
+      this.jumpToErrorWithNavigateTo('_000'); // 测试操作跳转
+    } else {
+      let newCouneter = this.data.easterEggClickCounter+1;
+      this.setData({ easterEggClickCounter: newCouneter});
+    }
+  },
+
+  /**
    * 比较系统版本
    */
   compareVersion: function(v1, v2) {
@@ -298,14 +324,30 @@ Page({
   },
 
   /**
+   * 跳转到错误页面(有返回的jump)
+   * msg: 错误码 @see app.js.globalData.ErrorType
+   */
+  jumpToErrorWithNavigateTo(msg) {
+    wx.navigateTo({
+      url: '/pages/error/error?errorType=' + msg
+    });
+  },
+
+  /**
    * 处理异步异常
    */
   handleError(err) {
-    let errorDismissDelay = 3000; // 错误提示框自动关闭的计时事件
+    let errorDismissDelay = 5000; // 错误提示框自动关闭的计时事件
     if (err.errMsg === "getLocation:fail:timeout") {
       this.setData({
         errorModalShow: true,
         errorMsg: "启动游戏失败：获取地理位置信息超时 QAQ"
+      });
+    }
+    else if (err.errMsg.indexOf("collection") > -1) {
+      this.setData({
+        errorModalShow: true,
+        errorMsg: "网络不通畅：获取游戏信息超时，请稍后重试 QAQ" // 数据库问题
       });
     }
     else if (err.errMsg.indexOf("getLocation:fail")>-1) {
@@ -328,9 +370,11 @@ Page({
     }
     else {
       // 未知启动错误
+      const logger = wx.getLogManager({ level: 1 });
+      logger.debug('【debug log】', 'gamebegin.js', "" + new Date(), err);
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：" + err.errMsg
+        errorMsg: "启动游戏失败：*请确保网络连接通畅" // + err.errMsg
       });
     }
 

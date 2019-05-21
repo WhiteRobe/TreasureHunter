@@ -22,7 +22,7 @@
    style="animation-delay: 0.8s;" wx:if="{{toggleDelay}}" bindtap='joinGame'>
     <text class="cuIcon-search"></text>　加入游戏
   </button>
-  <button class="bg-blue cu-btn {{toggleDelay?'animation-slide-bottom':''}} margin-tb-lg shadow lg" disabled="{{buttonDisabled}}"
+  <button class="bg-blue cu-btn {{toggleDelay?'animation-slide-bottom':''}} margin-tb shadow lg" disabled="{{buttonDisabled}}"
    style="animation-delay: 1.5s;" wx:if="{{toggleDelay}}" bindtap="createGame">
     <text class="cuIcon-game"></text>　创建游戏
   </button>
@@ -31,14 +31,14 @@
 <!-- 游戏版本提示 -->
 <view class="padding-lr bg-white text-center margin-lr-sm">
     <view class="solid-bottom padding">
-      <text class="text-brown text-bold">游戏仍处在测试中...</text>
+      <text class="text-brown text-bold">更多游戏功能将在后期添加^_^</text>
     </view>
-    <view class="solid-bottom padding text-grey text-sm">当前版本 {{currentVersion}}</view>
+    <view class="solid-bottom padding text-grey text-sm" bindtap="versionBarClicked">当前版本 {{currentVersion}}</view>
   </view>
 
 <!-- footer -->
 <import src="../../mod/templates/app_footer_template.wxml"/>
-<template is="appFooterTemplate"></template>
+<template is="appFooterTemplate" data="{{...footerTopLine}}"></template>
 
 <!-- 其它非页面组件 -->
 <!-- 加载框，当按钮禁用时会出现 -->
