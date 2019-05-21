@@ -1,5 +1,5 @@
 <!--miniprogram/pages/error/error.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{errorType.errorCode==='000'}}"><!-- 为彩蛋页时给出返回按钮 -->
   <view slot="content">游戏未能正常运行</view>
 </cu-custom>
 
