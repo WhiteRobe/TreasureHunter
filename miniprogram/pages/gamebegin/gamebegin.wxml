@@ -10,7 +10,7 @@
   </view>
 </view>
 <swiper class="screen-swiper square-dot" indicator-dots="true" circular="true" 
- autoplay="true" interval="5000" duration="500" indicator-active-color="#0081ff">
+ autoplay="true" interval="7000" duration="500" indicator-active-color="#0081ff">
   <swiper-item wx:for="{{swiperList}}" wx:key>
     <image src="{{item.url}}" mode="scaleToFill"></image>
   </swiper-item>
@@ -31,7 +31,7 @@
 <!-- 游戏版本提示 -->
 <view class="padding-lr bg-white text-center margin-lr-sm">
     <view class="solid-bottom padding">
-      <text class="text-brown text-bold">更多游戏功能将在后期添加^_^</text>
+      <text class="text-brown text-bold">更多游戏功能将在后期添加 ^_^</text>
     </view>
     <view class="solid-bottom padding text-grey text-sm" bindtap="versionBarClicked">当前版本 {{currentVersion}}</view>
   </view>

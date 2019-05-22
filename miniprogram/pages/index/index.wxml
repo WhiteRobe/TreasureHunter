@@ -5,9 +5,12 @@
 
 <view class="bg-gradual-blue" style="height:{{totalSafeHeight}}px">
   <view class="padding radius text-center shadow-blur">
-    <image src="../../resources/images/treasure_box_in_index.png" mode="{{treasure_box_pic_mode}}" style="margin-top:175rpx"></image>
+    <image src="../../resources/images/treasure_box_in_index.png" mode="{{treasure_box_pic_mode}}" style="margin-top:165rpx"></image>
     <view class="margin-top-lg text-sl text-shadow">校园探宝.io</view>
     <view class="margin-top-sm text-sm text-gray">小程序云开发原型Demo</view>
+    <view class="margin-top-lg text-sm text-gray">
+      <text class="cuIcon-appreciate"></text>　Special thanks to @ColorUI!
+    </view>
 
     <view class="margin-top-lg cu-load loading"></view>
   </view>

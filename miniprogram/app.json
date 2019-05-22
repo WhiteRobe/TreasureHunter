@@ -18,6 +18,12 @@
 
     "navigationStyle": "custom"
   },
+  "networkTimeout":{
+    "request": 45000,
+    "connectSocket": 60000,
+    "uploadFile": 60000,
+    "downloadFile": 60000
+  },
   "usingComponents": {
     "cu-custom": "style/colorui/components/cu-custom"
   },

@@ -290,7 +290,7 @@ Page({
    */
   versionBarClicked(){
     // 点击五次之后跳转到error页面
-    if (this.data.easterEggClickCounter>=4){
+    if (this.data.easterEggClickCounter==4){
       this.jumpToErrorWithNavigateTo('_000'); // 测试操作跳转
     } else {
       let newCouneter = this.data.easterEggClickCounter+1;
