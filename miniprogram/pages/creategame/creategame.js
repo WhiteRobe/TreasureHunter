@@ -141,11 +141,11 @@ Page({
   /**
    * 移除指定id的点
    */
-  removeOneMarker(marker_id) {
+  removeOneMarker(markerId) {
     let that = this;
-    this.data.markers.splice(marker_id, 1); // 删除指定id的marker
-    for (var i = marker_id; i < this.data.markers.length; i++) { // 修正之后的marker的id
-      this.data.markers[marker_id].id = this.data.markers[marker_id].id - 1;
+    this.data.markers.splice(markerId, 1); // 删除指定id的marker
+    for (var i = markerId; i < this.data.markers.length; i++) { // 修正之后的marker的id
+      this.data.markers[i].id = this.data.markers[i].id - 1;
     }
     this.setData({
       markers: that.data.markers
@@ -156,12 +156,12 @@ Page({
    * 点击气泡或标记点
    */
   markerClicked(res) {
-    let marker_id = res.markerId;
-    let marker = this.data.markers[parseInt(marker_id)]; // 当期所点击的标记点
+    let markerId = res.markerId;
+    let marker = this.data.markers[parseInt(markerId)]; // 当期所点击的标记点
     this.setData({
       showMap: false
     }); // 隐藏地图
-    // console.log(marker);
+    console.log("点击callout呼出", marker);
 
     this.data.markerForInputModal.id = marker.id;
     this.data.markerForInputModal.name = marker.callout.content;
@@ -232,7 +232,7 @@ Page({
     let that = this;
     // console.log(this.data.markerForInputModal);
     // 正则检验
-    if (!this.checkMarkerInputModalInput()) return;
+    if (!this.checkMarkerInputModalInput('new')) return;
     this.setData({
       markerForInputModal: that.data.markerForInputModal,
       markerInputModalShow: false,
@@ -328,6 +328,9 @@ Page({
     let that = this;
     let markerId = this.data.markerForInputModal.id;
     let marker = this.data.markers[markerId]; // 当前修改的点
+
+    // 正则检验
+    if (!this.checkMarkerInputModalInput('edit')) return;
 
     if (this.data.markerForInputModal.img!==''){
       wx.showLoading({ title: '上传文件中', masek: true });
@@ -513,7 +516,7 @@ Page({
   /**
    * 检查MarkerInputModal输入的合法性
    */
-  checkMarkerInputModalInput(){
+  checkMarkerInputModalInput(type){
     let errorImg = "../../resources/images/error.png";
     // 埋点名为空
     if (this.data.markerForInputModal.name===""){
@@ -539,19 +542,39 @@ Page({
       return false;
     }
 
-    // 检查重名性质
-    for(var i=0;i<this.data.markers.length;i++){
-      let marker = this.data.markers[i];
-      if(this.data.markerForInputModal.name === marker.callout.content){
-        // 重名
-        wx.showToast({
-          title: '埋点的名字重复',
-          icon: 'none',
-          image: errorImg,
-          mask: true,
-          duration: 1500
-        });
-        return false;
+
+    if(type==='edit'){
+      // 检查重名性质(与除了自己以外的点不重名)
+      for (var i = 0; i < this.data.markers.length; i++) {
+        let marker = this.data.markers[i];
+        if (this.data.markerForInputModal.name === marker.callout.content
+          && this.data.markerForInputModal.id != marker.id) {
+          // 重名
+          wx.showToast({
+            title: '埋点的名字重复',
+            icon: 'none',
+            image: errorImg,
+            mask: true,
+            duration: 1500
+          });
+          return false;
+        }
+      }
+    } else {
+      // 检查重名性质(与所有点都不重名)
+      for (var i = 0; i < this.data.markers.length; i++) {
+        let marker = this.data.markers[i];
+        if (this.data.markerForInputModal.name === marker.callout.content) {
+          // 重名
+          wx.showToast({
+            title: '埋点的名字重复',
+            icon: 'none',
+            image: errorImg,
+            mask: true,
+            duration: 1500
+          });
+          return false;
+        }
       }
     }
     return true;

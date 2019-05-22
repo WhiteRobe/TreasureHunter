@@ -132,11 +132,11 @@
       <scroll-view scroll-x class="nav text-center margin-top-xs" style="background-color:#282e39">
         <view class="cu-item text-bold text-white {{0==selectedMarkerShowModalTabId?'cur':''}}" 
          bindtap="markerShowModalTabSelect" data-id="0">
-          <text class="cuIcon-text"></text>　文字信息
+          <text class="cuIcon-text"></text>　文字线索
         </view>
         <view class="cu-item text-bold text-white {{1==selectedMarkerShowModalTabId?'cur':''}}" 
          bindtap="markerShowModalTabSelect" data-id="1">
-          <text class="cuIcon-picfill"></text>　图片信息
+          <text class="cuIcon-picfill"></text>　图片线索
         </view>
       </scroll-view>
 
