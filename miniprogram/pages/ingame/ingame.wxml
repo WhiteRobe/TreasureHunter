@@ -54,8 +54,13 @@
 
   <!-- 可操作按钮组 -->
   <view class="cu-bar btn-group" style="position:absolute;bottom:0rpx;text-align:center;width:100%;background-color:#282e39">
+    <button class="bg-green cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='onCheckTongGuanMaModalCall'
+     wx:if="{{createrOpenid===myOpenid}}">
+      <text class="cuIcon-squarecheck"></text>　检查通关码
+    </button>
+
     <button class="bg-cyan cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='showGameInfo'
-     wx:if="{{createrOpenid===myOpenid || gameWinned}}">
+     wx:elif="{{gameWinned}}">
       <text class="cuIcon-infofill"></text>　游戏信息
     </button>
 
@@ -184,6 +189,35 @@
       <view class="margin-tb-sm solids-bottom padding-bottom-xs">请确认您的定位数据和相关权限的设置正确的。</view>
       <view class="margin-top-sm text-grey">您距离本场游戏的起始中心{{distanceToGameCenter}}米</view>
       <view class="margin-tb-sm text-grey text-sm">(缩小地图以查看、检查您当前的定位结果)</view>
+    </view>
+  </view>
+</view>
+
+<!-- 检查通关码模态框 -->
+<view class="cu-modal {{checkTongGuanMaModalShow?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar justify-end" style="background-color:#282e39">
+      <view class="content text-white text-bold">检查通关码</view>
+      <view class="action" bindtap="onCheckTongGuanMaModalCancle">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xs">
+      <form>
+        <!-- 文字部分，wx:if=checkTongGuanMaModalShow是为了解决微信的CSS问题 -->
+        <view class="cu-form-group" wx:if="{{checkTongGuanMaModalShow}}">
+          <textarea placeholder="请输入待检测通关码或直接黏贴完整通关信息" value="{{forTongGuanMaInput}}" maxlength="-1" 
+           auto-focus="{{false}}" bindinput="tongGuanMaInputCallback"></textarea>
+        </view>
+      </form>
+    </view>
+    
+    <!--按钮组-->
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <button class="cu-btn line-blue text-blue" bindtap="onCheckTongGuanMaModalCancle">取消</button>
+        <button class="cu-btn bg-green margin-left" bindtap="onCheckTongGuanMaModalConfirm">确认</button>
+      </view>
     </view>
   </view>
 </view>

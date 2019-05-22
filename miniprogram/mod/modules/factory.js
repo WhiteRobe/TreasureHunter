@@ -66,7 +66,7 @@ function buildShareGameText(gamecode) {
 }
 
 function buildTongGuanMa(code, gamecode) {
-  return "我在微信小程序【校园探宝】，户外解谜游戏【"+gamecode+"】中获胜，通关证明码[" + code + "]！"
+  return "我在微信小程序【校园探宝】，户外解谜游戏【"+gamecode+"】中获胜，通关证明码【" + code + "】！"
 }
 
 module.exports.buildMarker = buildMarker;

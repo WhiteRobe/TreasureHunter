@@ -9,7 +9,7 @@ Page({
    */
   data: {
     gameWinned: false, // 是否已经赢得胜利
-    minLimitDis: 50, // 有效挖掘距离(米)
+    minLimitDis: 35, // 有效挖掘距离(米)
     maxJoinDistance: 45*100 + 55, // 玩家加入游戏时 距离报警提示框的最大范围
     distanceToGameCenter: "0", // 玩家加入游戏时距离游戏中心的距离(米)
     createrOpenid: "", // 该场游戏创建者的openid
@@ -28,6 +28,8 @@ Page({
     packageShow: false, // 背包抽屉
     buttonDisabled: false, // 按钮禁用方案
     tooFarawayModalShow: false, // 距离太远提示框
+    checkTongGuanMaModalShow: false, //检查通关码模态框
+    forTongGuanMaInput: "",
     errorModalShow: null, // 错误模态框显示控制标志
     errorMsg: "错误提示信息",
 
@@ -81,6 +83,113 @@ Page({
     let that = this;
     wx.setClipboardData({
       data: factory.buildTongGuanMa(that.data.myOpenid, that.data.gamecode)
+    });
+  },
+
+  /**
+   * 检查通关码Modal呼出
+   */
+  onCheckTongGuanMaModalCall(){
+    let that = this;
+    this.setData({
+      forTongGuanMaInput: "",
+      checkTongGuanMaModalShow: true,
+      //buttonDisabled: true,
+      showMap: false
+    });
+  },
+
+  onCheckTongGuanMaModalCancle() {
+    this.setData({
+      checkTongGuanMaModalShow: false,
+      buttonDisabled: false,
+      showMap: true
+    });
+  },
+
+  onCheckTongGuanMaModalConfirm(){
+    if(this.data.forTongGuanMaInput === ""){ // 空输入直接关闭模态框
+      this.setData({
+        checkTongGuanMaModalShow: false,
+        buttonDisabled: false,
+        showMap: true
+      });
+      return;
+    }
+    let that = this;
+    // 检查某个玩家是否真的赢了
+    wx.showLoading({title: '查询中'});
+    const db = wx.cloud.database({env: app.globalData.database_env});
+    const collection = db.collection('c_packages');
+    let tongguanma = that.data.forTongGuanMaInput;
+
+    try { // 直接黏贴完整通关码@See factory.js buildTongGuanMa()时的转码处理
+      if (that.data.forTongGuanMaInput.indexOf("【") > -1) {
+        let reg = /【(.*?)】/g; // 最小匹配
+        let matcher = that.data.forTongGuanMaInput.match(reg);
+        // console.log("通关码转码匹配检验结果", matcher);
+        let innnerGamecode = matcher[1]; // 暂未使用
+        tongguanma = matcher[2].replace(/[【】]/g, '');
+      }
+    } catch(err) {
+      // console.error(err);
+    }
+
+    // console.log("通关码查询条件", tongguanma, that.data.gamecode);
+    collection.where({
+      _openid: tongguanma,
+      _gamecode: that.data.gamecode
+    }).get()
+    .then(res => {
+      // console.log("检查通关码结果", res);
+      let heIsWinned = false;
+      if(res.data.length>0){ // 检查目标通关码(open_id)是否真的在本场比赛中胜利了
+        let targetPackage = res.data[0]._package;
+        let lastOneMarker = that.data.gamemarkers[that.data.gamemarkers.length - 1];
+        for (var i = 0; i < targetPackage.length; i++) {
+          if (targetPackage[i].callout.content === lastOneMarker.callout.content) {
+            heIsWinned = true;
+            break; // 他确实赢了
+          }
+        }
+      }
+
+      wx.hideLoading();
+      that.setData({
+        checkTongGuanMaModalShow: false,
+        buttonDisabled: false,
+        showMap: true
+      });
+
+      wx.showModal({
+        title: heIsWinned?'通关证明码有效！':'通关证明码无效！',
+        content: heIsWinned?'该玩家已经赢得了胜利！':'该玩家没有参与比赛或还没有取得胜利！',
+        showCancel: false,
+        confirmText: '我已知晓',
+        confirmColor: '#0081ff'
+      });
+
+    })
+    .catch(err =>{
+      wx.hideLoading();
+      console.error(err);
+      that.handleError(err);
+      that.setData({
+        checkTongGuanMaModalShow: false,
+        buttonDisabled: false,
+        showMap: true
+      });
+    });
+  },
+
+  /**
+   * 通关码输入绑定
+   */
+  tongGuanMaInputCallback(e){
+    let that = this;
+    this.data.forTongGuanMaInput = e.detail.value;
+    this.setData({
+      forTongGuanMaInput: that.data.forTongGuanMaInput
     });
   },
 

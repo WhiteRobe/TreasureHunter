@@ -145,7 +145,7 @@ Page({
     let that = this;
     this.data.markers.splice(markerId, 1); // 删除指定id的marker
     for (var i = markerId; i < this.data.markers.length; i++) { // 修正之后的marker的id
-      this.data.markers[i].id = this.data.markers[i].id - 1;
+      this.data.markers[i].id = i; // or = this.data.markers[i].id - 1;
     }
     this.setData({
       markers: that.data.markers
