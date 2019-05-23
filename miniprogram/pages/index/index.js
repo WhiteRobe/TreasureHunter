@@ -93,7 +93,12 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {},
+  onShareAppMessage: function () {
+    return {
+      title: '喜欢户外解谜?来《校园探宝》吧!',
+      path: '/pages/index/index'
+    }
+  },
 
   /**
    * 跳转到错误页面

@@ -130,7 +130,12 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {},
+  onShareAppMessage: function() {
+    return {
+      title: '喜欢户外解谜?来《校园探宝》吧!',
+      path: '/pages/index/index'
+    }
+  },
 
   /**
    * 添加一个标记点
@@ -664,17 +669,22 @@ Page({
             wx.setClipboardData({
               data: factory.buildShareText(gamecode)
             });
+            that.setData({
+              buttonDisabled: true,
+              showMap: false
+            }); // 用户提前按下按钮，先将按钮屏蔽
           }
         });
 
-        // 延时跳转到首页
+        // 延时跳转到指定页面
         setTimeout(() => {
           wx.redirectTo({
-            url: '/pages/index/index'
+            //url: '/pages/index/index' // 延时跳转到首页
+            url: '/pages/ingame/ingame?gamecode=' + gamecode // 延时跳转游戏页面
           });
           that.setData({
             buttonDisabled: true,
-            showMap: true
+            showMap: false
           });
         }, 5000);
       },

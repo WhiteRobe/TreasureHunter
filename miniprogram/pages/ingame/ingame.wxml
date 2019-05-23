@@ -8,9 +8,15 @@
 
   
   <!-- 游戏创建者的提示框 -->
-  <view class="cu-bar bg-cyan" wx:if="{{createrOpenid===myOpenid}}">
+  <view class="cu-bar bg-cyan" wx:if="{{createrOpenid===myOpenid && myOpenid!==''}}">
     <view class="action" bindtap='shareThisGame'>
-      <text class="cuIcon-title text-white"></text> 您的活动[{{gamecode}}]正在进行中...　[点击分享]
+      <text class="cuIcon-title text-white"></text> 您的活动[{{gamecode}}]进行中
+      
+    </view>
+    <view class="margin-right-sm">
+      <button class="bg-green cu-btn margin-lr-sm shadow-blur round shadow" open-type="share">
+        <text class="cuIcon-infofill"></text>　邀请加入
+      </button>
     </view>
   </view>
   <!-- 提示框 -->
@@ -54,14 +60,19 @@
 
   <!-- 可操作按钮组 -->
   <view class="cu-bar btn-group" style="position:absolute;bottom:0rpx;text-align:center;width:100%;background-color:#282e39">
-    <button class="bg-green cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='onCheckTongGuanMaModalCall'
+    <button class="bg-cyan cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='onCheckTongGuanMaModalCall'
      wx:if="{{createrOpenid===myOpenid}}">
       <text class="cuIcon-squarecheck"></text>　检查通关码
     </button>
 
-    <button class="bg-cyan cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='showGameInfo'
+    <!-- <button class="bg-cyan cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='showGameInfo'
      wx:elif="{{gameWinned}}">
       <text class="cuIcon-infofill"></text>　活动信息
+    </button> -->
+
+    <button class="bg-cyan cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" open-type="share"
+     wx:elif="{{gameWinned}}">
+      <text class="cuIcon-infofill"></text>　邀请加入
     </button>
 
     <button class="bg-cyan cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='tryDig' wx:else>

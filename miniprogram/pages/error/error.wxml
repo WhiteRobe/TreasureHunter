@@ -16,19 +16,20 @@
   </view>
 </view>
 
-<!-- 本页面该部分最多同时显示两个padding-sm的按钮 BEGIN-->
-<!--100 状态码-->
+<!-- 本页面该部分最多同时显示两个padding-sm的按钮 BEGIN -->
+<!-- 100 状态码-->
 <view class="margin-top-sm cu-load bg-blue text-white loading" wx:if="{{errorType.errorCode==='100'}}"></view>
 
-<!--200 状态码 : 未获得所需权限-->
+<!-- 200 状态码 : 未获得所需权限 -->
 <view class="padding-sm" wx:elif="{{errorType.errorCode==='200'}}">
   <button class="cu-btn block bg-olive lg" open-type="openSetting" bindopensetting="openSettingCallback">
       <text class="cuIcon-settingsfill"></text>　重新赋予权限
   </button>
 </view>
 
-<!--400 或 300 状态码 : 网络不通或未获得openid-->
-<view class="padding-sm" wx:elif="{{errorType.errorCode==='300' || errorType.errorCode==='400'}}">
+<!-- 201 400 或 300 600状态码 : 网络不通或未获得openid 或 游戏已过期及找不到游戏(600)-->
+<view class="padding-sm" 
+ wx:elif="{{errorType.errorCode==='201' || errorType.errorCode==='300' || errorType.errorCode==='400'|| errorType.errorCode==='600'}}">
   <button class="cu-btn block bg-olive lg" bindtap="reLogin">
       <text class="cuIcon-back"></text>　重新登录
   </button>

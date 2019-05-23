@@ -55,9 +55,9 @@ App({
 
   globalData: {
     currentVersion: "1.0.0", // 当前游戏版本
-    currentGameroom:null, // 当前游戏的数据
-    myOpenid:"", // 当前玩家的openid
-    myGeo: { latitude: 34.34127, longitude: 108.93984 }, // 当前玩家的地理位置
+    currentGameroom: null, // 当前游戏的数据 (需要联网获取->gamebegin.js)
+    myOpenid: "", // 当前玩家的openid (需要联网获取->gamebegin.js)
+    myGeo: { latitude: 34.34127, longitude: 108.93984 }, // 当前玩家的地理位置 (需要联网获取->gamebegin.js)
     database_env:'xdu-treasure-hunter', // 生产环境的数据库环境
     cloudfunction_env: 'xdu-treasure-hunter', // 生产环境的云函数环境
     ColorList: [{
@@ -164,6 +164,10 @@ App({
       "_500": {
         errorCode: "500",
         errorMsg: "微信版本过低"
+      },
+      "_600": {
+        errorCode: "600",
+        errorMsg: "游戏已过期或没有找到游戏"
       }
     }
   }

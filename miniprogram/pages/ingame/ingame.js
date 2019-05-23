@@ -424,29 +424,108 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 重新获得必要的信息及可能的权限:
+   * 
+   * app.js -> globalData:
+   * currentGameroom: null, // 当前游戏的数据 (需要联网获取->gamebegin.js)
+   * myOpenid: "", // 当前玩家的openid (需要联网获取->gamebegin.js)
+   * myGeo: { latitude: 34.34127, longitude: 108.93984 }, // 当前玩家的地理位置 (需要联网获取->gamebegin.js)
+   * 
    */
-  onLoad: function (options) {
+  reGetLocationAuth(gamecode){
+    let that = this;
+    wx.getSetting({
+      success(res) {
+        // 获取地理位置的权限
+        if (!res.authSetting['scope.userLocation']) {
+          wx.authorize({
+            scope: 'scope.userLocation',
+            success() {
+              that.reGetNesessaryInfo(gamecode);
+            },
+            fail() {
+              that.jumpToError("_200");
+            }
+          })
+        } else if (res.authSetting['scope.userLocation'] === false) {
+          that.jumpToError("_200");
+        } else {
+          that.reGetNesessaryInfo(gamecode);
+        }
+      }
+    });
+  },
+
+  reGetNesessaryInfo(gamecode) {
+    let that = this;
+    // 捕获地理位置
+    common.getLocation()
+    .then( res => {
+      // geo
+      app.globalData.myGeo.latitude = res.latitude;
+      app.globalData.myGeo.longitude = res.longitude;
+      common.getOpenid()
+        .then(res1 => {
+          app.globalData.myOpenid = res1; // openID
+          that.reGetGameroomInfo(gamecode)
+        })
+        .catch(err => {
+          that.jumpToError("_300");
+          console.log(err);
+        });
+    })
+    .catch( err => {
+      that.jumpToError("_201");
+      console.error(err);
+    });
+  },
+
+  reGetGameroomInfo(gamecode){
+    let that = this;
+    // 获取当前房间的数据
+    const db = wx.cloud.database({
+      env: app.globalData.database_env
+    });
+    const collection = db.collection('c_gamerooms');
+    collection.where({
+      _gamecode: gamecode
+    }).get()
+      .then(res => {
+        if (res.data.length == 0) {
+          that.jumpToError("_600");
+          console.log("ingame.js -> 没有发现活动:", gamecode);
+        } else {
+          app.globalData.currentGameroom = res.data[0]; // 为了避免多次查询，把游戏数据存到本地全局变量中
+          that.loadGame(gamecode);
+        }
+      })
+      .catch(err => {
+        that.jumpToError("_600");
+        console.log(err);
+      });
+  },
+
+  loadGame(gamecode){
     let that = this;
     wx.getSystemInfo({
       success: function (res) {
         let custom = wx.getMenuButtonBoundingClientRect();
         let statusBarHeight = custom.bottom + custom.top - res.statusBarHeight;
         //console.log(res.windowHeight - statusBarHeight);
-        
+
         let cubarHeightRPX = 100;
         let buttonHeightRPX = 80 + 20; // 按钮lg 80rpx + .btn-group padding 20rpx
         let bottomHeightRPX = 0; // 距离底部10rpx
         let rpx2px = res.screenWidth / 750.0;
 
-        that.setData({ mapHeight: res.windowHeight - (buttonHeightRPX + bottomHeightRPX + cubarHeightRPX) * rpx2px - statusBarHeight});
+        that.setData({ mapHeight: res.windowHeight - (buttonHeightRPX + bottomHeightRPX + cubarHeightRPX) * rpx2px - statusBarHeight });
       }
     });
 
     // console.log(app.globalData.currentGameroom)
     // 载入游戏数据
     this.setData({
-      gamecode: options.gamecode,
+      gamecode: gamecode,
       gameCenter: {
         latitude: app.globalData.currentGameroom._geo.latitude,
         longitude: app.globalData.currentGameroom._geo.longitude
@@ -457,7 +536,7 @@ Page({
     });
 
     // 初始化地图上可标注的点(已拥有的线索)
-    if (this.data.createrOpenid===this.data.myOpenid){
+    if (this.data.createrOpenid === this.data.myOpenid) {
       // 如果是自己创建的房间，直接认为已通关
       this.setData({
         mymarkers: app.globalData.currentGameroom._markers,
@@ -471,10 +550,10 @@ Page({
       collection.where({
         _openid: app.globalData.myOpenid,
         _gamecode: that.data.gamecode
-      }).get().then( res => {
+      }).get().then(res => {
         let hasMemory = res.data.length > 0;
         console.log("从数据库请求背包数据", res);
-        if (hasMemory){
+        if (hasMemory) {
           // 找到记录则读取记录
           that.setData({
             mymarkers: res.data[0]._package,
@@ -494,11 +573,11 @@ Page({
           });
           // 尝试从服务器创建一个背包
           collection.add({
-            data:{
+            data: {
               _gamecode: that.data.gamecode,
               _package: that.data.mymarkers
             },
-            success: res => { 
+            success: res => {
               wx.hideLoading();
               that.setData({ // 绑定服务器上的数据
                 packageId: res._id
@@ -511,7 +590,7 @@ Page({
             }
           });
         }
-      }).catch( err =>{
+      }).catch(err => {
         // that.handleError(err);
         wx.hideLoading();
         console.error("从c_packages查询数据失败", err);
@@ -520,12 +599,34 @@ Page({
     }
 
     // 如果与当前游戏场景距离过远则弹出提示框 (如果距离游戏场地过远 且 没有获胜 且 不是自己的赛局)
-    if (this.checkDistanceBeforeGameBegin(app.globalData.myGeo, this.data.gameCenter) 
+    if (this.checkDistanceBeforeGameBegin(app.globalData.myGeo, this.data.gameCenter)
       && !this.data.gameWinned && this.data.createrOpenid !== this.data.myOpenid) { // 如果距离游戏场地过远 且 没有获胜 且 不是自己的赛局
       this.setData({
         tooFarawayModalShow: true,
         showMap: false
       });
+    }
+
+    this.setData({
+      buttonDisabled: false,
+      showMap: true
+    });
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    if(app.globalData.myOpenid === "" 
+      || app.globalData.myOpenid === null 
+      || app.globalData.currentGameroom === null){ // 直接从分享链接或creategame.js进入的话
+      this.setData({
+        buttonDisabled: true,
+        showMap: false
+      });
+      this.reGetLocationAuth(options.gamecode); // 需要重新获得必要的权限和信息
+    } else {  // 否则应该从gamebegin的六位输入框中search到了游戏信息
+      this.loadGame(options.gamecode);
     }
   },
 
@@ -562,7 +663,14 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {},
+  onShareAppMessage: function (res) {
+    let that = this;
+    return {
+      title: '我在《校园探宝》[' + that.data.gamecode + ']邀你一起参与户外解谜活动!',
+      path: '/pages/ingame/ingame?gamecode=' + that.data.gamecode,
+      imageUrl: '/resources/images/invite_logo.jpg'
+    }
+  },
 
   ViewImage(e) {
     let that = this;
@@ -594,7 +702,8 @@ Page({
 
 
   /**
-   * 显示游戏信息
+   * 显示游戏信息(非房主分享)
+   * (已废弃)
    */
   showGameInfo(){
     let that = this;

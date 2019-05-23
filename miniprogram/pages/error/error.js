@@ -66,7 +66,13 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {},
+  onShareAppMessage: function () {
+    return {
+      title: '喜欢户外解谜?来《校园探宝》吧!',
+      path: '/pages/index/index',
+      imageUrl: '/resources/images/invite_logo.jpg'
+    }
+  },
 
   openSettingCallback(res){
     // console.log(res)
