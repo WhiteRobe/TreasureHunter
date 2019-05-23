@@ -632,7 +632,7 @@ Page({
     if (err.errMsg === "getLocation:fail:timeout") {
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：获取地理位置信息超时 QAQ"
+        errorMsg: "操作失败：获取地理位置信息超时 QAQ"
       });
     }
     else if (err.errMsg.indexOf("collection") > -1) {
@@ -651,7 +651,7 @@ Page({
       // 实际上是重复的 gamecode 被插入了，简单处理一下
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：服务器繁忙请稍后再试"
+        errorMsg: "操作失败：服务器繁忙请稍后再试"
       });
     } else {
       // 未知启动错误
@@ -659,7 +659,7 @@ Page({
       logger.debug('【debug log】', 'ingame.js', "" + new Date(), err);
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：*请确保网络连接通畅" // + err.errMsg
+        errorMsg: "操作失败：*请确保网络连接通畅" // + err.errMsg
       });
     }
 

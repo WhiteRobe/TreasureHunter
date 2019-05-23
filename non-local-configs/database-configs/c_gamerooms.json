@@ -86,6 +86,16 @@
       ]
     },
     {
+      "Name": "_active_",
+      "Unique": false,
+      "OnField": [
+        {
+          "Key": "_active",
+          "Order": "DESC"
+        }
+      ]
+    },
+    {
       "Name": "_gametofinish_",
       "Unique": false,
       "OnField": [

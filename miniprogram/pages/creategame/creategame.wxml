@@ -71,12 +71,14 @@
         <text class="cuIcon-close text-red"></text>
       </view>
     </view>
-    <view class="padding-xs">
-      <view class="margin-tb-xs">1. 您所设置的第一个点默认为【起点】。</view>
-      <view class="margin-tb-xs">2. 您设置的最后一个点默认为【终点】。</view>
-      <view class="margin-tb-xs solids-bottom padding-bottom-xs">3. 设置游戏时请留心周遭交通情况，保证自己的生命财产安全。^_^</view>
-      <view class="solids-bottom padding-bottom-xs margin-tb-xs">4. 为了保证您所设计的游戏能够被通关，您需要自行移动到每个【藏谜点】处进行埋点，以保证该点位是玩家能够到达的点。</view>
-      <view class="text-red text-bold margin-tb-xs">*5. 请在游戏发布前不要退出小程序以避免丢失数据，同时请在信号良好的情况下进行游戏。</view>
+    <view class="padding-sm">
+      <view class="margin-tb-xs text-left">1. 您所设置的第一个点默认为[起点]。</view>
+      <view class="margin-tb-xs text-left">2. 您设置的最后一个点默认为[终点]。</view>
+      <view class="margin-tb-xs text-left">3. 设置游戏时请留心周遭交通情况，保证自己的生命财产安全。(/ω＼*)</view>
+      <view class="margin-tb-xs text-left">4. 请在游戏结束当天的<text class="cuIcon-time"></text>23:59:59之前核查玩家的通关证明码，如有任何问题请联系管理员。</view>
+      <view class="solids-bottom padding-bottom-xs margin-tb-xs text-left">5. 为了保证您所设计的游戏能够被通关，您需要自行移动到每个<text class="cuIcon-question"></text>[藏谜点]处进行埋点，以保证该点位是玩家能够到达的点。</view>
+
+      <view class="text-red text-bold margin-tb-xs">*　请在游戏发布前不要退出小程序以避免丢失数据，同时请在信号良好的情况下进行游戏。</view>
     </view>
   </view>
 </view>
@@ -194,13 +196,48 @@
       <view class="action text-green " bindtap="comfirmCalloutConditionModal">确定</view>
     </view>
     <!-- 选择列表 -->
-    <view class="grid col-3 padding-sm">
-      <view wx:for="{{conditionsCanbeSelect}}" class="padding-xs" wx:key="{{item.name}}">
+    <scroll-view scroll-y="{{true}}" style="height: 300rpx;">
+      <view class="grid col-3 padding-sm">
+        <view wx:for="{{conditionsCanbeSelect}}" class="padding-sm" wx:key="{{item.name}}">
 
-        <button class="cu-btn orange lg block {{item.checked?'bg-orange':'line-orange'}}" 
-         bindtap="chooseCondition" data-value="{{index}}"> {{item.name}}
-        </button>
-        
+          <button class="cu-btn orange lg block {{item.checked?'bg-orange':'line-orange'}}" 
+          bindtap="chooseCondition" data-value="{{index}}"> {{item.name}}
+          </button>
+          
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+
+<!-- 发布游戏时的选项框 -->
+<view class="cu-modal {{dataPublishModalShow?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar justify-end" style="background-color:#282e39">
+      <view class="content text-white text-bold">发布游戏选项</view>
+      <view class="action" bindtap="onDataPublishModalCancle">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xs">
+      <form>
+        <!-- 文字部分，wx:if=dataPublishModalShow是为了解决微信的CSS问题 -->
+        <view class="cu-form-group" wx:if="{{dataPublishModalShow}}">
+          <view class="title">游戏持续时间</view>
+          <picker bindchange="lasttimeInputCallback" value="{{dataForPublishModal.lasttime}}" range="{{lasttimeRange}}">
+            <view class="picker">
+              游戏持续　{{dataForPublishModal.lasttime}}　天
+            </view>
+          </picker>
+        </view>
+      </form>
+    </view>
+    
+    <!--按钮组-->
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <button class="cu-btn line-blue text-blue" bindtap="onDataPublishModalCancle">取消</button>
+        <button class="cu-btn bg-green margin-left" bindtap="onDataPublishModalConfirm">确认</button>
       </view>
     </view>
   </view>

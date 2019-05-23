@@ -10,7 +10,7 @@
   <!-- 游戏创建者的提示框 -->
   <view class="cu-bar bg-cyan" wx:if="{{createrOpenid===myOpenid}}">
     <view class="action" bindtap='shareThisGame'>
-      <text class="cuIcon-title text-white"></text> 您的游戏　[{{gamecode}}]　正在进行中...
+      <text class="cuIcon-title text-white"></text> 您的游戏[{{gamecode}}]正在进行中...　[点击分享]
     </view>
   </view>
   <!-- 提示框 -->

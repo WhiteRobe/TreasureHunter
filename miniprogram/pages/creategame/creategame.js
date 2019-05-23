@@ -22,6 +22,9 @@ Page({
     errorModalShow: false, // 错误模态框显示控制标志
     errorMsg: "错误提示信息",
 
+    dataForPublishModal: {
+      lasttime: 7
+    },
     markerForInputModal: {
       id:-1,
       name: "",
@@ -32,10 +35,12 @@ Page({
       condition: []
     }, // 进行操作的埋点之输入数据 @see cleanMarkerForInputModalValue()
     markerInputModalShow: false, // 进行操作的埋点模态框显示控制标志
+    dataPublishModalShow: false, // 进行操作的埋点模态框显示控制标志
     markerInputModalShowWithType: 'new', // 进行操作的模态框类型 ： new | edit
     selectedMarkerInputModalTabId: 0, // 0 for text; 1 for pictur
     calloutConditionModalShow: false, // 前置头像多选模态框显示控制标志
-    conditionsCanbeSelect: []
+    conditionsCanbeSelect: [],
+    lasttimeRange: [1,2,3,4,5,6,7] // 游戏持续时间可选范围
   },
 
   /**
@@ -612,27 +617,20 @@ Page({
     });
   },
 
-  /**
-   * 发布游戏 
-   */
-  publish() {
-    // 一场游戏至少需要两个点
-    if(this.data.markers.length<=1){
-      wx.showToast({
-        title: '发布失败：一场游戏中至少需要两个埋点',
-        icon:'none',
-        duration: 2000,
-        mask: true
-      });
-      return;
-    }
+  onDataPublishModalCancle(){
+    this.setData({
+      dataPublishModalShow: false,
+      buttonDisabled: false,
+      showMap: true
+    });
+  },
 
+  onDataPublishModalConfirm(){
     let that = this;
     this.setData({
-      buttonDisabled: true,
-      showMap: false
+      dataPublishModalShow: false  // 提前隐藏游戏发布参数输入框防止多次发布
     });
-
+    wx.showLoading({title: '发布游戏中'});
     // 从小程序端直接插入数据库
     const db = wx.cloud.database({
       env: app.globalData.database_env
@@ -640,27 +638,28 @@ Page({
     const c_gamerooms = db.collection('c_gamerooms');
     let gamecode = common.getRamdon6NumberCode(); // 游戏序列码
     let starttime = db.serverDate();
-    let lasttime = 7; // 目前默认一周
+    let lasttime = this.data.dataForPublishModal.lasttime;
     c_gamerooms.add({
       data: {
         _gamecode: gamecode,
         _geo: db.Geo.Point(parseFloat(that.data.game_center.longitude), parseFloat(that.data.game_center.latitude)),
         _starttime: starttime,
         _lasttime: lasttime,
-        _markers: that.data.markers, 
+        _markers: that.data.markers,
         _active: true // 游戏激活状态
       },
       success(res) {
         //console.log(res);
         // 提示发布游戏成功
+        wx.hideLoading();
         wx.showModal({
-          title:"游戏发布成功",
-          content: '游戏生成时间：' + new Date().format("yyyy-MM-dd") + "，将持续" + lasttime + 
-            "天，邀请码为【"+gamecode+"】，您可以分享给您的朋友。",
+          title: "游戏发布成功",
+          content: '游戏生成时间：' + new Date().format("yyyy-MM-dd") + "，将持续" + lasttime +
+            "天，邀请码为【" + gamecode + "】，您可以分享给您的朋友。",
           showCancel: false,
           confirmText: "我已了解",
           confirmColor: "#0081ff",
-          complete:()=>{
+          complete: () => {
             // 设置剪贴板消息
             wx.setClipboardData({
               data: factory.buildShareText(gamecode)
@@ -679,8 +678,9 @@ Page({
           });
         }, 5000);
       },
-      fail(err){
+      fail(err) {
         //console.error(err);
+        wx.hideLoading();
         that.handleError(err);
         that.setData({
           buttonDisabled: false,
@@ -688,6 +688,39 @@ Page({
         });
       }
     })
+  },
+
+  lasttimeInputCallback(e){
+    let that = this;
+    this.data.dataForPublishModal.lasttime = parseInt(e.detail.value) + 1;
+    this.setData({
+      dataForPublishModal: that.data.dataForPublishModal
+    });
+  },
+
+  /**
+   * 发布游戏 
+   */
+  publish() {
+    // 一场游戏至少需要两个点
+    if(this.data.markers.length<=1){
+      wx.showToast({
+        title: '发布失败：一场游戏中至少需要两个埋点',
+        icon:'none',
+        duration: 2000,
+        mask: true
+      });
+      return;
+    }
+
+    let that = this;
+    this.data.dataForPublishModal.lasttime = 7;
+    this.setData({
+      dataForPublishModal: that.data.dataForPublishModal,
+      dataPublishModalShow: true,
+      // buttonDisabled: true,
+      showMap: false
+    });
   },
 
   /**
@@ -717,7 +750,7 @@ Page({
     if (err.errMsg === "getLocation:fail:timeout") {
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：获取地理位置信息超时 QAQ"
+        errorMsg: "操作失败：获取地理位置信息超时 QAQ"
       });
     }
     else if (err.errMsg.indexOf("collection") > -1) {
@@ -729,14 +762,14 @@ Page({
     else if (err.errMsg === "timeout") {
       this.setData({
         errorModalShow: true,
-        errorMsg: "网络不通畅：请求超时 QAQ"
+        errorMsg: "操作失败：请求超时 QAQ"
       });
     }
     else if (err.errMsg.indexOf("FailedOperation.Insert" !== -1) ){
       // 实际上是重复的 gamecode 被插入了，简单处理一下
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：服务器繁忙请稍后再试"
+        errorMsg: "操作失败：服务器繁忙请稍后再试"
       });
     } else {
       // 未知启动错误
@@ -744,7 +777,7 @@ Page({
       logger.debug('【debug log】', 'creategame.js', "" + new Date(), err);
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：*请确保网络连接通畅" // + err.errMsg
+        errorMsg: "*请确保网络连接通畅" // + err.errMsg
       });
     }
 
