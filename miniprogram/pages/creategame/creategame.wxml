@@ -97,7 +97,7 @@
       <form>
         <view class="cu-form-group">
           <view class="title">埋点名字</view>
-          <input placeholder="请输入埋点的名字" value="{{markerForInputModal.name}}" maxlength="10" 
+          <input placeholder="请输入埋点的名字" value="{{markerForInputModal.name}}" maxlength="6" 
            focus="{{true&&markerInputModalShow}}" bindinput="markerNameInputCallback"></input>
         </view>
         <view class="cu-form-group">

@@ -638,7 +638,15 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {},
+  onShow: function () {
+    wx.showToast({
+      title: '地图可以缩放哦',
+      icon: 'none',
+      image: '/resources/images/question_emoji.png',
+      mask: false,
+      duration: 4000
+    })
+  },
 
   /**
    * 生命周期函数--监听页面隐藏
