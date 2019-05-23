@@ -541,6 +541,7 @@ Page({
       this.setData({
         mymarkers: app.globalData.currentGameroom._markers,
       });
+      this.popUerHelpBox();
     } else { // 否则初始化背包项目
       wx.showLoading({ title: '获取数据中', mask: true }); // 载入数据前的遮罩框
       const db = wx.cloud.database({
@@ -590,6 +591,8 @@ Page({
             }
           });
         }
+
+        that.popUerHelpBox(); // 在这里弹出防止 wx.hideLoading(); 的干扰
       }).catch(err => {
         // that.handleError(err);
         wx.hideLoading();
@@ -607,9 +610,28 @@ Page({
       });
     }
 
+    this.loadFinish();
+  },
+
+  /**
+   * 载入完毕时调用
+   */
+  loadFinish(){
     this.setData({
       buttonDisabled: false,
       showMap: true
+    });
+  },
+
+  // 弹出用户操作提示框 要注意 wx.hideLoading(); 的异步调用问题
+  popUerHelpBox(){
+    // 弹出用户操作提示框
+    wx.showToast({
+      title: '地图可以缩放哦',
+      icon: 'none',
+      image: '/resources/images/question_emoji.png',
+      mask: false,
+      duration: 4000
     });
   },
 
@@ -638,15 +660,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-    wx.showToast({
-      title: '地图可以缩放哦',
-      icon: 'none',
-      image: '/resources/images/question_emoji.png',
-      mask: false,
-      duration: 4000
-    })
-  },
+  onShow: function () {},
 
   /**
    * 生命周期函数--监听页面隐藏
