@@ -55,18 +55,18 @@ function buildMarker(martker_id, marker_name, geo, ext_info) {
  * 房主分享数据
  */
 function buildShareText(gamecode){
-  return "我在微信小程序【校园探宝】创建了一场户外解谜游戏，游戏邀请码【" + gamecode + "】，快来加入吧！"
+  return "我在微信小程序【校园探宝】创建了一场户外解谜活动，活动邀请码【" + gamecode + "】，快来加入吧！"
 }
 
 /**
  * 非房主分享数据
  */
 function buildShareGameText(gamecode) {
-  return "我正在微信小程序【校园探宝】参与一场户外解谜游戏，游戏邀请码【" + gamecode + "】，快来加入吧！"
+  return "我正在微信小程序【校园探宝】参与一场户外解谜活动，活动邀请码【" + gamecode + "】，快来加入吧！"
 }
 
 function buildTongGuanMa(code, gamecode) {
-  return "我在微信小程序【校园探宝】，户外解谜游戏【"+gamecode+"】中获胜，通关证明码【" + code + "】！"
+  return "我在微信小程序【校园探宝】，户外解谜活动【"+gamecode+"】中获胜，通关证明码【" + code + "】！"
 }
 
 module.exports.buildMarker = buildMarker;

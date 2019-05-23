@@ -6,7 +6,12 @@
 <!-- 游戏玩法轮播框 -->
 <view class="cu-bar bg-white">
   <view class="action">
-    <text class="cuIcon-title text-blue"></text> 玩法简介
+    <text class="cuIcon-title text-blue"></text> 活动流程简介
+  </view>
+  <view class="margin-right-sm">
+    <button class="cu-btn bg-grey round shadow" open-type="openSetting" bindopensetting="openSettingCallback">
+        <text class="cuIcon-settingsfill"></text>　修改权限
+    </button>
   </view>
 </view>
 <swiper class="screen-swiper square-dot" indicator-dots="true" circular="true" 
@@ -18,20 +23,20 @@
 
 <!-- 带上浮特效的lazy按钮组 -->
 <view class="padding-sm margin-top-sm flex flex-direction">
-  <button class="bg-cyan cu-btn {{toggleDelay?'animation-slide-bottom':''}} margin-top-xs shadow lg" disabled="{{buttonDisabled}}"
+  <button class="bg-cyan cu-btn {{toggleDelay?'animation-slide-bottom':''}} margin-top-xs shadow round lg" disabled="{{buttonDisabled}}"
    style="animation-delay: 0.8s;" wx:if="{{toggleDelay}}" bindtap='joinGame'>
-    <text class="cuIcon-search"></text>　加入游戏
+    <text class="cuIcon-search"></text>　加入活动 <!-- 不能出现游戏动字眼 -->
   </button>
-  <button class="bg-blue cu-btn {{toggleDelay?'animation-slide-bottom':''}} margin-tb shadow lg" disabled="{{buttonDisabled}}"
+  <button class="bg-blue cu-btn {{toggleDelay?'animation-slide-bottom':''}} margin-tb shadow round lg" disabled="{{buttonDisabled}}"
    style="animation-delay: 1.5s;" wx:if="{{toggleDelay}}" bindtap="createGame">
-    <text class="cuIcon-game"></text>　创建游戏
+    <text class="cuIcon-game"></text>　创建活动 <!-- 不能出现活动字眼 -->
   </button>
 </view>
 
 <!-- 游戏版本提示 -->
 <view class="padding-lr bg-white text-center margin-lr-sm">
     <view class="solid-bottom padding">
-      <text class="text-brown text-bold">更多游戏功能将在后期添加 ^_^</text>
+      <text class="text-brown text-bold">更多功能将在后期添加 ^_^</text>
     </view>
     <view class="solid-bottom padding text-grey text-sm" bindtap="versionBarClicked">当前版本 {{currentVersion}}</view>
   </view>
@@ -73,7 +78,7 @@
 <view class="cu-modal {{gamecodeInputModalShow?'show':''}}">
   <view class="cu-dialog">
     <view class="cu-bar bg-white justify-end">
-      <view class="content text-blue"><text class="cuIcon-circlefill"></text>　请输入游戏邀请码</view>
+      <view class="content text-blue"><text class="cuIcon-circlefill"></text>　请输入活动邀请码</view>
       <view class="action" bindtap="hideGamecodeInputModal">
         <text class="cuIcon-close text-red"></text>
       </view>

@@ -74,7 +74,7 @@ Page({
       } else {
         app.globalData.currentGameroom = gameinfos[0]; // 为了避免多次查询，把游戏数据存到本地全局变量中
         wx.showToast({
-          title: '正在加入游戏',
+          title: '正在加入活动', // '活动' 字眼替代 '游戏'
           icon: 'loading',
           mask: true,
           duration: 500
@@ -323,6 +323,12 @@ Page({
     return 0;
   },
 
+  openSettingCallback(res){
+    wx.reLaunch({
+      url: '/pages/index/index?type=mannulModifiedAuth'
+    });
+  },
+
   /**
    * 跳转到错误页面(有返回的jump)
    * msg: 错误码 @see app.js.globalData.ErrorType
@@ -341,31 +347,31 @@ Page({
     if (err.errMsg === "getLocation:fail:timeout") {
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：获取地理位置信息超时 QAQ"
+        errorMsg: "启动活动失败：获取地理位置信息超时 QAQ"
       });
     }
     else if (err.errMsg.indexOf("collection") > -1) {
       this.setData({
         errorModalShow: true,
-        errorMsg: "网络不通畅：获取游戏信息超时，请稍后重试 QAQ" // 数据库问题
+        errorMsg: "网络不通畅：获取活动信息超时，请稍后重试 QAQ" // 数据库问题
       });
     }
     else if (err.errMsg.indexOf("getLocation:fail")>-1) {
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：请保证您的地理信息能够被获取"
+        errorMsg: "启动活动失败：请保证您的地理信息能够被获取"
       });
     }
     else if (err.errMsg.indexOf("connect ETIMEDOUT")>-1) {
       this.setData({
         errorModalShow: true,
-        errorMsg: "网络不通畅：获取游戏信息超时，请稍后重试 QAQ"
+        errorMsg: "网络不通畅：获取活动信息超时，请稍后重试 QAQ"
       });
     }
     else if (err.errMsg === "no game founded"){
       this.setData({
         errorModalShow: true,
-        errorMsg: "没有找到相应的游戏 QAQ"
+        errorMsg: "没有找到相应的活动 QAQ"
       });
     }
     else {
@@ -374,7 +380,7 @@ Page({
       logger.debug('【debug log】', 'gamebegin.js', "" + new Date(), err);
       this.setData({
         errorModalShow: true,
-        errorMsg: "启动游戏失败：*请确保网络连接通畅" // + err.errMsg
+        errorMsg: "启动活动失败：*请确保网络连接通畅" // + err.errMsg
       });
     }
 

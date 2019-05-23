@@ -630,7 +630,7 @@ Page({
     this.setData({
       dataPublishModalShow: false  // 提前隐藏游戏发布参数输入框防止多次发布
     });
-    wx.showLoading({title: '发布游戏中'});
+    wx.showLoading({ title: '发布活动中'});
     // 从小程序端直接插入数据库
     const db = wx.cloud.database({
       env: app.globalData.database_env
@@ -653,8 +653,8 @@ Page({
         // 提示发布游戏成功
         wx.hideLoading();
         wx.showModal({
-          title: "游戏发布成功",
-          content: '游戏生成时间：' + new Date().format("yyyy-MM-dd") + "，将持续" + lasttime +
+          title: "活动发布成功",
+          content: '活动生成时间：' + new Date().format("yyyy-MM-dd") + "，将持续" + lasttime +
             "天，邀请码为【" + gamecode + "】，您可以分享给您的朋友。",
           showCancel: false,
           confirmText: "我已了解",
@@ -705,7 +705,7 @@ Page({
     // 一场游戏至少需要两个点
     if(this.data.markers.length<=1){
       wx.showToast({
-        title: '发布失败：一场游戏中至少需要两个埋点',
+        title: '发布失败：一场活动中至少需要两个埋点',
         icon:'none',
         duration: 2000,
         mask: true
@@ -756,7 +756,7 @@ Page({
     else if (err.errMsg.indexOf("collection") > -1) {
       this.setData({
         errorModalShow: true,
-        errorMsg: "网络不通畅：获取游戏信息超时，请稍后重试 QAQ" // 数据库问题
+        errorMsg: "网络不通畅：获取活动信息超时，请稍后重试 QAQ" // 数据库问题
       });
     }
     else if (err.errMsg === "timeout") {

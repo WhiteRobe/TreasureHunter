@@ -199,7 +199,7 @@ Page({
   tryDig(){
     if (!app.globalData.currentGameroom._active){
       wx.showToast({
-        title: '本场游戏已结束',
+        title: '本场活动已结束',
         icon: 'none',
         mask: true,
         duration: 2000
@@ -599,8 +599,8 @@ Page({
   showGameInfo(){
     let that = this;
     wx.showModal({
-      title: '游戏信息',
-      content: '游戏邀请码:【' + that.data.gamecode +"】",
+      title: '活动信息',
+      content: '活动邀请码:【' + that.data.gamecode +"】",
       confirmText: "点击复制",
       confirmColor:	"#0081ff",
       cancelColor:	"#aaaaaa",
@@ -638,7 +638,7 @@ Page({
     else if (err.errMsg.indexOf("collection") > -1) {
       this.setData({
         errorModalShow: true,
-        errorMsg: "网络不通畅：获取游戏信息超时，请稍后重试 QAQ" // 数据库问题
+        errorMsg: "网络不通畅：获取活动信息超时，请稍后重试 QAQ" // 数据库问题
       });
     }
     else if (err.errMsg === "timeout") {

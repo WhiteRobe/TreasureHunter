@@ -1,7 +1,7 @@
 <!--miniprogram/pages/creategame/creategame.wxml-->
 <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
-  <view slot="content">校园探宝·创建游戏</view>
+  <view slot="content">校园探宝·创建活动</view> <!-- 采用 '活动' 字眼  -->
 </cu-custom>
 
 <view class="cu-bar" style="background-color:#282e39">
@@ -42,7 +42,7 @@
   </button>
   
   <button class="bg-blue cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap="publish" data-target="package">
-    <text class="cuIcon-discoverfill"></text>　发布游戏
+    <text class="cuIcon-discoverfill"></text>　发布活动
   </button>
 </view>
 
@@ -66,7 +66,7 @@
 <view class="cu-modal {{helpModalShow&&!showMap?'show':''}}">
   <view class="cu-dialog">
     <view class="cu-bar bg-white justify-end">
-      <view class="content"><text class="cuIcon-questionfill"></text>　游戏设计帮助</view>
+      <view class="content"><text class="cuIcon-questionfill"></text>　活动设计帮助</view>
       <view class="action" bindtap="hideHelpModalShow">
         <text class="cuIcon-close text-red"></text>
       </view>
@@ -75,11 +75,11 @@
     <view class="padding-sm">
       <view class="margin-tb-xs text-left">1. 您所设置的第一个点默认为[起点]。</view>
       <view class="margin-tb-xs text-left">2. 您设置的最后一个点默认为[终点]。</view>
-      <view class="margin-tb-xs text-left">3. 设置游戏时请留心周遭交通情况，保证自己的生命财产安全。(/ω＼*)</view>
-      <view class="margin-tb-xs text-left">4. 请在游戏结束当天的<text class="cuIcon-time"></text>23:59:59之前核查玩家的通关证明码，如有任何问题请联系管理员。</view>
-      <view class="solids-bottom padding-bottom-xs margin-tb-xs text-left">5. 为了保证您所设计的游戏能够被通关，您需要自行移动到每个<text class="cuIcon-question"></text>[藏谜点]处进行埋点，以保证该点位是玩家能够到达的点。</view>
+      <view class="margin-tb-xs text-left">3. 设置活动时请留心周遭交通情况，保证自己的生命财产安全。(/ω＼*)</view>
+      <view class="margin-tb-xs text-left">4. 请在活动结束当天的<text class="cuIcon-time"></text>23:59:59之前核查玩家的通关证明码，如有任何问题请联系管理员。</view>
+      <view class="solids-bottom padding-bottom-xs margin-tb-xs text-left">5. 为了保证您所设计的活动能够被通关，您需要自行移动到每个<text class="cuIcon-question"></text>[藏谜点]处进行埋点，以保证该点位是玩家能够到达的点。</view>
 
-      <view class="text-red text-bold margin-tb-xs">*　请在游戏发布前不要退出小程序以避免丢失数据，同时请在信号良好的情况下进行游戏。</view>
+      <view class="text-red text-bold margin-tb-xs">*　请在活动发布前不要退出小程序以避免丢失数据，同时请在信号良好的情况下参与活动。</view>
     </view>
   </view>
 </view>
@@ -215,7 +215,7 @@
 <view class="cu-modal {{dataPublishModalShow?'show':''}}">
   <view class="cu-dialog">
     <view class="cu-bar justify-end" style="background-color:#282e39">
-      <view class="content text-white text-bold">发布游戏选项</view>
+      <view class="content text-white text-bold">发布活动选项</view>
       <view class="action" bindtap="onDataPublishModalCancle">
         <text class="cuIcon-close text-red"></text>
       </view>
@@ -224,10 +224,10 @@
       <form>
         <!-- 文字部分，wx:if=dataPublishModalShow是为了解决微信的CSS问题 -->
         <view class="cu-form-group" wx:if="{{dataPublishModalShow}}">
-          <view class="title">游戏持续时间</view>
+          <view class="title">活动持续时间</view>
           <picker bindchange="lasttimeInputCallback" value="{{dataForPublishModal.lasttime}}" range="{{lasttimeRange}}">
             <view class="picker">
-              游戏持续　{{dataForPublishModal.lasttime}}　天
+              活动持续　{{dataForPublishModal.lasttime}}　天
             </view>
           </picker>
         </view>

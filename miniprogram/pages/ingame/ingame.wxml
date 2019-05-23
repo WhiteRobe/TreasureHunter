@@ -3,14 +3,14 @@
 <view class="DrawerPage {{packageShow?'show':''}}">
   <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
     <view slot="backText">返回</view>
-    <view slot="content">校园探宝·游戏中</view>
+    <view slot="content">校园探宝·活动中</view> <!-- 采用 活动 字眼 -->
   </cu-custom>
 
   
   <!-- 游戏创建者的提示框 -->
   <view class="cu-bar bg-cyan" wx:if="{{createrOpenid===myOpenid}}">
     <view class="action" bindtap='shareThisGame'>
-      <text class="cuIcon-title text-white"></text> 您的游戏[{{gamecode}}]正在进行中...　[点击分享]
+      <text class="cuIcon-title text-white"></text> 您的活动[{{gamecode}}]正在进行中...　[点击分享]
     </view>
   </view>
   <!-- 提示框 -->
@@ -61,7 +61,7 @@
 
     <button class="bg-cyan cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='showGameInfo'
      wx:elif="{{gameWinned}}">
-      <text class="cuIcon-infofill"></text>　游戏信息
+      <text class="cuIcon-infofill"></text>　活动信息
     </button>
 
     <button class="bg-cyan cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='tryDig' wx:else>
@@ -178,16 +178,16 @@
     <view class="cu-bar bg-white justify-end">
       <view class="content">
         <text class="cuIcon-locationfill"></text>
-        <text class="text-black">　远离游戏场地</text>
+        <text class="text-black">　远离活动场地</text>
       </view>
       <view class="action" bindtap="hideTooFarawayModalShow">
         <text class="cuIcon-close text-red"></text>
       </view>
     </view>
     <view class="padding-xs">
-      <view class="margin-tb-sm">您与游戏发布位置距离过远，可能无法参与游戏！</view>
+      <view class="margin-tb-sm">您与活动发布位置距离过远，可能无法参与活动！</view>
       <view class="margin-tb-sm solids-bottom padding-bottom-xs">请确认您的定位数据和相关权限的设置正确的。</view>
-      <view class="margin-top-sm text-grey">您距离本场游戏的起始中心{{distanceToGameCenter}}米</view>
+      <view class="margin-top-sm text-grey">您距离本场活动的起始中心{{distanceToGameCenter}}米</view>
       <view class="margin-tb-sm text-grey text-sm">(缩小地图以查看、检查您当前的定位结果)</view>
     </view>
   </view>
