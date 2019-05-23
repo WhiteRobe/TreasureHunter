@@ -71,6 +71,7 @@
         <text class="cuIcon-close text-red"></text>
       </view>
     </view>
+    
     <view class="padding-sm">
       <view class="margin-tb-xs text-left">1. 您所设置的第一个点默认为[起点]。</view>
       <view class="margin-tb-xs text-left">2. 您设置的最后一个点默认为[终点]。</view>
