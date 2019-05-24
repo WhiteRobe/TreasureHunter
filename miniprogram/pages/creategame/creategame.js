@@ -531,7 +531,7 @@ Page({
     // 埋点名为空
     if (this.data.markerForInputModal.name===""){
       wx.showToast({
-        title: '埋点名不能为空',
+        title: '线索名不能为空',
         icon: 'none',
         image: errorImg,
         mask: true,
@@ -561,7 +561,7 @@ Page({
           && this.data.markerForInputModal.id != marker.id) {
           // 重名
           wx.showToast({
-            title: '埋点的名字重复',
+            title: '线索的名字重复',
             icon: 'none',
             image: errorImg,
             mask: true,
@@ -577,7 +577,7 @@ Page({
         if (this.data.markerForInputModal.name === marker.callout.content) {
           // 重名
           wx.showToast({
-            title: '埋点的名字重复',
+            title: '线索的名字重复',
             icon: 'none',
             image: errorImg,
             mask: true,
@@ -593,8 +593,8 @@ Page({
   ChooseImage() {
     let that = this;
     wx.chooseImage({
-      count: 1, //默认9
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      count: 1, 
+      sizeType: ['compressed'], // 必须是压缩图
       sourceType: ['album', 'camera'], // 从相册或相机选择
       success: (res) => {
         //console.log(res.tempFilePaths);
@@ -602,6 +602,10 @@ Page({
         that.setData({
           markerForInputModal: that.data.markerForInputModal
         });
+      },
+      fail: (err) => {
+        console.error(err);
+        that.handleError({errMsg: "ChooseImageFail"});
       }
     });
   },
@@ -715,7 +719,7 @@ Page({
     // 一场游戏至少需要两个点
     if(this.data.markers.length<=1){
       wx.showToast({
-        title: '发布失败：一场活动中至少需要两个埋点',
+        title: '发布失败：一场活动中至少需要两个线索',
         icon:'none',
         duration: 2000,
         mask: true
@@ -761,6 +765,12 @@ Page({
       this.setData({
         errorModalShow: true,
         errorMsg: "操作失败：获取地理位置信息超时 QAQ"
+      });
+    }
+    else if (err.errMsg.indexOf("ChooseImageFail") > -1) {
+      this.setData({
+        errorModalShow: true,
+        errorMsg: "选择图片失败，请重试或开启存储权限。" // 选择图片失败
       });
     }
     else if (err.errMsg.indexOf("collection") > -1) {

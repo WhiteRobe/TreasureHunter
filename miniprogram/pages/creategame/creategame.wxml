@@ -38,7 +38,7 @@
 <!-- 可操作按钮组 -->
 <view class="cu-bar btn-group" style="position:absolute;bottom:0rpx;text-align:center;width:100%;background-color:#282e39">
   <button class="bg-cyan cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap='setPoint'>
-    <text class="cuIcon-down"></text>　设置埋点
+    <text class="cuIcon-down"></text>　设置线索
   </button>
   
   <button class="bg-blue cu-btn margin-lr-sm shadow-blur lg" disabled="{{buttonDisabled}}" bindtap="publish" data-target="package">
@@ -73,11 +73,11 @@
     </view>
     
     <view class="padding-sm">
-      <view class="margin-tb-xs text-left">1. 您所设置的第一个点默认为[起点]。</view>
-      <view class="margin-tb-xs text-left">2. 您设置的最后一个点默认为[终点]。</view>
+      <view class="margin-tb-xs text-left">1. 您所设置的第一个线索点默认为[起点]。</view>
+      <view class="margin-tb-xs text-left">2. 您设置的最后一个线索点默认为[终点]。</view>
       <view class="margin-tb-xs text-left">3. 设置活动时请留心周遭交通情况，保证自己的生命财产安全。(/ω＼*)</view>
       <view class="margin-tb-xs text-left">4. 请在活动结束当天的<text class="cuIcon-time"></text>23:59:59之前核查玩家的通关证明码，如有任何问题请联系管理员。</view>
-      <view class="solids-bottom padding-bottom-xs margin-tb-xs text-left">5. 为了保证您所设计的活动能够被通关，您需要自行移动到每个<text class="cuIcon-question"></text>[藏谜点]处进行埋点，以保证该点位是玩家能够到达的点。</view>
+      <view class="solids-bottom padding-bottom-xs margin-tb-xs text-left">5. 为了保证您所设计的活动能够被通关，您需要自行移动到每个<text class="cuIcon-question"></text>[线索点]处进行埋点，以保证该点位是玩家能够到达的位置。</view>
 
       <view class="text-red text-bold margin-tb-xs">*　请在活动发布前不要退出小程序以避免丢失数据，同时请在信号良好的情况下参与活动。</view>
     </view>
@@ -88,7 +88,7 @@
 <view class="cu-modal {{markerInputModalShow?'show':''}}">
   <view class="cu-dialog">
     <view class="cu-bar justify-end" style="background-color:#282e39">
-      <view class="content text-white text-bold">埋点信息</view>
+      <view class="content text-white text-bold">线索点信息</view>
       <view class="action" bindtap="onMarkerInputModalCancel">
         <text class="cuIcon-close text-red"></text>
       </view>
@@ -96,8 +96,8 @@
     <view class="padding-xs">
       <form>
         <view class="cu-form-group">
-          <view class="title">埋点名字</view>
-          <input placeholder="请输入埋点的名字" value="{{markerForInputModal.name}}" maxlength="6" 
+          <view class="title">线索名字</view>
+          <input placeholder="请输入线索的名字" value="{{markerForInputModal.name}}" maxlength="6" 
            focus="{{true&&markerInputModalShow}}" bindinput="markerNameInputCallback"></input>
         </view>
         <view class="cu-form-group">

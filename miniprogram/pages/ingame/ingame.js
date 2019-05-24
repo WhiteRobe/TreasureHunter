@@ -576,7 +576,8 @@ Page({
           collection.add({
             data: {
               _gamecode: that.data.gamecode,
-              _package: that.data.mymarkers
+              _package: that.data.mymarkers,
+              _active: true
             },
             success: res => {
               wx.hideLoading();

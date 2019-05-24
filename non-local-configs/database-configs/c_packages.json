@@ -16,6 +16,10 @@
     {
       "Key": "_package", // 已找到点的包裹
       "Type": "Array"
+    },
+    {
+      "Key": "_active", // 是否仍可用
+      "Type": "Bool"
     }
   ],
   "Index": [
@@ -52,7 +56,17 @@
           "Order": "ASC"
         }
       ]
-    }
+    },
+    {
+      "Name": "_active_",
+      "Unique": false,
+      "OnField": [
+        {
+          "Key": "_active",
+          "Order": "ASC"
+        }
+      ]
+    },
   ],
   "Auth": "674" 
 }

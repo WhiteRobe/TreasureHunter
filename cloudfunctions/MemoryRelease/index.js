@@ -99,6 +99,7 @@ exports.main = async(event, context) => {
       _gamecode: keys[i].gamecode
     }).update({
       data: {
+        _active: false,
         _gamecode: "*" + keys[i].gamecode + "*" + date // 打上标记
       }
     }).then(res => {
