@@ -33,13 +33,17 @@
   </button>
 </view>
 
-<!-- 游戏版本提示 -->
-<view class="padding-lr bg-white text-center margin-lr-sm">
-    <view class="solid-bottom padding">
-      <text class="text-brown text-bold">更多功能将在后期添加 ^_^</text>
-    </view>
-    <view class="solid-bottom padding text-grey text-sm" bindtap="versionBarClicked">当前版本 {{currentVersion}}</view>
+<!-- 游戏版本提示 [absolute]bottom:150rpx; -->
+<view class="padding-lr bg-white text-center margin-lr-sm" style="position:absolute; bottom:150rpx;text-align:center;width:100%;">
+  <view class="solid-bottom padding">
+    <!-- <text class="text-brown text-bold">更多功能将在后期添加 ^_^</text> -->
+    觉得不错？
+    <button class="cu-btn round bg-green shadow" open-type='share'><
+      text class="cuIcon-share"></text>　分享
+    </button>　一下吧！
   </view>
+  <view class="solid-bottom padding text-grey text-sm" bindtap="versionBarClicked">当前版本 {{currentVersion}}</view>
+</view>
 
 <!-- footer -->
 <import src="../../mod/templates/app_footer_template.wxml"/>

@@ -15,7 +15,7 @@
     </view>
     <view class="margin-right-sm">
       <button class="bg-green cu-btn margin-lr-sm shadow-blur round shadow" open-type="share">
-        <text class="cuIcon-infofill"></text>　邀请加入
+        <text class="cuIcon-share"></text>　邀请加入
       </button>
     </view>
   </view>

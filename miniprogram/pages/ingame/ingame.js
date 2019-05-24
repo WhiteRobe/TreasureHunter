@@ -601,16 +601,29 @@ Page({
       });
     }
 
+    let isFarAway = this.checkDistanceBeforeGameBegin(app.globalData.myGeo, this.data.gameCenter)
+      && !this.data.gameWinned && this.data.createrOpenid !== this.data.myOpenid;
     // 如果与当前游戏场景距离过远则弹出提示框 (如果距离游戏场地过远 且 没有获胜 且 不是自己的赛局)
-    if (this.checkDistanceBeforeGameBegin(app.globalData.myGeo, this.data.gameCenter)
-      && !this.data.gameWinned && this.data.createrOpenid !== this.data.myOpenid) { // 如果距离游戏场地过远 且 没有获胜 且 不是自己的赛局
-      this.setData({
-        tooFarawayModalShow: true,
-        showMap: false
-      });
-    }
+    // if (this.checkDistanceBeforeGameBegin(app.globalData.myGeo, this.data.gameCenter)
+    //   && !this.data.gameWinned && this.data.createrOpenid !== this.data.myOpenid) { // 如果距离游戏场地过远 且 没有获胜 且 不是自己的赛局
+    //   this.setData({
+    //     tooFarawayModalShow: true,
+    //     buttonDisabled: false,
+    //     showMap: false
+    //   });
+    // } else {
+    //   this.setData({
+    //     tooFarawayModalShow: false,
+    //     buttonDisabled: false,
+    //     showMap: true
+    //   });
+    // }
 
-    this.loadFinish();
+    this.setData({
+      tooFarawayModalShow: isFarAway,
+      buttonDisabled: false,
+      showMap: !isFarAway
+    });
   },
 
   /**
@@ -718,6 +731,7 @@ Page({
   hideTooFarawayModalShow(){
     this.setData({
       tooFarawayModalShow: false,
+      buttonDisabled: false,
       showMap: true
     });
   },
