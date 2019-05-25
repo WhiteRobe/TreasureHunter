@@ -1,1 +1,4 @@
 /* miniprogram/pages/creategame/creategame.wxss */
+page{
+  background-color: #282e39;
+}

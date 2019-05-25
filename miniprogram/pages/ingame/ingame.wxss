@@ -1,5 +1,4 @@
 /* miniprogram/pages/ingame/ingame.wxss */
-
 page {
   background-image: var(--gradualBlue);
   width: 100vw;
@@ -11,7 +10,7 @@ page {
   width: 100vw;
   height: 100vh;
   left: 0vw;
-  background-color: #f1f1f1;
+  background-color: #282e39;
   transition: all 0.4s;
 }
 
