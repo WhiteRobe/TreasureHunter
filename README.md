@@ -2,6 +2,10 @@
 ## Slogan
 不必再发愁组织“户外解谜活动”所需要投入的大量人力——发起/设计线索、参与/解决谜题，享受在户外行走和探索解密的乐趣。
 
+
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/share_code.png)
+
+
 ## 适用场景
 大学生活除了学习、科研之外，必不可少的还有人与人之间的交际活动。
 通常情况下，大学中存在着各种俱乐部、兴趣小组和社团等学生组织，这些学生组织经常会组织团队活动来加强社员间的关系、帮助新社员更好地认识彼此和融入集体。
@@ -22,13 +26,54 @@
 由于以上种种问题，哪怕再精心设计的谜题由于持续时间有限、组织难度较大等原因，常常草草收场，活动策划者期望带给玩家的乐趣并不能很好地为绝大多数玩家所体验。
 
 
-我们的工作重点：
+**我们的工作重点**：
 - 利用云数据库的存储功能，构建“无纸化解谜线索”存储、分发和查询系统，解决线下活动时需要有人看护解谜点隐藏线索的问题及削减分发纸质线索的所需人力物力开销。
 - 基于微信的定位API，替代了工作人员的签到盖章，进一步削减了人力开销。
 - 依靠电子化，实现游戏过程的无人化，提高玩家的沉浸感和单场游戏可持续时间。
 - 支持使用文字和图片信息作为线索及设置解谜约束条件，方便活动策划者构建出优秀的游戏内容。
 
-完整的产品简介：《校园探宝》产品简介
+**完整的产品简介：**[《校园探宝》产品简介](https://github.com/WhiteRobe/TreasureHunter/blob/master/%E6%95%88%E6%9E%9C%E6%BC%94%E7%A4%BA/%E4%BD%9C%E5%93%81%E7%AE%80%E4%BB%8B.pdf)
+
+## 产品业务图
+1. 主业务引导
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/main.jpg)
+
+2. 加入活动的业务图
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/ingame_liucheng.jpg)
+
+3. 创建活动的业务图
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/creategame_liucheng.jpg)
+
+---
+
+# 效果演示
+
+1. 载入引导界面
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/loading.jpg)
+
+2. 手动输入6位邀请码
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/joingamebyinvite.jpg)
+
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/joingamebyinvite (2).jpg)
+
+3. 参与活动时的界面效果
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/ingame.jpg)
+
+4. 设置文字线索
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/samplerume.jpg)
+
+
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/setinfowithtext.jpg)
+
+5. 设置图片线索
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/setinfowithpic.jpg)
+
+6. 参与活动时的界面效果
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/share_code.png)
+
+
+7. 分享你的活动
+![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/sharegame.jpg)
 
 ---
 
@@ -87,7 +132,3 @@
 
 ### 二级派生页面
 - 暂无
-
----
-
-# 效果演示
