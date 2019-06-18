@@ -3,7 +3,7 @@
 不必再发愁组织“户外解谜活动”所需要投入的大量人力——发起/设计线索、参与/解决谜题，享受在户外行走和探索解密的乐趣。
 
 
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/share_code.png)
+![](others/share_code.png)
 
 
 ## 适用场景
@@ -36,44 +36,54 @@
 
 ## 产品业务图
 1. 主业务引导
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/main.jpg)
+
+![image](others/main.jpg)
 
 2. 加入活动的业务图
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/ingame_liucheng.jpg)
+
+![image](others/ingame_liucheng.jpg)
 
 3. 创建活动的业务图
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/creategame_liucheng.jpg)
+
+![image](others/creategame_liucheng.jpg)
 
 ---
 
 # 效果演示
 
 1. 载入引导界面
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/loading.jpg)
+
+![image](others/loading.jpg)
 
 2. 手动输入6位邀请码
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/joingamebyinvite.jpg)
 
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/joingamebyinvite2.jpg)
+![image](others/joingamebyinvite.jpg)
+
+![image](others/joingamebyinvite2.jpg)
 
 3. 参与活动时的界面效果
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/ingame.jpg)
+
+![image](others/ingame.jpg)
 
 4. 设置文字线索
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/samplerume.jpg)
+
+![image](others/samplerume.jpg)
 
 
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/setinfowithtext.jpg)
+![image](others/setinfowithtext.jpg)
 
 5. 设置图片线索
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/setinfowithpic.jpg)
+
+![image](others/setinfowithpic.jpg)
 
 6. 参与活动时的界面效果
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/share_code.png)
+
+![image](others/share_code.png)
 
 
 7. 分享你的活动
-![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/sharegame.jpg)
+
+![image](others/sharegame.jpg)
 
 ---
 
