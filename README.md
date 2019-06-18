@@ -3,7 +3,7 @@
 不必再发愁组织“户外解谜活动”所需要投入的大量人力——发起/设计线索、参与/解决谜题，享受在户外行走和探索解密的乐趣。
 
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/share_code.png" width="375"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/share_code.png"></img>
 
 
 ## 适用场景
