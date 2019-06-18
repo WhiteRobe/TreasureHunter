@@ -32,48 +32,48 @@
 - 依靠电子化，实现游戏过程的无人化，提高玩家的沉浸感和单场游戏可持续时间。
 - 支持使用文字和图片信息作为线索及设置解谜约束条件，方便活动策划者构建出优秀的游戏内容。
 
-**完整的产品简介：**[《校园探宝》产品简介](https://github.com/WhiteRobe/TreasureHunter/blob/master/%E6%95%88%E6%9E%9C%E6%BC%94%E7%A4%BA/%E4%BD%9C%E5%93%81%E7%AE%80%E4%BB%8B.pdf)
+**完整的产品简介：**[《校园探宝》产品简介](https://github.com/WhiteRobe/TreasureHunter/blob/master/others/introduce.pdf)
 
 ## 产品业务图
 1. 主业务引导
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/main.jpg)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/main.jpg)
 
 2. 加入活动的业务图
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/ingame_liucheng.jpg)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/ingame_liucheng.jpg)
 
 3. 创建活动的业务图
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/creategame_liucheng.jpg)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/creategame_liucheng.jpg)
 
 ---
 
 # 效果演示
 
 1. 载入引导界面
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/loading.jpg)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/loading.jpg)
 
 2. 手动输入6位邀请码
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/joingamebyinvite.jpg)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/joingamebyinvite.jpg)
 
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/joingamebyinvite (2).jpg)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/joingamebyinvite2.jpg)
 
 3. 参与活动时的界面效果
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/ingame.jpg)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/ingame.jpg)
 
 4. 设置文字线索
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/samplerume.jpg)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/samplerume.jpg)
 
 
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/setinfowithtext.jpg)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/setinfowithtext.jpg)
 
 5. 设置图片线索
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/setinfowithpic.jpg)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/setinfowithpic.jpg)
 
 6. 参与活动时的界面效果
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/share_code.png)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/share_code.png)
 
 
 7. 分享你的活动
-![](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/sharegame.jpg)
+![image](https://github.com/WhiteRobe/TreasureHunter/tree/master/others/sharegame.jpg)
 
 ---
 
