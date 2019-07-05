@@ -3,7 +3,7 @@
 不必再发愁组织“户外解谜活动”所需要投入的大量人力——发起/设计线索、参与/解决谜题，享受在户外行走和探索解密的乐趣。
 
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/share_code.png"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/share_code.png"/>
 
 
 ## 适用场景
@@ -37,17 +37,17 @@
 ## 产品业务图
 1. 主业务引导
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/main.jpg"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/main.jpg"/>
 
 
 2. 加入活动的业务图
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/ingame_liucheng.jpg"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/ingame_liucheng.jpg"/>
 
 
 3. 创建活动的业务图
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/creategame_liucheng.jpg"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/creategame_liucheng.jpg"/>
 
 ---
 
@@ -55,32 +55,32 @@
 
 1. 载入引导界面
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/loading.jpg" width="375"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/loading.jpg" width="375"/>
 
 
 2. 手动输入6位邀请码
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/joingamebyinvite.jpg" width="375"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/joingamebyinvite.jpg" width="375"/>
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/joingamebyinvite2.jpg" width="375"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/joingamebyinvite2.jpg" width="375"/>
 
 3. 参与活动时的界面效果
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/ingame.jpg" width="375"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/ingame.jpg" width="375"/>
 
 4. 设置文字线索
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/samplerume.jpg" width="375"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/samplerume.jpg" width="375"/>
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/setinfowithtext.jpg" width="375"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/setinfowithtext.jpg" width="375"/>
 
 5. 设置图片线索
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/setinfowithpic.jpg" width="375"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/setinfowithpic.jpg" width="375"/>
 
 6. 分享你的活动
 
-<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/sharegame.jpg" width="375"></img>
+<img src="https://github.com/WhiteRobe/TreasureHunter/raw/master/others/sharegame.jpg" width="375"/>
 
 ---
 
